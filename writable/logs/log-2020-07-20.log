@@ -1,0 +1,292 @@
+CRITICAL - 2020-07-20 11:23:42 --> Class 'App\Controllers\SettingModel' not found
+#0 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#4 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+CRITICAL - 2020-07-20 11:25:10 --> Class 'App\Controllers\SettingModel' not found
+#0 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#4 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+CRITICAL - 2020-07-20 11:25:11 --> Class 'App\Controllers\SettingModel' not found
+#0 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#4 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+CRITICAL - 2020-07-20 11:25:12 --> Class 'App\Controllers\SettingModel' not found
+#0 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#4 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+CRITICAL - 2020-07-20 11:25:13 --> Class 'App\Controllers\SettingModel' not found
+#0 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#4 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+CRITICAL - 2020-07-20 11:25:13 --> Class 'App\Controllers\SettingModel' not found
+#0 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#4 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+CRITICAL - 2020-07-20 11:31:38 --> Undefined property: App\Controllers\Country::$uri
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(27): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', 'C:\\xampp\\htdocs...', 27, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->test()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:40:43 --> Trying to get property 'uri' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(13): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 13, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:41:59 --> Trying to get property 'uri' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(13): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 13, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:42:41 --> Undefined variable: setting
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(13): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'C:\\xampp\\htdocs...', 13, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:42:42 --> Undefined variable: setting
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(13): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'C:\\xampp\\htdocs...', 13, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:42:43 --> Undefined variable: setting
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(13): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'C:\\xampp\\htdocs...', 13, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(886): App\Controllers\Country->__construct()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(395): CodeIgniter\CodeIgniter->createController()
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:43:36 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:43:37 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:54 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:55 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:56 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:56 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:56 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:56 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:57 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:44:57 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): App\Models\SettingModel->getLevelByRole('L12000001', 'M1200100006')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:45:40 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(16): App\Models\SettingModel->getLevelByRole('L12000001', 'country')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:45:41 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::numRows()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(16): App\Models\SettingModel->getLevelByRole('L12000001', 'country')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:46:51 --> Undefined variable: query
+#0 C:\xampp\htdocs\belajar\ci4\app\Models\SettingModel.php(22): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'C:\\xampp\\htdocs...', 22, Array)
+#1 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(16): App\Models\SettingModel->getLevelByRole('L12000001', 'country')
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#6 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#7 {main}
+CRITICAL - 2020-07-20 11:46:52 --> Undefined variable: query
+#0 C:\xampp\htdocs\belajar\ci4\app\Models\SettingModel.php(22): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'C:\\xampp\\htdocs...', 22, Array)
+#1 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(16): App\Models\SettingModel->getLevelByRole('L12000001', 'country')
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#6 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#7 {main}
+CRITICAL - 2020-07-20 11:47:07 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::countAll()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(16): App\Models\SettingModel->getLevelByRole('L12000001', 'country')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:47:08 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::countAll()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(16): App\Models\SettingModel->getLevelByRole('L12000001', 'country')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:47:09 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::countAll()
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(16): App\Models\SettingModel->getLevelByRole('L12000001', 'country')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:52:00 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(17): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 17, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:53:40 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(18): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 18, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:54:39 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(18): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 18, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:55:17 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(18): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 18, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:55:17 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(18): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 18, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:55:18 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(18): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 18, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 11:55:18 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(18): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 18, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-20 12:01:14 --> Trying to get property 'read' of non-object
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(18): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 18, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}

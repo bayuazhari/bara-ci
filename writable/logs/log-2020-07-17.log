@@ -1,0 +1,63 @@
+CRITICAL - 2020-07-17 11:18:30 --> Call to undefined function mcrypt_encrypt()
+#0 C:\xampp\htdocs\belajar\ci4\app\Views\country\view_country_detail.php(108): fnEncrypt('text', 'newpassword')
+#1 C:\xampp\htdocs\belajar\ci4\system\View\View.php(246): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('country/view_co...', Array, true)
+#3 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(30): view('country/view_co...', Array)
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->detail()
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#6 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#9 {main}
+CRITICAL - 2020-07-17 11:18:37 --> Call to undefined function mcrypt_encrypt()
+#0 C:\xampp\htdocs\belajar\ci4\app\Views\country\view_country_detail.php(108): fnEncrypt('text', 'newpassword')
+#1 C:\xampp\htdocs\belajar\ci4\system\View\View.php(246): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('country/view_co...', Array, true)
+#3 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(30): view('country/view_co...', Array)
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->detail()
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#6 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#9 {main}
+CRITICAL - 2020-07-17 11:21:20 --> Call to undefined function mcrypt_encrypt()
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(246): include()
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('country/view_co...', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(30): view('country/view_co...', Array)
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->detail()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#8 {main}
+CRITICAL - 2020-07-17 13:47:45 --> Array to string conversion
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(179): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Array to string...', 'C:\\xampp\\htdocs...', 179, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->delete('C12000001')
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-17 13:50:09 --> Undefined property: stdClass::$country_id
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(182): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', 'C:\\xampp\\htdocs...', 182, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->delete('C12000001')
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}
+CRITICAL - 2020-07-17 13:50:28 --> Cannot use object of type stdClass as array
+#0 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->delete('C12000001')
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#4 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+CRITICAL - 2020-07-17 14:01:01 --> Undefined variable: data
+#0 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(183): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'C:\\xampp\\htdocs...', 183, Array)
+#1 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->undo()
+#2 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#5 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#6 {main}

@@ -1,0 +1,104 @@
+CRITICAL - 2020-06-30 21:31:59 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-06-30 21:32:08 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-06-30 21:32:22 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-06-30 21:32:39 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-06-30 21:32:40 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-06-30 21:32:40 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-06-30 21:33:43 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#8 {main}
+CRITICAL - 2020-06-30 21:34:17 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#8 {main}
+CRITICAL - 2020-06-30 21:35:26 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#8 {main}
+CRITICAL - 2020-06-30 21:36:01 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#8 {main}
+CRITICAL - 2020-06-30 21:37:45 --> Invalid file: {0}
+#0 C:\xampp\htdocs\belajar\ci4\system\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('layout/header.p...')
+#1 C:\xampp\htdocs\belajar\ci4\system\Common.php(1087): CodeIgniter\View\View->render('layout/header', Array, true)
+#2 C:\xampp\htdocs\belajar\ci4\app\Controllers\Country.php(7): view('layout/header')
+#3 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(914): App\Controllers\Country->index()
+#4 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(400): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Country))
+#5 C:\xampp\htdocs\belajar\ci4\system\CodeIgniter.php(308): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\belajar\ci4\public\index.php(45): CodeIgniter\CodeIgniter->run()
+#7 C:\xampp\htdocs\belajar\ci4\system\Commands\Server\rewrite.php(34): require_once('C:\\xampp\\htdocs...')
+#8 {main}
