@@ -18,7 +18,7 @@ var handleDataTableButtons = function() {
 				{ extend: 'pdf', className: 'btn-sm' },
 				{ extend: 'print', className: 'btn-sm' }
 			],
-			responsive: true
+			lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
 		});
 	}
 };

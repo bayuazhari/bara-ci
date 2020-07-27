@@ -122,6 +122,7 @@
 	<script src="<?php echo base_url('assets/js/demo/table-manage-default.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/table-manage-buttons.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/form-plugins.demo.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/js/demo/timeline.demo.js'); ?>"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->
 	<script type="text/javascript">
 		$(document).ready(function() {

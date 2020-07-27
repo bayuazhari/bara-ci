@@ -10,7 +10,7 @@ var handleDataTableDefault = function() {
     
 	if ($('#data-table-default').length !== 0) {
 		$('#data-table-default').DataTable({
-			responsive: true
+			lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
 		});
 	}
 };
