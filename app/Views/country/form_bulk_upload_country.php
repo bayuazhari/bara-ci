@@ -149,11 +149,8 @@
 						<div class="timeline-header">
 							<span class="username">CSV preview</span>
 						</div>
-						<div class="alert alert-warning fade show m-b-0">
-							<button class="close" data-dismiss="alert">&times;</button>
-							<?= $validation->listErrors() ?>
-						</div>
 						<div class="timeline-content">
+							<form action="<?php echo base_url('country/bulk_save') ?>" method="post">
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-td-valign-middle">
 									<thead class="text-center">
@@ -176,39 +173,94 @@
 									</thead>
 									<tbody>
 									<?php
-										$error1 = $validation->getError('country_alpha2_code.*');
-										$error2 = $validation->getError('country_alpha3_code.*');
-										$error3 = $validation->getError('country_numeric_code.*');
-										$error4 = $validation->getError('country_name.*');
-										$error5 = $validation->getError('country_capital.*');
-										$error6 = $validation->getError('country_demonym.*');
-										$error7 = $validation->getError('country_area.*');
-										$error8 = $validation->getError('idd_code.*');
-										$error9 = $validation->getError('cctld.*');
-										$error10 = $validation->getError('currency.*');
-										$error11 = $validation->getError('language.*');
-
 										$no=0;
 										foreach ($country as $row) {
-											$no++;
+											$country_alpha2_code = $model->getCountryByField('country_alpha2_code', $row['alpha2_code']);
+											$country_alpha3_code = $model->getCountryByField('country_alpha3_code', $row['alpha3_code']);
+											$country_numeric_code = $model->getCountryByField('country_numeric_code', $row['numeric_code']);
+											$currency_code = $model->getCurrencyByField('currency_code', $row['currency']);
+											$lang_code = $model->getLanguageByField('lang_code', $row['language']);
+
+											if(empty($row['alpha2_code']) OR (is_string($row['alpha2_code']) != 1) OR (strlen($row['alpha2_code']) != 2) OR @$country_alpha2_code){
+												$alpha2_code_error = true;
+											}else{
+												$alpha2_code_error = false;
+											}
+											$check_errors[] = $alpha2_code_error;
+
+											if(empty($row['alpha3_code']) OR (is_string($row['alpha3_code']) != 1) OR (strlen($row['alpha3_code']) != 3) OR @$country_alpha3_code){
+												$alpha3_code_error = true;
+											}else{
+												$alpha3_code_error = false;
+											}
+											$check_errors[] = $alpha3_code_error;
+
+											if(empty($row['numeric_code']) OR (is_numeric($row['numeric_code']) != 1) OR (strlen($row['numeric_code']) != 3) OR @$country_numeric_code){
+												$numeric_code_error = true;
+											}else{
+												$numeric_code_error = false;
+											}
+											$check_errors[] = $numeric_code_error;
+
+											if(empty($row['name'])){
+												$name_error = true;
+											}else{
+												$name_error = false;
+											}
+											$check_errors[] = $name_error;
+
+											if(!empty($row['total_area']) AND (is_numeric($row['total_area']) != 1)){
+												$total_area_error = true;
+											}else{
+												$total_area_error = false;
+											}
+											$check_errors[] = $total_area_error;
+
+											if(!empty($row['idd_code']) AND ((is_numeric($row['idd_code']) != 1) OR (strlen($row['idd_code']) >= 5))){
+												$idd_code_error = true;
+											}else{
+												$idd_code_error = false;
+											}
+											$check_errors[] = $idd_code_error;
+
+											if(!empty($row['currency']) AND !$currency_code){
+												$currency_error = true;
+											}else{
+												$currency_error = false;
+											}
+											$check_errors[] = $currency_error;
+
+											if(!empty($row['language']) AND !$lang_code){
+												$language_error = true;
+											}else{
+												$language_error = false;
+											}
+											$check_errors[] = $language_error;
 									?>
 										<tr>
-											<td class="<?php if($error1){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country_alpha2_code[]" value="<?= $row['alpha2_code'] ?>"><?= $row['alpha2_code'] ?></td>
-											<td class="<?php if($error2){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country_alpha3_code[]" value="<?= $row['alpha3_code'] ?>"><?= $row['alpha3_code'] ?></td>
-											<td class="<?php if($error3){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country_numeric_code[]" value="<?= $row['numeric_code'] ?>"><?= $row['numeric_code'] ?></td>
-											<td class="<?php if($error4){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country_name[]" value="<?= $row['name'] ?>"><?= $row['name'] ?></td>
-											<td class="<?php if($error5){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country_capital[]" value="<?= $row['capital'] ?>"><?= $row['capital'] ?></td>
-											<td class="<?php if($error6){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country_demonym[]" value="<?= $row['demonym'] ?>"><?= $row['demonym'] ?></td>
-											<td class="<?php if($error7){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country_area[]" value="<?= $row['total_area'] ?>"><?= $row['total_area'] ?></td>
-											<td class="<?php if($error8){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="idd_code[]" value="<?= $row['idd_code'] ?>"><?= $row['idd_code'] ?></td>
-											<td class="<?php if($error9){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="cctld[]" value="<?= $row['cctld'] ?>"><?= $row['cctld'] ?></td>
-											<td class="<?php if($error10){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="currency[]" value="<?= $row['currency'] ?>"><?= $row['currency'] ?></td>
-											<td class="<?php if($error11){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="language[]" value="<?= $row['language'] ?>"><?= $row['language'] ?></td>
+											<td class="<?php if($alpha2_code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][country_alpha2_code]" value="<?= $row['alpha2_code'] ?>"><?= $row['alpha2_code'] ?></td>
+											<td class="<?php if($alpha3_code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][country_alpha3_code]" value="<?= $row['alpha3_code'] ?>"><?= $row['alpha3_code'] ?></td>
+											<td class="<?php if($numeric_code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][country_numeric_code]" value="<?= $row['numeric_code'] ?>"><?= $row['numeric_code'] ?></td>
+											<td class="<?php if($name_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][country_name]" value="<?= $row['name'] ?>"><?= $row['name'] ?></td>
+											<td><input type="hidden" name="country[<?= $no ?>][country_capital]" value="<?= $row['capital'] ?>"><?= $row['capital'] ?></td>
+											<td><input type="hidden" name="country[<?= $no ?>][country_demonym]" value="<?= $row['demonym'] ?>"><?= $row['demonym'] ?></td>
+											<td class="<?php if($total_area_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][country_area]" value="<?= $row['total_area'] ?>"><?= $row['total_area'] ?></td>
+											<td class="<?php if($idd_code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][idd_code]" value="<?= $row['idd_code'] ?>"><?= $row['idd_code'] ?></td>
+											<td><input type="hidden" name="country[<?= $no ?>][cctld]" value="<?= $row['cctld'] ?>"><?= $row['cctld'] ?></td>
+											<td class="<?php if($currency_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][currency_id]" value="<?= @$currency_code->currency_id ?>"><?= $row['currency'] ?></td>
+											<td class="<?php if($language_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="country[<?= $no ?>][lang_id]" value="<?= @$lang_code->lang_id ?>"><?= $row['language'] ?></td>
 										</tr>
-									<?php } ?>
+									<?php $no++; } ?>
 									</tbody>
 								</table>
 							</div>
+						<?php if(in_array(true, $check_errors) != 1){ ?>
+							<br>
+							<div class="col-md-12 col-sm-12 text-center">
+								<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+							</div>
+						<?php } ?>
+							</form>
 						</div>
 					</div>
 					<!-- end timeline-body -->

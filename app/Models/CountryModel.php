@@ -60,6 +60,33 @@ class CountryModel extends Model
 		return $query->getResult();
 	}
 
+	public function getCountryByField($field, $record)
+	{
+		$query = $this->db->table($this->table)
+		->where($field, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
+	public function getCurrencyByField($field, $record)
+	{
+		$query = $this->db->table('currency')
+		->where($field, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
+	public function getLanguageByField($field, $record)
+	{
+		$query = $this->db->table('language')
+		->where($field, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
 	public function getCountryId()
 	{
 		$lastId = $this->db->table($this->table)

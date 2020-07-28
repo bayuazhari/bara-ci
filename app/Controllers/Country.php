@@ -117,15 +117,15 @@ class Country extends BaseController
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
-			$data = array(
-				'title' => @$checkMenu->menu_name,
-				'breadcrumb' => @$checkMenu->mgroup_name
-			);
 			$validation = $this->validate([
 				'country_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[country_csv]|ext_in[country_csv,csv]|max_size[country_csv,2048]']
 			]);
+			$data = array(
+				'title' => @$checkMenu->menu_name,
+				'breadcrumb' => @$checkMenu->mgroup_name,
+				'validation' => $this->validator
+			);
 			if(!$validation){
-				$data['validation'] = $this->validator;
 				echo view('layout/header', $data);
 				echo view('country/form_bulk_upload_country');
 				echo view('layout/footer');
@@ -138,30 +138,20 @@ class Country extends BaseController
 				foreach ($lines as $line) {
 					$data['country'][] = array_combine($head, str_getcsv($line));
 				}
-				$validation2 = $this->validate([
-					'country_alpha2_code.*' => ['label' => 'Alpha-2 Code', 'rules' => 'if_exist|required|alpha|min_length[2]|max_length[2]|is_unique[country.country_alpha2_code]'],
-					'country_alpha3_code.*' => ['label' => 'Alpha-3 Code', 'rules' => 'if_exist|required|alpha|min_length[3]|max_length[3]|is_unique[country.country_alpha3_code]'],
-					'country_numeric_code.*' => ['label' => 'Numeric Code', 'rules' => 'if_exist|required|numeric|min_length[3]|max_length[3]|is_unique[country.country_numeric_code]'],
-					'country_name.*' => ['label' => 'Name', 'rules' => 'if_exist|required'],
-					'country_capital.*' => ['label' => 'Capital', 'rules' => 'permit_empty'],
-					'country_demonym.*' => ['label' => 'Demonym', 'rules' => 'permit_empty'],
-					'country_area.*' => ['label' => 'Total Area', 'rules' => 'permit_empty|numeric'],
-					'idd_code.*' => ['label' => 'IDD Code', 'rules' => 'permit_empty|numeric|max_length[5]'],
-					'cctld.*' => ['label' => 'ccTLD', 'rules' => 'permit_empty'],
-					'currency.*' => ['label' => 'Currency', 'rules' => 'permit_empty'],
-					'language.*' => ['label' => 'Language', 'rules' => 'permit_empty']
-				]);
-				if(!$validation2 OR !$this->request->getPost()){
-					$data['validation'] = $this->validator;
-					echo view('layout/header', $data);
-					echo view('country/form_bulk_upload_country', $data);
-					echo view('layout/footer');
-				}
+				$data['model'] = $this->model;
+				echo view('layout/header', $data);
+				echo view('country/form_bulk_upload_country', $data);
+				echo view('layout/footer');
 			}
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
 		}
+	}
+
+	public function bulk_save()
+	{
+		echo json_encode($this->request->getPost('country'));
 	}
 
 	public function edit($id)
