@@ -8,7 +8,7 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header"><?= $title ?> <small>Add New <?= $title ?></small></h1>
+			<h1 class="page-header"><?= $title ?> <small>Add New</small></h1>
 			<!-- end page-header -->
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
@@ -32,87 +32,78 @@
 						<div class="form-group row m-b-15">
 							<label class="col-form-label col-md-2 text-lg-right">Code</label>
 							<div class="col-md-3">
-								<input type="text" class="form-control <?php if($error1){ echo 'is-invalid'; } ?>" name="country_alpha2_code" placeholder="Alpha-2" value="<?= $request->getPost('country_alpha2_code'); ?>" />
+								<input type="text" class="form-control <?php if($error1){ echo 'is-invalid'; } ?>" name="country_alpha2_code" placeholder="Alpha-2" value="<?= $request->getPost('country_alpha2_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Two-character country code based on ISO 3166 (e.g., ID)." />
 								<?php if($error1){ echo '<div class="invalid-feedback">'.$error1.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Two-character country code based on ISO 3166 (e.g., <strong>ID</strong>).</small>
 							</div>
 							<div class="col-md-3">
-								<input type="text" class="form-control <?php if($error2){ echo 'is-invalid'; } ?>" name="country_alpha3_code" placeholder="Alpha-3" value="<?= $request->getPost('country_alpha3_code'); ?>" />
+								<input type="text" class="form-control <?php if($error2){ echo 'is-invalid'; } ?>" name="country_alpha3_code" placeholder="Alpha-3" value="<?= $request->getPost('country_alpha3_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Three-character country code based on ISO 3166 (e.g., IDN)." />
 								<?php if($error2){ echo '<div class="invalid-feedback">'.$error2.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Three-character country code based on ISO 3166 (e.g., <strong>IDN</strong>).</small>
 							</div>
 							<div class="col-md-3">
-								<input type="text" class="form-control <?php if($error3){ echo 'is-invalid'; } ?>" name="country_numeric_code" placeholder="Numeric" value="<?= $request->getPost('country_numeric_code'); ?>" />
+								<input type="text" class="form-control <?php if($error3){ echo 'is-invalid'; } ?>" name="country_numeric_code" placeholder="Numeric" value="<?= $request->getPost('country_numeric_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Three-character country numeric code based on ISO 3166 (e.g., 360)." />
 								<?php if($error3){ echo '<div class="invalid-feedback">'.$error3.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Three-character country numeric code based on ISO 3166 (e.g., <strong>360</strong>).</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('country_name'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Name</label>
+							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Country name based on ISO 3166 (e.g., Indonesia)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="country_name" value="<?= $request->getPost('country_name'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Country name based on ISO 3166 (e.g., <strong>Indonesia</strong>).</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('country_capital'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Capital</label>
+							<label class="col-form-label col-md-2 text-lg-right">Capital<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Capital of the country (e.g., Jakarta)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="country_capital" value="<?= $request->getPost('country_capital'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Capital of the country (e.g., <strong>Jakarta</strong>).</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('country_demonym'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Demonym</label>
+							<label class="col-form-label col-md-2 text-lg-right">Demonym<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Demonym of the country (e.g., Indonesians)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="country_demonym" value="<?= $request->getPost('country_demonym'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Demonym of the country (e.g., <strong>Indonesians</strong>).</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('country_area'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Total Area</label>
+							<label class="col-form-label col-md-2 text-lg-right">Total Area<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" data-html="true" title="Total area in km<sup>2</sup> (e.g., 1904569)."></i></span></label>
 							<div class="col-md-9">
 								<div class="input-group">
 									<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="country_area" value="<?= $request->getPost('country_area'); ?>" />
 									<div class="input-group-append"><span class="input-group-text">km<sup>2</sup></span></div>
 									<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 								</div>
-								<small class="f-s-12 text-grey-darker">Total area in km<sup>2</sup> (e.g., <strong>1904569</strong>).</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('idd_code'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">IDD Code</label>
+							<label class="col-form-label col-md-2 text-lg-right">IDD Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="The IDD prefix to call the city from another country (e.g., 62)."></i></span></label>
 							<div class="col-md-9">
 								<div class="input-group">
 									<div class="input-group-prepend"><span class="input-group-text">+</span></div>
 									<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="idd_code" value="<?= $request->getPost('idd_code'); ?>" />
 									<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 								</div>
-								<small class="f-s-12 text-grey-darker">The IDD prefix to call the city from another country (e.g., <strong>62</strong>).</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('cctld'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">ccTLD</label>
+							<label class="col-form-label col-md-2 text-lg-right">ccTLD<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Country-Code Top-Level Domain (e.g., id)."></i></span></label>
 							<div class="col-md-9">
 								<div class="input-group">
 									<div class="input-group-prepend"><span class="input-group-text">.</span></div>
 									<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="cctld" value="<?= $request->getPost('cctld'); ?>" />
 									<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 								</div>
-								<small class="f-s-12 text-grey-darker">Country-Code Top-Level Domain (e.g., <strong>id</strong>).</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('currency'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Currency</label>
+							<label class="col-form-label col-md-2 text-lg-right">Currency<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Currency of the country."></i></span></label>
 							<div class="col-md-9">
 								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="currency" data-placeholder="Select a currency">
 								<?php if(@$currency) : ?>
@@ -125,12 +116,11 @@
 								?>
 								</select>
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Currency of the country.</small>
 							</div>
 						</div>
 						<?php $error = $validation->getError('language'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Language</label>
+							<label class="col-form-label col-md-2 text-lg-right">Language<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Language of the country."></i></span></label>
 							<div class="col-md-9">
 								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="language" data-placeholder="Select a language">
 								<?php if(@$language) : ?>
@@ -143,7 +133,6 @@
 								?>
 								</select>
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-								<small class="f-s-12 text-grey-darker">Language of the country.</small>
 							</div>
 						</div>
 						<div class="form-group row m-b-0">

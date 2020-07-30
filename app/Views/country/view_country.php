@@ -7,7 +7,7 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header"><?= $title ?> <small><?= $title ?> Data</small></h1>
+			<h1 class="page-header"><?= $title ?> <small>All Data</small></h1>
 			<!-- end page-header -->
 			<!-- begin panel -->
 			<div class="panel panel-inverse">

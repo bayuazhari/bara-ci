@@ -151,7 +151,51 @@ class Country extends BaseController
 
 	public function bulk_save()
 	{
-		echo json_encode($this->request->getPost('country'));
+		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
+		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		if(@$checkLevel->create == 1){
+			$validation = $this->validate([
+				'country.country_alpha2_code' => ['label' => 'Alpha-2 Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[country.country_alpha2_code]'],
+				'country.country_alpha3_code' => ['label' => 'Alpha-3 Code', 'rules' => 'required|alpha|min_length[3]|max_length[3]|is_unique[country.country_alpha3_code]'],
+				'country.country_numeric_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[3]|max_length[3]|is_unique[country.country_numeric_code]'],
+				'country.country_name' => ['label' => 'Name', 'rules' => 'required'],
+				'country.country_capital' => ['label' => 'Capital', 'rules' => 'permit_empty'],
+				'country.country_demonym' => ['label' => 'Demonym', 'rules' => 'permit_empty'],
+				'country.country_area' => ['label' => 'Total Area', 'rules' => 'permit_empty|numeric'],
+				'country.idd_code' => ['label' => 'IDD Code', 'rules' => 'permit_empty|numeric|max_length[5]'],
+				'country.cctld' => ['label' => 'ccTLD', 'rules' => 'permit_empty'],
+				'country.currency' => ['label' => 'Currency', 'rules' => 'permit_empty'],
+				'country.language' => ['label' => 'Language', 'rules' => 'permit_empty']
+			]);
+			if(!$validation){
+				session()->setFlashdata('warning', 'The CSV file you uploaded contains some errors.'.$this->validator->listErrors());
+				return redirect()->to(base_url('country/bulk_upload'));
+			}else{
+				foreach ($this->request->getPost('country') as $row) {
+					$countryData = array(
+						'country_id' => $this->model->getCountryId(),
+						'country_alpha2_code' => $row['country_alpha2_code'],
+						'country_alpha3_code' => $row['country_alpha3_code'],
+						'country_numeric_code' => $row['country_numeric_code'],
+						'country_name' => $row['country_name'],
+						'country_capital' => $row['country_capital'],
+						'country_demonym' => $row['country_demonym'],
+						'country_area' => $row['country_area'],
+						'idd_code' => $row['idd_code'],
+						'cctld' => $row['cctld'],
+						'currency_id' => $row['currency'],
+						'lang_id' => $row['language'],
+						'country_status' => 1
+					);
+					$this->model->insertCountry($countryData);
+				}
+				session()->setFlashdata('success', 'Countries has been added successfully.');
+				return redirect()->to(base_url('country'));
+			}
+		}else{
+			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
+			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
+		}
 	}
 
 	public function edit($id)
