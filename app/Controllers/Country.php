@@ -19,6 +19,7 @@ class Country extends BaseController
 			$data = array(
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
+				'model' => $this->model,
 				'country' => $this->model->getCountry(),
 				'checkLevel' => $checkLevel
 			);
@@ -155,23 +156,38 @@ class Country extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
-				'country.country_alpha2_code' => ['label' => 'Alpha-2 Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[country.country_alpha2_code]'],
-				'country.country_alpha3_code' => ['label' => 'Alpha-3 Code', 'rules' => 'required|alpha|min_length[3]|max_length[3]|is_unique[country.country_alpha3_code]'],
-				'country.country_numeric_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[3]|max_length[3]|is_unique[country.country_numeric_code]'],
-				'country.country_name' => ['label' => 'Name', 'rules' => 'required'],
-				'country.country_capital' => ['label' => 'Capital', 'rules' => 'permit_empty'],
-				'country.country_demonym' => ['label' => 'Demonym', 'rules' => 'permit_empty'],
-				'country.country_area' => ['label' => 'Total Area', 'rules' => 'permit_empty|numeric'],
-				'country.idd_code' => ['label' => 'IDD Code', 'rules' => 'permit_empty|numeric|max_length[5]'],
-				'country.cctld' => ['label' => 'ccTLD', 'rules' => 'permit_empty'],
-				'country.currency' => ['label' => 'Currency', 'rules' => 'permit_empty'],
-				'country.language' => ['label' => 'Language', 'rules' => 'permit_empty']
+				'country.*.country_alpha2_code' => ['label' => 'Alpha-2 Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[country.country_alpha2_code]'],
+				'country.*.country_alpha3_code' => ['label' => 'Alpha-3 Code', 'rules' => 'required|alpha|min_length[3]|max_length[3]|is_unique[country.country_alpha3_code]'],
+				'country.*.country_numeric_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[3]|max_length[3]|is_unique[country.country_numeric_code]'],
+				'country.*.country_name' => ['label' => 'Name', 'rules' => 'required'],
+				'country.*.country_capital' => ['label' => 'Capital', 'rules' => 'permit_empty'],
+				'country.*.country_demonym' => ['label' => 'Demonym', 'rules' => 'permit_empty'],
+				'country.*.country_area' => ['label' => 'Total Area', 'rules' => 'permit_empty|numeric'],
+				'country.*.idd_code' => ['label' => 'IDD Code', 'rules' => 'permit_empty|numeric|max_length[5]'],
+				'country.*.cctld' => ['label' => 'ccTLD', 'rules' => 'permit_empty'],
+				'country.*.currency' => ['label' => 'Currency', 'rules' => 'permit_empty'],
+				'country.*.language' => ['label' => 'Language', 'rules' => 'permit_empty']
 			]);
 			if(!$validation){
 				session()->setFlashdata('warning', 'The CSV file you uploaded contains some errors.'.$this->validator->listErrors());
 				return redirect()->to(base_url('country/bulk_upload'));
 			}else{
 				foreach ($this->request->getPost('country') as $row) {
+					if(@$row['country_area']){
+						$country_area = $row['country_area'];
+					}else{
+						$country_area = NULL;
+					}
+					if(@$row['currency']){
+						$currency = $row['currency'];
+					}else{
+						$currency = NULL;
+					}
+					if(@$row['language']){
+						$language = $row['language'];
+					}else{
+						$language = NULL;
+					}
 					$countryData = array(
 						'country_id' => $this->model->getCountryId(),
 						'country_alpha2_code' => $row['country_alpha2_code'],
@@ -180,11 +196,11 @@ class Country extends BaseController
 						'country_name' => $row['country_name'],
 						'country_capital' => $row['country_capital'],
 						'country_demonym' => $row['country_demonym'],
-						'country_area' => $row['country_area'],
+						'country_area' => $country_area,
 						'idd_code' => $row['idd_code'],
 						'cctld' => $row['cctld'],
-						'currency_id' => $row['currency'],
-						'lang_id' => $row['language'],
+						'currency_id' => $currency,
+						'lang_id' => $language,
 						'country_status' => 1
 					);
 					$this->model->insertCountry($countryData);
@@ -237,7 +253,8 @@ class Country extends BaseController
 				'idd_code' => ['label' => 'IDD Code', 'rules' => 'permit_empty|numeric|max_length[5]'],
 				'cctld' => ['label' => 'ccTLD', 'rules' => 'permit_empty'],
 				'currency' => ['label' => 'Currency', 'rules' => 'permit_empty'],
-				'language' => ['label' => 'Language', 'rules' => 'permit_empty']
+				'language' => ['label' => 'Language', 'rules' => 'permit_empty'],
+				'status' => ['label' => 'Status', 'rules' => 'required']
 			]);
 			if(!$validation){
 				$data['validation'] = $this->validator;

@@ -16,8 +16,8 @@
 					<h4 class="panel-title"><?= $title ?> Data</h4>
 					<div class="panel-heading-btn">
 					<?php if(@$checkLevel->create == 1){ ?>
-						<a href="<?php echo base_url('country/add/'); ?>" class="btn btn-xs btn-circle btn-primary"><i class="fa fa-plus"></i> Add New</a>
-						<a href="<?php echo base_url('country/bulk_upload/'); ?>" class="btn btn-xs btn-circle btn-success"><i class="fa fa-upload"></i> Bulk Upload</a>
+						<a href="<?php echo base_url('state/add/'); ?>" class="btn btn-xs btn-circle btn-primary"><i class="fa fa-plus"></i> Add New</a>
+						<a href="<?php echo base_url('state/bulk_upload/'); ?>" class="btn btn-xs btn-circle btn-success"><i class="fa fa-upload"></i> Bulk Upload</a>
 					<?php } ?>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
@@ -56,54 +56,57 @@
 							<thead class="text-center">
 								<tr>
 									<th width="1%" rowspan="2">#</th>
-									<th class="text-nowrap" rowspan="2" data-orderable="false">Icon</th>
-									<th class="text-nowrap" colspan="3">Code</th>
+									<th class="text-nowrap" colspan="2">Code</th>
 									<th class="text-nowrap" rowspan="2">Name</th>
+									<th class="text-nowrap" rowspan="2">Capital</th>
+									<th class="text-nowrap" rowspan="2">Time Zone</th>
+									<th class="text-nowrap" rowspan="2">Geo Unit</th>
 									<th class="text-nowrap" rowspan="2">Status</th>
 									<th class="text-nowrap" rowspan="2" data-orderable="false">Action</th>
 								</tr>
 								<tr>
-									<th class="text-nowrap">Alpha 2</th>
-									<th class="text-nowrap">Alpha 3</th>
+									<th class="text-nowrap">Alpha</th>
 									<th class="text-nowrap">Numeric</th>
 								</tr>
 							</thead>
 							<tbody>
 							<?php
-								if(@$country) :
+								if(@$state) :
 									$no=0;
-									foreach ($country as $row) :
+									foreach ($state as $row) :
 										$no++;
 							?>
 								<tr>
 									<td width="1%" class="f-s-600 text-inverse"><?= $no ?></td>
-									<td><h4 class="flag-icon flag-icon-<?= strtolower($row->country_alpha2_code) ?>"></h4></td>
-									<td><?= $row->country_alpha2_code ?></td>
-									<td><?= $row->country_alpha3_code ?></td>
-									<td><?= $row->country_numeric_code ?></td>
-									<td><?= $row->country_name ?></td>
+									<td><?= $row->country_alpha2_code.'-'.$row->state_alpha2_code ?></td>
+									<td><?= $row->state_numeric_code ?></td>
+									<td><?= $row->state_name ?></td>
+									<td><?= $row->state_capital ?></td>
+									<td><?= $row->tz_name ?></td>
+									<td><?= $row->geo_unit_name ?></td>
 									<?php
-										if($row->country_status == 1){
+										if($row->state_status == 1){
 											echo '<td class="text-success">Active</td>';
-										}elseif($row->country_status == 0){
+										}elseif($row->state_status == 0){
 											echo '<td class="text-danger">Inactive</td>';
 										}else{
 											echo '<td></td>';
 										}
 									?>
 									<td class="text-center">
+									<?php if(@$checkLevel->update == 1 OR @$checkLevel->delete == 1){ ?>
 										<div class="btn-group">
 											<a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a>
 											<div class="dropdown-menu dropdown-menu-right">
-												<a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-id="<?= $row->country_id ?>" data-href="<?php echo base_url('country/detail/') ?>"><i class="fa fa-info-circle"></i> Detail</a>
 											<?php if(@$checkLevel->update == 1){ ?>
-												<a href="<?php echo base_url('country/edit/'.$row->country_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
+												<a href="<?php echo base_url('state/edit/'.$row->state_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
 											<?php } if(@$checkLevel->delete == 1){
-												if(!$model->getCountryRelatedTable('population', $row->country_id) AND !$model->getCountryRelatedTable('time_zone', $row->country_id)){ ?>
-												<a href="javascript:;" class="dropdown-item"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('country/delete/'.$row->country_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
+												if(!$model->getStateRelatedTable('city', $row->state_id)){ ?>
+												<a href="javascript:;" class="dropdown-item"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('state/delete/'.$row->state_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
 											<?php } } ?>
 											</div>
 										</div>
+										<?php }else{ echo 'No action'; } ?>
 									</td>
 								</tr>
 							<?php
@@ -115,23 +118,6 @@
 					</div>
 				</div>
 				<!-- end panel-body -->
-				<!-- #modal-detail -->
-				<div class="modal modal-message fade" id="modal-detail">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title"><?= $title ?> Detail</h4>
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							</div>
-							<div class="modal-body">
-								<div class="detail-data"></div>
-							</div>
-							<div class="modal-footer">
-								<a class="btn btn-white" data-dismiss="modal">Close</a>
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- #modal-delete -->
 				<div class="modal fade" id="modal-delete">
 					<div class="modal-dialog">

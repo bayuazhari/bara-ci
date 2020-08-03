@@ -87,6 +87,15 @@ class CountryModel extends Model
 		return $query->getRow();
 	}
 
+	public function getCountryRelatedTable($table, $record)
+	{
+		$query = $this->db->table($table)
+		->where($this->primaryKey, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
 	public function getCountryId()
 	{
 		$lastId = $this->db->table($this->table)
