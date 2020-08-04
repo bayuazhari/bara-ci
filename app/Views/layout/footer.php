@@ -144,5 +144,34 @@
 			});
 		});
 	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#time_zone_loading").hide();
+			$("#country").change(function() {
+				$("#time_zone_loading").show();
+				$("#time_zone").next(".select2-container").hide();
+				$.ajax({
+					type : 'POST',
+					url : '<?php echo base_url("state/get_time_zone"); ?>',
+					data :  { country : $("#country").val() },
+                    dataType: "json",
+                    beforeSend: function(e) {
+                    	if(e && e.overrideMimeType) {
+                    		e.overrideMimeType("application/json;charset=UTF-8");
+                    	}
+                    },
+                    success : function(response) {
+						$("#time_zone_loading").hide();
+						$("#time_zone").next(".select2-container").show();
+						$("#time_zone").html(response.time_zone_list);
+						$("#iso-prefix-code").html(response.country_code);
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

@@ -21,15 +21,25 @@ class StateModel extends Model
 	public function getStateById($id)
 	{
 		$query = $this->db->table($this->table)
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
 		->where($this->primaryKey, $id)
 		->limit(1)
 		->get();
 		return $query->getRow();
 	}
 
-	public function getTimeZone()
+	public function getCountry()
+	{
+		$query = $this->db->table('country')
+		->where('country_status', '1')
+		->get();
+		return $query->getResult();
+	}
+
+	public function getTimeZone($country_id)
 	{
 		$query = $this->db->table('time_zone')
+		->where('country_id', $country_id)
 		->where('tz_status', '1')
 		->get();
 		return $query->getResult();
@@ -46,6 +56,15 @@ class StateModel extends Model
 	public function getStateByField($field, $record)
 	{
 		$query = $this->db->table($this->table)
+		->where($field, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
+	public function getCountryByField($field, $record)
+	{
+		$query = $this->db->table('country')
 		->where($field, $record)
 		->limit(1)
 		->get();

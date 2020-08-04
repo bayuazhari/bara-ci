@@ -65,7 +65,7 @@
 									<th class="text-nowrap" rowspan="2" data-orderable="false">Action</th>
 								</tr>
 								<tr>
-									<th class="text-nowrap">Alpha</th>
+									<th class="text-nowrap">ISO</th>
 									<th class="text-nowrap">Numeric</th>
 								</tr>
 							</thead>
@@ -78,7 +78,7 @@
 							?>
 								<tr>
 									<td width="1%" class="f-s-600 text-inverse"><?= $no ?></td>
-									<td><?= $row->country_alpha2_code.'-'.$row->state_alpha2_code ?></td>
+									<td><?= $row->country_alpha2_code.'-'.$row->state_iso_code ?></td>
 									<td><?= $row->state_numeric_code ?></td>
 									<td><?= $row->state_name ?></td>
 									<td><?= $row->state_capital ?></td>
@@ -100,10 +100,9 @@
 											<div class="dropdown-menu dropdown-menu-right">
 											<?php if(@$checkLevel->update == 1){ ?>
 												<a href="<?php echo base_url('state/edit/'.$row->state_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
-											<?php } if(@$checkLevel->delete == 1){
-												if(!$model->getStateRelatedTable('city', $row->state_id)){ ?>
-												<a href="javascript:;" class="dropdown-item"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('state/delete/'.$row->state_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
-											<?php } } ?>
+											<?php } if(@$checkLevel->delete == 1){ ?>
+												<a href="javascript:;" class="dropdown-item <?php if(@$model->getStateRelatedTable('city', $row->state_id)){ echo 'disabled'; } ?>"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('state/delete/'.$row->state_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
+											<?php } ?>
 											</div>
 										</div>
 										<?php }else{ echo 'No action'; } ?>

@@ -32,22 +32,49 @@ class State extends BaseController
 		}
 	}
 
+	public function get_time_zone()
+	{
+		$time_zone = $this->model->getTimeZone($this->request->getPost('country'));
+		$time_zone_list = '<option></option>';
+		if(@$time_zone){
+			foreach ($time_zone as $row) {
+				$time_zone_list .= '<option value="'.$row->tz_id.'">'.$row->tz_name.'</option>';
+			}
+		}
+		$country = $this->model->getCountryByField('country_id', $this->request->getPost('country'));
+		$callback = array(
+			'time_zone_list' => $time_zone_list,
+			'country_code' => @$country->country_alpha2_code.' -'
+		);
+		echo json_encode($callback);
+	}
+
 	public function add()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
+			if(@$this->request->getPost('country')){
+				$time_zone = $this->model->getTimeZone($this->request->getPost('country'));
+				$iso_prefix_code = @$this->model->getCountryByField('country_id', $this->request->getPost('country'))->country_alpha2_code.' -';
+			}else{
+				$time_zone = NULL;
+				$iso_prefix_code = NULL;
+			}
 			$data = array(
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
-				'time_zone' => $this->model->getTimeZone(),
+				'country' => $this->model->getCountry(),
+				'iso_prefix_code' => $iso_prefix_code,
+				'time_zone' => $time_zone,
 				'geo_unit' => $this->model->getGeoUnit()
 			);
 			$validation = $this->validate([
+				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'time_zone' => ['label' => 'Time Zone', 'rules' => 'required'],
 				'geo_unit' => ['label' => 'Geographical Unit', 'rules' => 'required'],
-				'state_alpha2_code' => ['label' => 'Alpha-2 Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_alpha2_code]'],
+				'state_iso_code' => ['label' => 'ISO Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_iso_code]'],
 				'state_numeric_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_numeric_code]'],
 				'state_name' => ['label' => 'Name', 'rules' => 'required'],
 				'state_capital' => ['label' => 'Capital', 'rules' => 'permit_empty']
@@ -62,7 +89,7 @@ class State extends BaseController
 					'state_id' => $this->model->getStateId(),
 					'tz_id' => $this->request->getPost('time_zone'),
 					'geo_unit_id' => $this->request->getPost('geo_unit'),
-					'state_alpha2_code' => $this->request->getPost('state_alpha2_code'),
+					'state_iso_code' => $this->request->getPost('state_iso_code'),
 					'state_numeric_code' => $this->request->getPost('state_numeric_code'),
 					'state_name' => $this->request->getPost('state_name'),
 					'state_capital' => $this->request->getPost('state_capital'),
@@ -123,7 +150,7 @@ class State extends BaseController
 			$validation = $this->validate([
 				'state.*.time_zone' => ['label' => 'Time Zone', 'rules' => 'required'],
 				'state.*.geo_unit' => ['label' => 'Geographical Unit', 'rules' => 'required'],
-				'state.*.state_alpha2_code' => ['label' => 'Alpha-2 Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_alpha2_code]'],
+				'state.*.state_iso_code' => ['label' => 'ISO Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_iso_code]'],
 				'state.*.state_numeric_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_numeric_code]'],
 				'state.*.state_name' => ['label' => 'Name', 'rules' => 'required'],
 				'state.*.state_capital' => ['label' => 'Capital', 'rules' => 'permit_empty']
@@ -137,7 +164,7 @@ class State extends BaseController
 						'state_id' => $this->model->getStateId(),
 						'tz_id' => $row['time_zone'],
 						'geo_unit_id' => $row['geo_unit'],
-						'state_alpha2_code' => $row['state_alpha2_code'],
+						'state_iso_code' => $row['state_iso_code'],
 						'state_numeric_code' => $row['state_numeric_code'],
 						'state_name' => $row['state_name'],
 						'state_capital' => $row['state_capital'],
@@ -159,28 +186,42 @@ class State extends BaseController
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
+			$state = $this->model->getStateById($id);
+			if(@$this->request->getPost('country')){
+				$time_zone = $this->model->getTimeZone($this->request->getPost('country'));
+				$iso_prefix_code = @$this->model->getCountryByField('country_id', $this->request->getPost('country'))->country_alpha2_code.' -';
+			}elseif(@$state->country_id){
+				$time_zone = $this->model->getTimeZone($state->country_id);
+				$iso_prefix_code = @$this->model->getCountryByField('country_id', $state->country_id)->country_alpha2_code.' -';
+			}else{
+				$time_zone = NULL;
+				$iso_prefix_code = NULL;
+			}
 			$data = array(
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
-				'time_zone' => $this->model->getTimeZone(),
+				'country' => $this->model->getCountry(),
+				'iso_prefix_code' => $iso_prefix_code,
+				'time_zone' => $time_zone,
 				'geo_unit' => $this->model->getGeoUnit(),
-				'state' => $this->model->getStateById($id)
+				'state' => $state
 			);
-			if($data['state']->state_alpha2_code == $this->request->getPost('state_alpha2_code')){
-				$state_alpha2_code_rules = 'required|alpha|min_length[2]|max_length[2]';
+			if($data['state']->state_iso_code == $this->request->getPost('state_iso_code')){
+				$state_iso_code_rules = 'required|alpha|min_length[2]|max_length[2]';
 			}else{
-				$state_alpha2_code_rules = 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_alpha2_code]';
+				$state_iso_code_rules = 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_iso_code]';
 			}
 			if($data['state']->state_numeric_code == $this->request->getPost('state_numeric_code')){
-				$state_numeric_code_rules = 'required|numeric|min_length[3]|max_length[3]';
+				$state_numeric_code_rules = 'required|numeric|min_length[2]|max_length[2]';
 			}else{
-				$state_numeric_code_rules = 'required|numeric|min_length[3]|max_length[3]|is_unique[state.state_numeric_code]';
+				$state_numeric_code_rules = 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_numeric_code]';
 			}
 			$validation = $this->validate([
+				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'time_zone' => ['label' => 'Time Zone', 'rules' => 'required'],
 				'geo_unit' => ['label' => 'Geographical Unit', 'rules' => 'required'],
-				'state_alpha2_code' => ['label' => 'Alpha-2 Code', 'rules' => $state_alpha2_code_rules],
+				'state_iso_code' => ['label' => 'Alpha-2 Code', 'rules' => $state_iso_code_rules],
 				'state_numeric_code' => ['label' => 'Numeric Code', 'rules' => $state_numeric_code_rules],
 				'state_name' => ['label' => 'Name', 'rules' => 'required'],
 				'state_capital' => ['label' => 'Capital', 'rules' => 'permit_empty'],
@@ -195,7 +236,7 @@ class State extends BaseController
 				$stateData = array(
 					'tz_id' => $this->request->getPost('time_zone'),
 					'geo_unit_id' => $this->request->getPost('geo_unit'),
-					'state_alpha2_code' => $this->request->getPost('state_alpha2_code'),
+					'state_iso_code' => $this->request->getPost('state_iso_code'),
 					'state_numeric_code' => $this->request->getPost('state_numeric_code'),
 					'state_name' => $this->request->getPost('state_name'),
 					'state_capital' => $this->request->getPost('state_capital'),
@@ -239,7 +280,7 @@ class State extends BaseController
 			'state_id' => $state_id,
 			'tz_id' => @$state->tz_id,
 			'geo_unit_id' => @$state->geo_unit_id,
-			'state_alpha2_code' => @$state->state_alpha2_code,
+			'state_iso_code' => @$state->state_iso_code,
 			'state_numeric_code' => @$state->state_numeric_code,
 			'state_name' => @$state->state_name,
 			'state_capital' => @$state->state_capital,

@@ -138,7 +138,7 @@
 								<?php if(@$currency) : ?>
 									<option></option>
 								<?php foreach ($currency as $curr) : ?>
-									<option value="<?= $curr->currency_id ?>" <?php if($currency_id == $curr->currency_id){echo 'selected';} ?>><?= $curr->currency_code.' - '.$curr->currency_name ?></option>
+									<option value="<?= $curr->currency_id; ?>" <?php if($currency_id == $curr->currency_id){echo 'selected';} ?>><?= $curr->currency_code.' - '.$curr->currency_name ?></option>
 								<?php
 									endforeach;
 								endif;
@@ -155,7 +155,7 @@
 								<?php if(@$language) : ?>
 									<option></option>
 								<?php foreach ($language as $lang) : ?>
-									<option value="<?= $lang->lang_id ?>" <?php if($lang_id == $lang->lang_id){echo 'selected';} ?>><?= $lang->lang_code.' - '.$lang->lang_name ?></option>
+									<option value="<?= $lang->lang_id; ?>" <?php if($lang_id == $lang->lang_id){echo 'selected';} ?>><?= $lang->lang_code.' - '.$lang->lang_name ?></option>
 								<?php
 									endforeach;
 								endif;

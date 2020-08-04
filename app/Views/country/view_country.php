@@ -98,10 +98,9 @@
 												<a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-id="<?= $row->country_id ?>" data-href="<?php echo base_url('country/detail/') ?>"><i class="fa fa-info-circle"></i> Detail</a>
 											<?php if(@$checkLevel->update == 1){ ?>
 												<a href="<?php echo base_url('country/edit/'.$row->country_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
-											<?php } if(@$checkLevel->delete == 1){
-												if(!$model->getCountryRelatedTable('population', $row->country_id) AND !$model->getCountryRelatedTable('time_zone', $row->country_id)){ ?>
-												<a href="javascript:;" class="dropdown-item"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('country/delete/'.$row->country_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
-											<?php } } ?>
+											<?php } if(@$checkLevel->delete == 1){ ?>
+												<a href="javascript:;" class="dropdown-item <?php if(@$model->getCountryRelatedTable('population', $row->country_id) AND @$model->getCountryRelatedTable('time_zone', $row->country_id)){ echo 'disabled'; } ?>"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('country/delete/'.$row->country_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
+											<?php } ?>
 											</div>
 										</div>
 									</td>
