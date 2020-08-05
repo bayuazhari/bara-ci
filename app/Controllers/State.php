@@ -75,7 +75,7 @@ class State extends BaseController
 				'time_zone' => ['label' => 'Time Zone', 'rules' => 'required'],
 				'geo_unit' => ['label' => 'Geographical Unit', 'rules' => 'required'],
 				'state_iso_code' => ['label' => 'ISO Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_iso_code]'],
-				'state_numeric_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_numeric_code]'],
+				'state_ref_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_ref_code]'],
 				'state_name' => ['label' => 'Name', 'rules' => 'required'],
 				'state_capital' => ['label' => 'Capital', 'rules' => 'permit_empty']
 			]);
@@ -90,7 +90,7 @@ class State extends BaseController
 					'tz_id' => $this->request->getPost('time_zone'),
 					'geo_unit_id' => $this->request->getPost('geo_unit'),
 					'state_iso_code' => $this->request->getPost('state_iso_code'),
-					'state_numeric_code' => $this->request->getPost('state_numeric_code'),
+					'state_ref_code' => $this->request->getPost('state_ref_code'),
 					'state_name' => $this->request->getPost('state_name'),
 					'state_capital' => $this->request->getPost('state_capital'),
 					'state_status' => 1
@@ -151,7 +151,7 @@ class State extends BaseController
 				'state.*.time_zone' => ['label' => 'Time Zone', 'rules' => 'required'],
 				'state.*.geo_unit' => ['label' => 'Geographical Unit', 'rules' => 'required'],
 				'state.*.state_iso_code' => ['label' => 'ISO Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_iso_code]'],
-				'state.*.state_numeric_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_numeric_code]'],
+				'state.*.state_ref_code' => ['label' => 'Numeric Code', 'rules' => 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_ref_code]'],
 				'state.*.state_name' => ['label' => 'Name', 'rules' => 'required'],
 				'state.*.state_capital' => ['label' => 'Capital', 'rules' => 'permit_empty']
 			]);
@@ -165,7 +165,7 @@ class State extends BaseController
 						'tz_id' => $row['time_zone'],
 						'geo_unit_id' => $row['geo_unit'],
 						'state_iso_code' => $row['state_iso_code'],
-						'state_numeric_code' => $row['state_numeric_code'],
+						'state_ref_code' => $row['state_ref_code'],
 						'state_name' => $row['state_name'],
 						'state_capital' => $row['state_capital'],
 						'state_status' => 1
@@ -212,17 +212,17 @@ class State extends BaseController
 			}else{
 				$state_iso_code_rules = 'required|alpha|min_length[2]|max_length[2]|is_unique[state.state_iso_code]';
 			}
-			if($data['state']->state_numeric_code == $this->request->getPost('state_numeric_code')){
-				$state_numeric_code_rules = 'required|numeric|min_length[2]|max_length[2]';
+			if($data['state']->state_ref_code == $this->request->getPost('state_ref_code')){
+				$state_ref_code_rules = 'required|numeric|min_length[2]|max_length[2]';
 			}else{
-				$state_numeric_code_rules = 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_numeric_code]';
+				$state_ref_code_rules = 'required|numeric|min_length[2]|max_length[2]|is_unique[state.state_ref_code]';
 			}
 			$validation = $this->validate([
 				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'time_zone' => ['label' => 'Time Zone', 'rules' => 'required'],
 				'geo_unit' => ['label' => 'Geographical Unit', 'rules' => 'required'],
 				'state_iso_code' => ['label' => 'Alpha-2 Code', 'rules' => $state_iso_code_rules],
-				'state_numeric_code' => ['label' => 'Numeric Code', 'rules' => $state_numeric_code_rules],
+				'state_ref_code' => ['label' => 'Numeric Code', 'rules' => $state_ref_code_rules],
 				'state_name' => ['label' => 'Name', 'rules' => 'required'],
 				'state_capital' => ['label' => 'Capital', 'rules' => 'permit_empty'],
 				'status' => ['label' => 'Status', 'rules' => 'required']
@@ -237,7 +237,7 @@ class State extends BaseController
 					'tz_id' => $this->request->getPost('time_zone'),
 					'geo_unit_id' => $this->request->getPost('geo_unit'),
 					'state_iso_code' => $this->request->getPost('state_iso_code'),
-					'state_numeric_code' => $this->request->getPost('state_numeric_code'),
+					'state_ref_code' => $this->request->getPost('state_ref_code'),
 					'state_name' => $this->request->getPost('state_name'),
 					'state_capital' => $this->request->getPost('state_capital'),
 					'state_status' => $this->request->getPost('status')
@@ -281,7 +281,7 @@ class State extends BaseController
 			'tz_id' => @$state->tz_id,
 			'geo_unit_id' => @$state->geo_unit_id,
 			'state_iso_code' => @$state->state_iso_code,
-			'state_numeric_code' => @$state->state_numeric_code,
+			'state_ref_code' => @$state->state_ref_code,
 			'state_name' => @$state->state_name,
 			'state_capital' => @$state->state_capital,
 			'state_status' => @$state->state_status

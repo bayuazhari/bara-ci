@@ -43,7 +43,7 @@
 						</div>
 						<?php
 						$error1 = $validation->getError('state_iso_code');
-						$error2 = $validation->getError('state_numeric_code');
+						$error2 = $validation->getError('state_ref_code');
 						?>
 						<div class="form-group row m-b-15">
 							<label class="col-form-label col-md-2 text-lg-right">Code</label>
@@ -55,7 +55,7 @@
 								</div>
 							</div>
 							<div class="col-md-4">
-								<input type="text" class="form-control <?php if($error2){ echo 'is-invalid'; } ?>" name="state_numeric_code" placeholder="Numeric" value="<?= $request->getPost('state_numeric_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Two-character state numeric code based on the laws used in a country (e.g., 31)." />
+								<input type="text" class="form-control <?php if($error2){ echo 'is-invalid'; } ?>" name="state_ref_code" placeholder="Reference" value="<?= $request->getPost('state_ref_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Two-character state reference code based on the laws used in a country (e.g., 31)." />
 								<?php if($error2){ echo '<div class="invalid-feedback">'.$error2.'</div>'; } ?>
 							</div>
 						</div>
@@ -94,7 +94,7 @@
 						</div>
 						<?php $error = $validation->getError('geo_unit'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Geographical unit<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Geographical unit of the state."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Geographical Unit<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Geographical unit of the state."></i></span></label>
 							<div class="col-md-9">
 								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="geo_unit" data-placeholder="Select a geographical unit">
 								<?php if(@$geo_unit) : ?>

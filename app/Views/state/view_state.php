@@ -66,7 +66,7 @@
 								</tr>
 								<tr>
 									<th class="text-nowrap">ISO</th>
-									<th class="text-nowrap">Numeric</th>
+									<th class="text-nowrap">Ref.</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -79,7 +79,7 @@
 								<tr>
 									<td width="1%" class="f-s-600 text-inverse"><?= $no ?></td>
 									<td><?= $row->country_alpha2_code.'-'.$row->state_iso_code ?></td>
-									<td><?= $row->state_numeric_code ?></td>
+									<td><?= $row->state_ref_code ?></td>
 									<td><?= $row->state_name ?></td>
 									<td><?= $row->state_capital ?></td>
 									<td><?= $row->tz_name ?></td>
