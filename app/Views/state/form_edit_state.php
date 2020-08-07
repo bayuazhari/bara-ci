@@ -25,21 +25,21 @@
 				$id = $state->state_id;
 				if(@$request->getPost()){
 					$country_id = $request->getPost('country');
+					$tz_id = $request->getPost('time_zone');
+					$geo_unit_id = $request->getPost('geo_unit');
 					$state_iso_code = $request->getPost('state_iso_code');
 					$state_ref_code = $request->getPost('state_ref_code');
 					$state_name = $request->getPost('state_name');
 					$state_capital = $request->getPost('state_capital');
-					$tz_id = $request->getPost('time_zone');
-					$geo_unit_id = $request->getPost('geo_unit');
 					$status = $request->getPost('status');
 				}else{
 					$country_id = $state->country_id;
+					$tz_id = $state->tz_id;
+					$geo_unit_id = $state->geo_unit_id;
 					$state_iso_code = $state->state_iso_code;
 					$state_ref_code = $state->state_ref_code;
 					$state_name = $state->state_name;
 					$state_capital = $state->state_capital;
-					$tz_id = $state->tz_id;
-					$geo_unit_id = $state->geo_unit_id;
 					$status = $state->state_status;
 				} ?>
 				<!-- begin panel-body -->
@@ -53,7 +53,41 @@
 								<?php if(@$country) : ?>
 									<option></option>
 								<?php foreach ($country as $coun) : ?>
-									<option value="<?= $coun->country_id; ?>" <?php if($country_id == $coun->country_id){echo 'selected';} ?>><?= $coun->country_alpha2_code.' - '.$coun->country_name ?></option>
+									<option value="<?= $coun->country_id; ?>" <?php if($country_id == $coun->country_id){echo 'selected';} ?>><?= $coun->country_name ?></option>
+								<?php
+									endforeach;
+								endif;
+								?>
+								</select>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
+						<?php $error = $validation->getError('time_zone'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Time Zone<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Time zone in the state."></i></span></label>
+							<div class="col-md-9">
+								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" id="time_zone" name="time_zone" data-placeholder="Select a time zone">
+								<?php if(@$time_zone) : ?>
+									<option></option>
+								<?php foreach ($time_zone as $tz) : ?>
+									<option value="<?= $tz->tz_id; ?>" <?php if($tz_id == $tz->tz_id){echo 'selected';} ?>><?= $tz->tz_name ?></option>
+								<?php
+									endforeach;
+								endif;
+								?>
+								</select>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
+						<?php $error = $validation->getError('geo_unit'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Geographical Unit<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Geographical unit of the state."></i></span></label>
+							<div class="col-md-9">
+								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="geo_unit" data-placeholder="Select a geographical unit">
+								<?php if(@$geo_unit) : ?>
+									<option></option>
+								<?php foreach ($geo_unit as $geou) : ?>
+									<option value="<?= $geou->geo_unit_id; ?>" <?php if($geo_unit_id == $geou->geo_unit_id){echo 'selected';} ?>><?= $geou->geo_unit_code.' - '.$geou->geo_unit_name ?></option>
 								<?php
 									endforeach;
 								endif;
@@ -93,40 +127,6 @@
 							<label class="col-form-label col-md-2 text-lg-right">Capital<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Capital of the state (e.g., Jakarta)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="state_capital" value="<?= $state_capital; ?>" />
-								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-							</div>
-						</div>
-						<?php $error = $validation->getError('time_zone'); ?>
-						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Time Zone<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Time zone in the state."></i></span></label>
-							<div class="col-md-9">
-								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" id="time_zone" name="time_zone" data-placeholder="Select a time zone">
-								<?php if(@$time_zone) : ?>
-									<option></option>
-								<?php foreach ($time_zone as $tz) : ?>
-									<option value="<?= $tz->tz_id; ?>" <?php if($tz_id == $tz->tz_id){echo 'selected';} ?>><?= $tz->tz_name ?></option>
-								<?php
-									endforeach;
-								endif;
-								?>
-								</select>
-								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-							</div>
-						</div>
-						<?php $error = $validation->getError('geo_unit'); ?>
-						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Geographical Unit<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Geographical unit of the state."></i></span></label>
-							<div class="col-md-9">
-								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="geo_unit" data-placeholder="Select a geographical unit">
-								<?php if(@$geo_unit) : ?>
-									<option></option>
-								<?php foreach ($geo_unit as $geou) : ?>
-									<option value="<?= $geou->geo_unit_id; ?>" <?php if($geo_unit_id == $geou->geo_unit_id){echo 'selected';} ?>><?= $geou->geo_unit_code.' - '.$geou->geo_unit_name ?></option>
-								<?php
-									endforeach;
-								endif;
-								?>
-								</select>
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>

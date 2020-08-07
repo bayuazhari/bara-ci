@@ -99,10 +99,10 @@ class CountryModel extends Model
 	public function getCountryId()
 	{
 		$lastId = $this->db->table($this->table)
-		->select('MAX(RIGHT(`country_id`, 7)) AS last_id')
+		->select('MAX(RIGHT(country_id, 7)) AS last_id')
 		->get();
 		$lastMidId = $this->db->table($this->table)
-		->select('MAX(MID(`country_id`, 3, 2)) AS last_mid_id')
+		->select('MAX(MID(country_id, 3, 2)) AS last_mid_id')
 		->get()
 		->getRow()
 		->last_mid_id;

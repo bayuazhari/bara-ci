@@ -101,10 +101,10 @@ class StateModel extends Model
 	public function getStateId()
 	{
 		$lastId = $this->db->table($this->table)
-		->select('MAX(RIGHT(`state_id`, 7)) AS last_id')
+		->select('MAX(RIGHT(state_id, 7)) AS last_id')
 		->get();
 		$lastMidId = $this->db->table($this->table)
-		->select('MAX(MID(`state_id`, 3, 2)) AS last_mid_id')
+		->select('MAX(MID(state_id, 3, 2)) AS last_mid_id')
 		->get()
 		->getRow()
 		->last_mid_id;
