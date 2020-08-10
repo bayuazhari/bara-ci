@@ -45,7 +45,7 @@ class City extends BaseController
 			);
 			$validation = $this->validate([
 				'state' => ['label' => 'State', 'rules' => 'required'],
-				'city_code' => ['label' => 'City Code', 'rules' => 'required|numeric|min_length[4]|max_length[4]|is_unique[city.city_code]'],
+				'city_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[4]|max_length[4]|is_unique[city.city_code]'],
 				'city_name' => ['label' => 'Name', 'rules' => 'required'],
 				'capital_city_code' => ['label' => 'Capital Code', 'rules' => 'permit_empty|alpha|min_length[3]|max_length[3]|is_unique[city.capital_city_code]'],
 				'capital_city_name' => ['label' => 'Capital Name', 'rules' => 'permit_empty']
@@ -119,7 +119,7 @@ class City extends BaseController
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'city.*.state' => ['label' => 'State', 'rules' => 'required'],
-				'city.*.city_code' => ['label' => 'City Code', 'rules' => 'required|numeric|min_length[4]|max_length[4]|is_unique[city.city_code]'],
+				'city.*.city_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[4]|max_length[4]|is_unique[city.city_code]'],
 				'city.*.city_name' => ['label' => 'Name', 'rules' => 'required'],
 				'city.*.capital_city_code' => ['label' => 'Capital Code', 'rules' => 'permit_empty|alpha|min_length[3]|max_length[3]|is_unique[city.capital_city_code]'],
 				'city.*.capital_city_name' => ['label' => 'Capital Name', 'rules' => 'permit_empty']
@@ -173,10 +173,11 @@ class City extends BaseController
 			}
 			$validation = $this->validate([
 				'state' => ['label' => 'State', 'rules' => 'required'],
-				'city_code' => ['label' => 'City Code', 'rules' => $city_code_rules],
+				'city_code' => ['label' => 'Code', 'rules' => $city_code_rules],
 				'city_name' => ['label' => 'Name', 'rules' => 'required'],
 				'capital_city_code' => ['label' => 'Capital Code', 'rules' => $capital_city_code_rules],
-				'capital_city_name' => ['label' => 'Capital Name', 'rules' => 'permit_empty']
+				'capital_city_name' => ['label' => 'Capital Name', 'rules' => 'permit_empty'],
+				'status' => ['label' => 'Status', 'rules' => 'required']
 			]);
 			if(!$validation){
 				$data['validation'] = $this->validator;
@@ -228,6 +229,7 @@ class City extends BaseController
 		}
 		$cityData = array(
 			'city_id' => $city_id,
+			'state_id' => @$city->state_id,
 			'city_code' => @$city->city_code,
 			'city_name' => @$city->city_name,
 			'capital_city_code' => @$city->capital_city_code,

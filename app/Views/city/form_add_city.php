@@ -24,29 +24,6 @@
 				<!-- begin panel-body -->
 				<div class="panel-body">
 					<form action="<?php echo base_url('city/add') ?>" method="post">
-						<?php $error = $validation->getError('state'); ?>
-						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">State<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="State of the city."></i></span></label>
-							<div class="col-md-9">
-								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="state" data-placeholder="Select a state">
-								<?php if(@$state) : ?>
-									<option></option>
-								<?php foreach ($state as $key => $stt) :
-									if(@$state[$key-1]->country_id != $stt->country_id) {
-								?>
-                                	<optgroup label="<?= $stt->country_name ?>">
-                                <?php } ?>
-										<option value="<?= $stt->state_id; ?>" <?php if($request->getPost('state') == $stt->state_id){echo 'selected';} ?>><?= $stt->state_name ?></option>
-								<?php if(@$state[$key+1]->country_id != $stt->country_id) { ?>
-								<?php
-										}
-									endforeach;
-								endif;
-								?>
-								</select>
-								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-							</div>
-						</div>
 						<?php $error = $validation->getError('city_code'); ?>
 						<div class="form-group row m-b-15">
 							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Four-character city code based on the laws used in a country (e.g., 3171)."></i></span></label>
@@ -76,6 +53,29 @@
 							<div class="col-md-6">
 								<input type="text" class="form-control <?php if($error2){ echo 'is-invalid'; } ?>" name="capital_city_name" placeholder="Reference" value="<?= $request->getPost('capital_city_name'); ?>" data-toggle="tooltip" data-placement="bottom" title="Capital city name based on the laws used in a country (e.g., Kebayoran Baru)." />
 								<?php if($error2){ echo '<div class="invalid-feedback">'.$error2.'</div>'; } ?>
+							</div>
+						</div>
+						<?php $error = $validation->getError('state'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">State<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="State of the city."></i></span></label>
+							<div class="col-md-9">
+								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="state" data-placeholder="Select a state">
+								<?php if(@$state) : ?>
+									<option></option>
+								<?php foreach ($state as $key => $stt) :
+									if(@$state[$key-1]->country_id != $stt->country_id) {
+								?>
+                                	<optgroup label="<?= $stt->country_name ?>">
+                                <?php } ?>
+										<option value="<?= $stt->state_id; ?>" <?php if($request->getPost('state') == $stt->state_id){echo 'selected';} ?>><?= $stt->state_name ?></option>
+								<?php if(@$state[$key+1]->country_id != $stt->country_id) { ?>
+								<?php
+										}
+									endforeach;
+								endif;
+								?>
+								</select>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
 						<div class="form-group row m-b-0">
