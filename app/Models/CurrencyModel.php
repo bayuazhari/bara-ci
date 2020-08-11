@@ -23,6 +23,15 @@ class CurrencyModel extends Model
 		return $query->getRow();
 	}
 
+	public function getCurrencyByField($field, $record)
+	{
+		$query = $this->db->table($this->table)
+		->where($field, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
 	public function getCurrencyRelatedTable($table, $record)
 	{
 		$query = $this->db->table($table)
