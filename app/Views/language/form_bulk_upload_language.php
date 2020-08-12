@@ -3,7 +3,7 @@
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb float-xl-right">
 				<li class="breadcrumb-item"><a href="javascript:;"><?= $breadcrumb ?></a></li>
-				<li class="breadcrumb-item"><a href="<?php echo base_url('currency') ?>"><?= $title ?></a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url('language') ?>"><?= $title ?></a></li>
 				<li class="breadcrumb-item active">Bulk Upload</li>
 			</ol>
 			<!-- end breadcrumb -->
@@ -27,10 +27,10 @@
 					<div class="timeline-body">
 						<div class="timeline-header">
 							<span class="username">Download CSV file</span>
-							<span class="views"><a href="<?php echo base_url('currency') ?>" class="btn btn-default btn-sm"><i class="fa fa-arrow-circle-left"></i> Back</a></span>
+							<span class="views"><a href="<?php echo base_url('language') ?>" class="btn btn-default btn-sm"><i class="fa fa-arrow-circle-left"></i> Back</a></span>
 						</div>
 						<div class="timeline-content">
-							<a href="<?php echo base_url('assets/templates/currencies.csv') ?>" class="btn btn-info btn-block"><i class="fa fa-download"></i> Download CSV Template</a>
+							<a href="<?php echo base_url('assets/templates/languages.csv') ?>" class="btn btn-info btn-block"><i class="fa fa-download"></i> Download CSV Template</a>
 						</div>
 					</div>
 					<!-- end timeline-body -->
@@ -49,7 +49,7 @@
 					<!-- begin timeline-body -->
 					<div class="timeline-body">
 						<div class="timeline-header">
-							<span class="username">Add currency info in CSV template</span>
+							<span class="username">Add language info in CSV template</span>
 						</div>
 						<div class="timeline-content">
 							<p>
@@ -65,17 +65,16 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>IDR</td>
-											<td>Indonesian Rupiah</td>
+											<td>ID</td>
+											<td>Indonesian</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 							<p>
 								Description:<br>
-								<strong>code</strong> - Currency code based on ISO 4217 (e.g., IDR).<br>
-								<strong>name</strong> - Currency name (e.g., Indonesian Rupiah).<br>
-								<strong>symbol</strong> - Currency symbol (e.g., Rp).
+								<strong>code</strong> - Language code based on ISO 639 (e.g., ID).<br>
+								<strong>name</strong> - Language name (e.g., Indonesian).
 							</p>
 						</div>
 					</div>
@@ -99,7 +98,7 @@
 						</div>
 						<div class="timeline-content">
 							<p>
-								The upload currencies file has fields separated by a comma only. The first line contains the valid field names. The rest of the lines (records) contain information about each currency.<br>
+								The upload languages file has fields separated by a comma only. The first line contains the valid field names. The rest of the lines (records) contain information about each language.<br>
 								<strong>Tip:</strong> Avoid special characters in field information like quotes or other commas. Test a file with only one record before a large upload. You can use a spread sheet program to create the file with the required columns and fields. Then save the file as "CSV (comma delimited)". These files can be opened with simple text editors (e.g., Notepad++) for verification.
 							</p>
 							<?php
@@ -130,10 +129,10 @@
 						</div>
 						<div class="timeline-comment-box">
 							<div class="input">
-								<form action="<?php echo base_url('currency/bulk_upload') ?>" method="post" enctype="multipart/form-data">
-									<?php $error = $validation->getError('currency_csv'); ?>
+								<form action="<?php echo base_url('language/bulk_upload') ?>" method="post" enctype="multipart/form-data">
+									<?php $error = $validation->getError('language_csv'); ?>
 									<div class="input-group">
-										<input type="file" name="currency_csv" class="form-control rounded-corner <?php if($error){ echo 'is-invalid'; } ?>" />
+										<input type="file" name="language_csv" class="form-control rounded-corner <?php if($error){ echo 'is-invalid'; } ?>" />
 										<span class="input-group-btn p-l-10">
 										<button class="btn btn-primary f-s-12 rounded-corner" type="submit"><i class="fa fa-upload"></i> Upload</button>
 										</span>
@@ -145,7 +144,7 @@
 					</div>
 					<!-- end timeline-body -->
 				</li>
-				<?php if(@$currency) { ?>
+				<?php if(@$language) { ?>
 				<li>
 					<!-- begin timeline-time -->
 					<div class="timeline-time">
@@ -163,23 +162,22 @@
 							<span class="username">CSV preview</span>
 						</div>
 						<div class="timeline-content">
-							<form action="<?php echo base_url('currency/bulk_save') ?>" method="post">
+							<form action="<?php echo base_url('language/bulk_save') ?>" method="post">
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-td-valign-middle">
 									<thead class="text-center">
 										<tr>
 											<th class="text-nowrap">Code</th>
 											<th class="text-nowrap">Name</th>
-											<th class="text-nowrap">Symbol</th>
 										</tr>
 									</thead>
 									<tbody>
 									<?php
 										$no=0;
-										foreach ($currency as $row) {
-											$currency_code = $model->getCurrencyByField('currency_code', @$row['code']);
+										foreach ($language as $row) {
+											$lang_code = $model->getLanguageByField('lang_code', @$row['code']);
 
-											if(empty(@$row['code']) OR (is_string(@$row['code']) != 1) OR (strlen(@$row['code']) != 3) OR @$currency_code){
+											if(empty(@$row['code']) OR (is_string(@$row['code']) != 1) OR (strlen(@$row['code']) != 2) OR @$lang_code){
 												$code_error = true;
 											}else{
 												$code_error = false;
@@ -194,9 +192,8 @@
 											$check_errors[] = $name_error;
 									?>
 										<tr>
-											<td class="<?php if($code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="currency[<?= $no ?>][currency_code]" value="<?= @$row['code'] ?>"><?= @$row['code'] ?></td>
-											<td class="<?php if($name_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="currency[<?= $no ?>][currency_name]" value="<?= @$row['name'] ?>"><?= @$row['name'] ?></td>
-											<td><input type="hidden" name="currency[<?= $no ?>][currency_symbol]" value="<?= @$row['symbol'] ?>"><?= @$row['symbol'] ?></td>
+											<td class="<?php if($code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="language[<?= $no ?>][lang_code]" value="<?= @$row['code'] ?>"><?= @$row['code'] ?></td>
+											<td class="<?php if($name_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="language[<?= $no ?>][lang_name]" value="<?= @$row['name'] ?>"><?= @$row['name'] ?></td>
 										</tr>
 									<?php $no++; } ?>
 									</tbody>

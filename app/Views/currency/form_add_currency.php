@@ -34,7 +34,7 @@
 						</div>
 						<?php $error = $validation->getError('currency_name'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Currency name based on ISO 4217 (e.g., Indonesian Rupiah)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Currency name (e.g., Indonesian Rupiah)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="currency_name" value="<?= $request->getPost('currency_name'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
@@ -42,7 +42,7 @@
 						</div>
 						<?php $error = $validation->getError('currency_symbol'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Symbol<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Symbol of the currency (e.g., Rp)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Symbol<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Currency symbol (e.g., Rp)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="currency_symbol" value="<?= $request->getPost('currency_symbol'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>

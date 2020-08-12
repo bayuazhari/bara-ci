@@ -3,7 +3,7 @@
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb float-xl-right">
 				<li class="breadcrumb-item"><a href="javascript:;"><?= $breadcrumb ?></a></li>
-				<li class="breadcrumb-item"><a href="<?php echo base_url('currency') ?>"><?= $title ?></a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url('geo_unit') ?>"><?= $title ?></a></li>
 				<li class="breadcrumb-item active">Edit</li>
 			</ol>
 			<!-- end breadcrumb -->
@@ -22,47 +22,37 @@
 				</div>
 				<!-- end panel-heading -->
 				<?php
-				$id = $currency->currency_id;
+				$id = $geo_unit->geo_unit_id;
 				if(@$request->getPost()){
-					$currency_code = $request->getPost('currency_code');
-					$currency_name = $request->getPost('currency_name');
-					$currency_symbol = $request->getPost('currency_symbol');
+					$geo_unit_code = $request->getPost('geo_unit_code');
+					$geo_unit_name = $request->getPost('geo_unit_name');
 					$status = $request->getPost('status');
 				}else{
-					$currency_code = $currency->currency_code;
-					$currency_name = $currency->currency_name;
-					$currency_symbol = $currency->currency_symbol;
-					$status = $currency->currency_status;
+					$geo_unit_code = $geo_unit->geo_unit_code;
+					$geo_unit_name = $geo_unit->geo_unit_name;
+					$status = $geo_unit->geo_unit_status;
 				} ?>
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<form action="<?php echo base_url('currency/edit/'.$id) ?>" method="post">
-						<?php $error = $validation->getError('currency_code'); ?>
+					<form action="<?php echo base_url('geo_unit/edit/'.$id) ?>" method="post">
+						<?php $error = $validation->getError('geo_unit_code'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Currency code based on ISO 4217 (e.g., IDR)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Geographical unit code (e.g., JW)."></i></span></label>
 							<div class="col-md-9">
-								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="currency_code" value="<?= $currency_code; ?>" />
+								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="geo_unit_code" value="<?= $geo_unit_code; ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
-						<?php $error = $validation->getError('currency_name'); ?>
+						<?php $error = $validation->getError('geo_unit_name'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Currency name (e.g., Indonesian Rupiah)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Geographical unit code name (e.g., Jawa)."></i></span></label>
 							<div class="col-md-9">
-								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="currency_name" value="<?= $currency_name; ?>" />
-								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
-							</div>
-						</div>
-						<?php $error = $validation->getError('currency_symbol'); ?>
-						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Symbol<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Currency symbol (e.g., Rp)."></i></span></label>
-							<div class="col-md-9">
-								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="currency_symbol" value="<?= $currency_symbol; ?>" />
+								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="geo_unit_name" value="<?= $geo_unit_name; ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Status<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="This setting allows using the currency. If inactive, the currency will be hidden."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Status<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="This setting allows using the geographical unit. If inactive, the geographical unit will be hidden."></i></span></label>
 							<div class="col-md-9">
 								<div class="custom-control custom-radio mb-1">
 									<input type="radio" id="customRadio1" name="status" class="custom-control-input" value="1" <?php if($status == 1){echo 'checked';}?>>
@@ -77,7 +67,7 @@
 						<div class="form-group row m-b-0">
 							<div class="col-md-12 col-sm-12 text-center">
 								<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>&nbsp;&nbsp;
-								<a href="<?php echo base_url('currency') ?>" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Back</a>
+								<a href="<?php echo base_url('geo_unit') ?>" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Back</a>
 							</div>
 						</div>
 					</form>
