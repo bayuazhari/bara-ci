@@ -1,14 +1,14 @@
 <?php namespace App\Controllers;
 
 use App\Models\SettingModel;
-use App\Models\LanguageModel;
+use App\Models\TimeZoneModel;
 
-class Language extends BaseController
+class Time_zone extends BaseController
 {
 	public function __construct()
 	{
 		$this->setting = new SettingModel();
-		$this->model = new LanguageModel();
+		$this->model = new TimeZoneModel();
 	}
 
 	public function index()
@@ -20,11 +20,11 @@ class Language extends BaseController
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'model' => $this->model,
-				'language' => $this->model->getLanguage(),
+				'time_zone' => $this->model->getTimeZone(),
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
-			echo view('language/view_language', $data);
+			echo view('time_zone/view_time_zone', $data);
 			echo view('layout/footer');
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
@@ -40,27 +40,30 @@ class Language extends BaseController
 			$data = array(
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'request' => $this->request
+				'request' => $this->request,
+				'country' => $this->model->getCountry()
 			);
 			$validation = $this->validate([
-				'lang_code' => ['label' => 'Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[language.lang_code]'],
-				'lang_name' => ['label' => 'Name', 'rules' => 'required']
+				'country' => ['label' => 'Country', 'rules' => 'required'],
+				'tz_name' => ['label' => 'Name', 'rules' => 'required'],
+				'tz_abbr' => ['label' => 'Abbreviation', 'rules' => 'permit_empty']
 			]);
 			if(!$validation){
 				$data['validation'] = $this->validator;
 				echo view('layout/header', $data);
-				echo view('language/form_add_language', $data);
+				echo view('time_zone/form_add_time_zone', $data);
 				echo view('layout/footer');
 			}else{
-				$languageData = array(
-					'lang_id' => $this->model->getLanguageId(),
-					'lang_code' => $this->request->getPost('lang_code'),
-					'lang_name' => $this->request->getPost('lang_name'),
-					'lang_status' => 1
+				$timeZoneData = array(
+					'tz_id' => $this->model->getTimeZoneId(),
+					'country_id' => $this->request->getPost('country'),
+					'tz_name' => $this->request->getPost('tz_name'),
+					'tz_abbr' => $this->request->getPost('tz_abbr'),
+					'tz_status' => 1
 				);
-				$this->model->insertLanguage($languageData);
-				session()->setFlashdata('success', 'Language has been added successfully. (SysCode: <a href="'.base_url('language?id='.$languageData['lang_id']).'" class="alert-link">'.$languageData['lang_id'].'</a>)');
-				return redirect()->to(base_url('language'));
+				$this->model->insertTimeZone($timeZoneData);
+				session()->setFlashdata('success', 'Time zone has been added successfully. (SysCode: <a href="'.base_url('time_zone?id='.$timeZoneData['tz_id']).'" class="alert-link">'.$timeZoneData['tz_id'].'</a>)');
+				return redirect()->to(base_url('time_zone'));
 			}
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
@@ -74,7 +77,7 @@ class Language extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
-				'language_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[language_csv]|ext_in[language_csv,csv]|max_size[language_csv,2048]']
+				'time_zone_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[time_zone_csv]|ext_in[time_zone_csv,csv]|max_size[time_zone_csv,2048]']
 			]);
 			$data = array(
 				'title' => @$checkMenu->menu_name,
@@ -83,20 +86,20 @@ class Language extends BaseController
 			);
 			if(!$validation){
 				echo view('layout/header', $data);
-				echo view('language/form_bulk_upload_language');
+				echo view('time_zone/form_bulk_upload_time_zone');
 				echo view('layout/footer');
 			}else{
-				$language_csv = $this->request->getFile('language_csv')->getTempName();
-				$file = file_get_contents($language_csv);
+				$time_zone_csv = $this->request->getFile('time_zone_csv')->getTempName();
+				$file = file_get_contents($time_zone_csv);
 				$lines = explode("\n", $file);
 				$head = str_getcsv(array_shift($lines));
-				$data['language'] = array();
+				$data['time_zone'] = array();
 				foreach ($lines as $line) {
-					$data['language'][] = array_combine($head, str_getcsv($line));
+					$data['time_zone'][] = array_combine($head, str_getcsv($line));
 				}
 				$data['model'] = $this->model;
 				echo view('layout/header', $data);
-				echo view('language/form_bulk_upload_language', $data);
+				echo view('time_zone/form_bulk_upload_time_zone', $data);
 				echo view('layout/footer');
 			}
 		}else{
@@ -111,24 +114,26 @@ class Language extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
-				'language.*.lang_code' => ['label' => 'Code', 'rules' => 'required|alpha|min_length[2]|max_length[2]|is_unique[language.lang_code]'],
-				'language.*.lang_name' => ['label' => 'Name', 'rules' => 'required']
+				'time_zone.*.country' => ['label' => 'Country', 'rules' => 'required'],
+				'time_zone.*.tz_name' => ['label' => 'Name', 'rules' => 'required'],
+				'time_zone.*.tz_abbr' => ['label' => 'Abbreviation', 'rules' => 'permit_empty']
 			]);
 			if(!$validation){
 				session()->setFlashdata('warning', 'The CSV file you uploaded contains some errors.'.$this->validator->listErrors());
-				return redirect()->to(base_url('language/bulk_upload'));
+				return redirect()->to(base_url('time_zone/bulk_upload'));
 			}else{
-				foreach ($this->request->getPost('language') as $row) {
-					$languageData = array(
-						'lang_id' => $this->model->getLanguageId(),
-						'lang_code' => $row['lang_code'],
-						'lang_name' => $row['lang_name'],
-						'lang_status' => 1
+				foreach ($this->request->getPost('time_zone') as $row) {
+					$timeZoneData = array(
+						'tz_id' => $this->model->getTimeZoneId(),
+						'country_id' => $row['country'],
+						'tz_name' => $row['tz_name'],
+						'tz_abbr' => $row['tz_abbr'],
+						'tz_status' => 1
 					);
-					$this->model->insertLanguage($languageData);
+					$this->model->insertTimeZone($timeZoneData);
 				}
-				session()->setFlashdata('success', 'Languages has been added successfully.');
-				return redirect()->to(base_url('language'));
+				session()->setFlashdata('success', 'Time zones has been added successfully.');
+				return redirect()->to(base_url('time_zone'));
 			}
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
@@ -145,32 +150,29 @@ class Language extends BaseController
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
-				'language' => $this->model->getLanguageById($id)
+				'country' => $this->model->getCountry(),
+				'time_zone' => $this->model->getTimeZoneById($id)
 			);
-			if($data['language']->lang_code == $this->request->getPost('lang_code')){
-				$language_code_rules = 'required|alpha|min_length[2]|max_length[2]';
-			}else{
-				$language_code_rules = 'required|alpha|min_length[2]|max_length[2]|is_unique[language.lang_code]';
-			}
 			$validation = $this->validate([
-				'lang_code' => ['label' => 'Code', 'rules' => $language_code_rules],
-				'lang_name' => ['label' => 'Name', 'rules' => 'required'],
-				'status' => ['label' => 'Status', 'rules' => 'required']
+				'country' => ['label' => 'Country', 'rules' => 'required'],
+				'tz_name' => ['label' => 'Name', 'rules' => 'required'],
+				'tz_abbr' => ['label' => 'Abbreviation', 'rules' => 'permit_empty']
 			]);
 			if(!$validation){
 				$data['validation'] = $this->validator;
 				echo view('layout/header', $data);
-				echo view('language/form_edit_language', $data);
+				echo view('time_zone/form_edit_time_zone', $data);
 				echo view('layout/footer');
 			}else{
-				$languageData = array(
-					'lang_code' => $this->request->getPost('lang_code'),
-					'lang_name' => $this->request->getPost('lang_name'),
-					'lang_status' => $this->request->getPost('status')
+				$timeZoneData = array(
+					'country_id' => $this->request->getPost('country'),
+					'tz_name' => $this->request->getPost('tz_name'),
+					'tz_abbr' => $this->request->getPost('tz_abbr'),
+					'tz_status' => $this->request->getPost('status')
 				);
-				$this->model->updateLanguage($id, $languageData);
-				session()->setFlashdata('success', 'Language has been updated successfully. (SysCode: <a href="'.base_url('language?id='.$id).'" class="alert-link">'.$id.'</a>)');
-				return redirect()->to(base_url('language'));
+				$this->model->updateTimeZone($id, $timeZoneData);
+				session()->setFlashdata('success', 'Time zone has been updated successfully. (SysCode: <a href="'.base_url('time_zone?id='.$id).'" class="alert-link">'.$id.'</a>)');
+				return redirect()->to(base_url('time_zone'));
 			}
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
@@ -183,10 +185,10 @@ class Language extends BaseController
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->delete == 1){
-			$languageData = $this->model->getLanguageById($id);
-			$this->model->deleteLanguage($id);
-			session()->setFlashdata('warning', 'Language has been removed successfully. <a href="'.base_url('language/undo?data='.json_encode($languageData)).'" class="alert-link">Undo</a>');
-			return redirect()->to(base_url('language'));
+			$timeZoneData = $this->model->getTimeZoneById($id);
+			$this->model->deleteTimeZone($id);
+			session()->setFlashdata('warning', 'Time zone has been removed successfully. <a href="'.base_url('time_zone/undo?data='.json_encode($timeZoneData)).'" class="alert-link">Undo</a>');
+			return redirect()->to(base_url('time_zone'));
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
@@ -195,21 +197,22 @@ class Language extends BaseController
 
 	public function undo()
 	{
-		$language = json_decode($this->request->getGet('data'));
-		$checkLanguage = $this->model->getLanguageById(@$language->lang_id);
-		if(@$checkLanguage){
-			$lang_id = $this->model->getLanguageId();
+		$time_zone = json_decode($this->request->getGet('data'));
+		$checkTimeZone = $this->model->getTimeZoneById(@$time_zone->tz_id);
+		if(@$checkTimeZone){
+			$tz_id = $this->model->getTimeZoneId();
 		}else{
-			$lang_id = @$language->lang_id;
+			$tz_id = @$time_zone->tz_id;
 		}
-		$languageData = array(
-			'lang_id' => $lang_id,
-			'lang_code' => @$language->lang_code,
-			'lang_name' => @$language->lang_name,
-			'lang_status' => @$language->lang_status
+		$timeZoneData = array(
+			'tz_id' => $tz_id,
+			'country_id' => @$time_zone->country_id,
+			'tz_name' => @$time_zone->tz_name,
+			'tz_abbr' => @$time_zone->tz_abbr,
+			'tz_status' => @$time_zone->tz_status
 		);
-		$this->model->insertLanguage($languageData);
-		session()->setFlashdata('success', 'Action undone. (SysCode: <a href="'.base_url('language?id='.$lang_id).'" class="alert-link">'.$lang_id.'</a>)');
-		return redirect()->to(base_url('language'));
+		$this->model->insertTimeZone($timeZoneData);
+		session()->setFlashdata('success', 'Action undone. (SysCode: <a href="'.base_url('time_zone?id='.$tz_id).'" class="alert-link">'.$tz_id.'</a>)');
+		return redirect()->to(base_url('time_zone'));
 	}
 }

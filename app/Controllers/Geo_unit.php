@@ -127,7 +127,7 @@ class Geo_unit extends BaseController
 					);
 					$this->model->insertGeoUnit($geoUnitData);
 				}
-				session()->setFlashdata('success', 'Geographical unit has been added successfully.');
+				session()->setFlashdata('success', 'Geographical units has been added successfully.');
 				return redirect()->to(base_url('geo_unit'));
 			}
 		}else{
