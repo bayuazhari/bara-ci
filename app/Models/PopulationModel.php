@@ -2,21 +2,21 @@
 
 use CodeIgniter\Model;
 
-class TimeZoneModel extends Model
+class PopulationModel extends Model
 {
-	protected $table = 'time_zone';
-	protected $primaryKey = 'tz_id';
+	protected $table = 'population';
+	protected $primaryKey = 'population_id';
 
-	public function getTimeZone()
+	public function getPopulation()
 	{
 		$query = $this->db->table($this->table)
-		->join('country', 'time_zone.country_id=country.country_id')
-		->orderBy('time_zone.country_id, tz_id', 'ASC')
+		->join('country', 'population.country_id=country.country_id')
+		->orderBy('population.country_id, population_id', 'ASC')
 		->get();
 		return $query->getResult();
 	}
 
-	public function getTimeZoneById($id)
+	public function getPopulationById($id)
 	{
 		$query = $this->db->table($this->table)
 		->where($this->primaryKey, $id)
@@ -33,7 +33,7 @@ class TimeZoneModel extends Model
 		return $query->getResult();
 	}
 
-	public function getTimeZoneByField($field, $record)
+	public function getPopulationByField($field, $record)
 	{
 		$query = $this->db->table($this->table)
 		->where($field, $record)
@@ -51,7 +51,7 @@ class TimeZoneModel extends Model
 		return $query->getRow();
 	}
 
-	public function getTimeZoneRelatedTable($table, $record)
+	public function getPopulationRelatedTable($table, $record)
 	{
 		$query = $this->db->table($table)
 		->where($this->primaryKey, $record)
@@ -60,18 +60,18 @@ class TimeZoneModel extends Model
 		return $query->getRow();
 	}
 
-	public function getTimeZoneId()
+	public function getPopulationId()
 	{
 		$lastId = $this->db->table($this->table)
-		->select('MAX(RIGHT(tz_id, 7)) AS last_id')
+		->select('MAX(RIGHT(population_id, 7)) AS last_id')
 		->get();
 		$lastMidId = $this->db->table($this->table)
-		->select('MAX(MID(tz_id, 3, 2)) AS last_mid_id')
+		->select('MAX(MID(population_id, 3, 2)) AS last_mid_id')
 		->get()
 		->getRow()
 		->last_mid_id;
 		$midId = date('y');
-		$char = "TZ".$midId;
+		$char = "P1".$midId;
 		if($lastMidId == $midId){
 			$tmp = ($lastId->getRow()->last_id)+1;
 			$id = substr($tmp, -5);
@@ -81,20 +81,20 @@ class TimeZoneModel extends Model
 		return $char.$id;
 	}
 
-	public function insertTimeZone($data)
+	public function insertPopulation($data)
 	{
 		$this->db->table($this->table)
 		->insert($data);
 	}
 
-	public function updateTimeZone($id, $data)
+	public function updatePopulation($id, $data)
 	{
 		$this->db->table($this->table)
 		->where($this->primaryKey, $id)
 		->update($data);
 	}
 
-	public function deleteTimeZone($id)
+	public function deletePopulation($id)
 	{
 		$this->db->table($this->table)
 		->where($this->primaryKey, $id)
