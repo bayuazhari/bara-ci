@@ -46,8 +46,8 @@ class Population extends BaseController
 			$validation = $this->validate([
 				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'population_source' => ['label' => 'Source', 'rules' => 'required'],
-				'population_year' => ['label' => 'Year', 'rules' => 'required'],
-				'total_population' => ['label' => 'Total', 'rules' => 'required']
+				'population_year' => ['label' => 'Year', 'rules' => 'required|numeric|min_length[4]|max_length[4]'],
+				'total_population' => ['label' => 'Total', 'rules' => 'required|numeric']
 			]);
 			if(!$validation){
 				$data['validation'] = $this->validator;
@@ -117,8 +117,8 @@ class Population extends BaseController
 			$validation = $this->validate([
 				'population.*.country' => ['label' => 'Country', 'rules' => 'required'],
 				'population.*.population_source' => ['label' => 'Source', 'rules' => 'required'],
-				'population.*.population_year' => ['label' => 'Year', 'rules' => 'required'],
-				'population.*.total_population' => ['label' => 'Total', 'rules' => 'required']
+				'population.*.population_year' => ['label' => 'Year', 'rules' => 'required|numeric|min_length[4]|max_length[4]'],
+				'population.*.total_population' => ['label' => 'Total', 'rules' => 'required|numeric']
 			]);
 			if(!$validation){
 				session()->setFlashdata('warning', 'The CSV file you uploaded contains some errors.'.$this->validator->listErrors());
@@ -158,8 +158,8 @@ class Population extends BaseController
 			$validation = $this->validate([
 				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'population_source' => ['label' => 'Source', 'rules' => 'required'],
-				'population_year' => ['label' => 'Year', 'rules' => 'required'],
-				'total_population' => ['label' => 'Total', 'rules' => 'required']
+				'population_year' => ['label' => 'Year', 'rules' => 'required|numeric|min_length[4]|max_length[4]'],
+				'total_population' => ['label' => 'Total', 'rules' => 'required|numeric']
 			]);
 			if(!$validation){
 				$data['validation'] = $this->validator;

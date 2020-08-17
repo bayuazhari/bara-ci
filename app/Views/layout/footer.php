@@ -154,13 +154,13 @@
 					type : 'POST',
 					url : '<?php echo base_url("state/get_time_zone"); ?>',
 					data :  { country : $("#country").val() },
-                    dataType: "json",
-                    beforeSend: function(e) {
-                    	if(e && e.overrideMimeType) {
-                    		e.overrideMimeType("application/json;charset=UTF-8");
-                    	}
-                    },
-                    success : function(response) {
+					dataType: "json",
+					beforeSend: function(e) {
+						if(e && e.overrideMimeType) {
+							e.overrideMimeType("application/json;charset=UTF-8");
+						}
+					},
+					success : function(response) {
 						$("#time_zone_loading").hide();
 						$("#time_zone").next(".select2-container").show();
 						$("#time_zone").html(response.time_zone_list);

@@ -45,6 +45,12 @@ var handleDatepicker = function() {
 		todayHighlight: true,
 		autoclose: true
 	});
+	$('.datepicker-year').datepicker({
+		minViewMode: 2,
+		format: 'yyyy',
+		autoclose: true,
+		orientation: 'bottom auto'
+	});
 };
 
 var handleFormMaskedInput = function() {

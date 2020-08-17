@@ -14,7 +14,7 @@ class CityModel extends Model
 		->join('state', 'city.state_id=state.state_id')
 		->join('time_zone', 'state.tz_id=time_zone.tz_id')
 		->join('country', 'time_zone.country_id=country.country_id')
-		->orderBy('state.state_id, city_id', 'ASC')
+		->orderBy('time_zone.country_id, city.state_id, city_id', 'ASC')
 		->get();
 		return $query->getResult();
 	}

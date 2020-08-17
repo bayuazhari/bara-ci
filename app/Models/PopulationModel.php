@@ -11,6 +11,7 @@ class PopulationModel extends Model
 	{
 		$query = $this->db->table($this->table)
 		->join('country', 'population.country_id=country.country_id')
+		->orderBy('population_year', 'DESC')
 		->orderBy('population.country_id, population_id', 'ASC')
 		->get();
 		return $query->getResult();

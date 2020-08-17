@@ -32,7 +32,7 @@
 								<td>
 								<?php
 									if(@$country->country_area){
-										echo number_format(@$country->country_area,0,',','.').' km<sup>2</sup>';
+										echo number_format(@$country->country_area).' km<sup>2</sup>';
 									}
 								?>
 								</td>
@@ -42,7 +42,7 @@
 								<td>
 								<?php
 								if(@$population->total_population){
-									echo number_format($population->total_population,0,',','.').' People <strong>('.$population->population_year.')</strong>';
+									echo number_format($population->total_population).' People <strong>('.$population->population_year.')</strong>';
 								}
 								?>
 								</td>
