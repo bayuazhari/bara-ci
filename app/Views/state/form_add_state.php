@@ -89,6 +89,9 @@
 								endif;
 								?>
 								</select>
+								<div id="time_zone_loading" style="margin-top: 7px;">
+									<img src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/bootstrap4-editable/img/loading.gif'); ?>"> <small>Loading...</small>
+								</div>
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>

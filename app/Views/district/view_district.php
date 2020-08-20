@@ -16,8 +16,8 @@
 					<h4 class="panel-title"><?= $title ?> Data</h4>
 					<div class="panel-heading-btn">
 					<?php if(@$checkLevel->create == 1){ ?>
-						<a href="<?php echo base_url('city/add/'); ?>" class="btn btn-xs btn-circle btn-primary"><i class="fa fa-plus"></i> Add New</a>
-						<a href="<?php echo base_url('city/bulk_upload/'); ?>" class="btn btn-xs btn-circle btn-success"><i class="fa fa-upload"></i> Bulk Upload</a>
+						<a href="<?php echo base_url('district/add/'); ?>" class="btn btn-xs btn-circle btn-primary"><i class="fa fa-plus"></i> Add New</a>
+						<a href="<?php echo base_url('district/bulk_upload/'); ?>" class="btn btn-xs btn-circle btn-success"><i class="fa fa-upload"></i> Bulk Upload</a>
 					<?php } ?>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
@@ -55,39 +55,34 @@
 						<table id="data-table-default" class="table table-striped table-bordered table-td-valign-middle">
 							<thead class="text-center">
 								<tr>
-									<th width="1%" rowspan="2">#</th>
-									<th class="text-nowrap" rowspan="2">Code</th>
-									<th class="text-nowrap" rowspan="2">Name</th>
-									<th class="text-nowrap" colspan="2">Capital</th>
-									<th class="text-nowrap" rowspan="2">State</th>
-									<th class="text-nowrap" rowspan="2">Country</th>
-									<th class="text-nowrap" rowspan="2">Status</th>
-									<th class="text-nowrap" rowspan="2" data-orderable="false">Action</th>
-								</tr>
-								<tr>
+									<th width="1%">#</th>
 									<th class="text-nowrap">Code</th>
 									<th class="text-nowrap">Name</th>
+									<th class="text-nowrap">City</th>
+									<th class="text-nowrap">State</th>
+									<th class="text-nowrap">Country</th>
+									<th class="text-nowrap">Status</th>
+									<th class="text-nowrap" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
 							<?php
-								if(@$city) :
+								if(@$district) :
 									$no=0;
-									foreach ($city as $row) :
+									foreach ($district as $row) :
 										$no++;
 							?>
 								<tr>
 									<td width="1%" class="f-s-600 text-inverse"><?= $no ?></td>
-									<td><?= $row->city_code ?></td>
+									<td><?= $row->district_code ?></td>
+									<td><?= $row->district_name ?></td>
 									<td><?= $row->city_name ?></td>
-									<td><?= $row->capital_city_code ?></td>
-									<td><?= $row->capital_city_name ?></td>
 									<td><?= $row->state_name ?></td>
 									<td><?= $row->country_name ?></td>
 									<?php
-										if($row->city_status == 1){
+										if($row->district_status == 1){
 											echo '<td class="text-success">Active</td>';
-										}elseif($row->city_status == 0){
+										}elseif($row->district_status == 0){
 											echo '<td class="text-danger">Inactive</td>';
 										}else{
 											echo '<td></td>';
@@ -99,9 +94,9 @@
 											<a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a>
 											<div class="dropdown-menu dropdown-menu-right">
 											<?php if(@$checkLevel->update == 1){ ?>
-												<a href="<?php echo base_url('city/edit/'.$row->city_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
+												<a href="<?php echo base_url('district/edit/'.$row->district_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
 											<?php } if(@$checkLevel->delete == 1){ ?>
-												<a href="javascript:;" class="dropdown-item <?php if(@$model->getCityRelatedTable('district', $row->city_id)){ echo 'disabled'; } ?>"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('city/delete/'.$row->city_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
+												<a href="javascript:;" class="dropdown-item <?php if(@$model->getDistrictRelatedTable('sub_district', $row->district_id)){ echo 'disabled'; } ?>"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('district/delete/'.$row->district_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
 											<?php } ?>
 											</div>
 										</div>

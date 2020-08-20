@@ -64,14 +64,14 @@ class PopulationModel extends Model
 	public function getPopulationId()
 	{
 		$lastId = $this->db->table($this->table)
-		->select('MAX(RIGHT(population_id, 7)) AS last_id')
+		->select('MAX(RIGHT(population_id, 9)) AS last_id')
 		->get();
 		$lastMidId = $this->db->table($this->table)
-		->select('MAX(MID(population_id, 3, 2)) AS last_mid_id')
+		->select('MAX(MID(population_id, 3, 4)) AS last_mid_id')
 		->get()
 		->getRow()
 		->last_mid_id;
-		$midId = date('y');
+		$midId = date('ym');
 		$char = "P1".$midId;
 		if($lastMidId == $midId){
 			$tmp = ($lastId->getRow()->last_id)+1;

@@ -171,6 +171,31 @@
 					}
 				});
 			});
+
+			$("#city_loading").hide();
+			$("#state").change(function() {
+				$("#city_loading").show();
+				$("#city").next(".select2-container").hide();
+				$.ajax({
+					type : 'POST',
+					url : '<?php echo base_url("district/get_city"); ?>',
+					data :  { state : $("#state").val() },
+					dataType: "json",
+					beforeSend: function(e) {
+						if(e && e.overrideMimeType) {
+							e.overrideMimeType("application/json;charset=UTF-8");
+						}
+					},
+					success : function(response) {
+						$("#city_loading").hide();
+						$("#city").next(".select2-container").show();
+						$("#city").html(response.city_list);
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+					}
+				});
+			});
 		});
 	</script>
 </body>
