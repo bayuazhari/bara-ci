@@ -26,7 +26,7 @@
 					<form action="<?php echo base_url('city/add') ?>" method="post">
 						<?php $error = $validation->getError('city_code'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Four-character city code based on the laws used in a country (e.g., 3171)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Four-character city code based on the laws used in a country (e.g., 3174)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="city_code" value="<?= $request->getPost('city_code'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>

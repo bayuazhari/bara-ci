@@ -190,6 +190,32 @@
 						$("#city_loading").hide();
 						$("#city").next(".select2-container").show();
 						$("#city").html(response.city_list);
+						$("#district").html(response.district_list);
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+					}
+				});
+			});
+
+			$("#district_loading").hide();
+			$("#city").change(function() {
+				$("#district_loading").show();
+				$("#district").next(".select2-container").hide();
+				$.ajax({
+					type : 'POST',
+					url : '<?php echo base_url("sub_district/get_district"); ?>',
+					data :  { city : $("#city").val() },
+					dataType: "json",
+					beforeSend: function(e) {
+						if(e && e.overrideMimeType) {
+							e.overrideMimeType("application/json;charset=UTF-8");
+						}
+					},
+					success : function(response) {
+						$("#district_loading").hide();
+						$("#district").next(".select2-container").show();
+						$("#district").html(response.district_list);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);

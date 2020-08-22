@@ -3,7 +3,7 @@
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb float-xl-right">
 				<li class="breadcrumb-item"><a href="javascript:;"><?= $breadcrumb ?></a></li>
-				<li class="breadcrumb-item"><a href="<?php echo base_url('district') ?>"><?= $title ?></a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url('sub_district') ?>"><?= $title ?></a></li>
 				<li class="breadcrumb-item active">Edit</li>
 			</ol>
 			<!-- end breadcrumb -->
@@ -22,36 +22,38 @@
 				</div>
 				<!-- end panel-heading -->
 				<?php
-				$id = $district->district_id;
+				$id = $sub_district->sdistrict_id;
 				if(@$request->getPost()){
 					$state_id = $request->getPost('state');
 					$city_id = $request->getPost('city');
-					$district_code = $request->getPost('district_code');
-					$district_name = $request->getPost('district_name');
+					$district_id = $request->getPost('district');
+					$sdistrict_code = $request->getPost('sdistrict_code');
+					$sdistrict_name = $request->getPost('sdistrict_name');
 					$status = $request->getPost('status');
 				}else{
-					$state_id = $district->state_id;
-					$city_id = $district->city_id;
-					$district_code = $district->district_code;
-					$district_name = $district->district_name;
-					$status = $district->district_status;
+					$state_id = $sub_district->state_id;
+					$city_id = $sub_district->city_id;
+					$district_id = $sub_district->district_id;
+					$sdistrict_code = $sub_district->sdistrict_code;
+					$sdistrict_name = $sub_district->sdistrict_name;
+					$status = $sub_district->sdistrict_status;
 				} ?>
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<form action="<?php echo base_url('district/edit/'.$id) ?>" method="post">
-						<?php $error = $validation->getError('district_code'); ?>
+					<form action="<?php echo base_url('sub_district/edit/'.$id) ?>" method="post">
+						<?php $error = $validation->getError('sdistrict_code'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Six-character district code based on the laws used in a country (e.g., 310101)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Ten-character sub district code based on the laws used in a country (e.g., 3101011001)."></i></span></label>
 							<div class="col-md-9">
-								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="district_code" value="<?= $district_code; ?>" />
+								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="sdistrict_code" value="<?= $sdistrict_code; ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
-						<?php $error = $validation->getError('district_name'); ?>
+						<?php $error = $validation->getError('sdistrict_name'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="District name (e.g., Kepulauan Seribu Utara)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Sub district name (e.g., Pulau Panggang)."></i></span></label>
 							<div class="col-md-9">
-								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="district_name" value="<?= $district_name; ?>" />
+								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="sdistrict_name" value="<?= $sdistrict_name; ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
@@ -98,8 +100,28 @@
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
+						<?php $error = $validation->getError('district'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Status<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="This setting allows using the district. If inactive, the district will be hidden."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">District<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="District of the sub district."></i></span></label>
+							<div class="col-md-9">
+								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" id="district" name="district" data-placeholder="Select a district">
+								<?php if(@$district) : ?>
+									<option></option>
+								<?php foreach ($district as $dist) : ?>
+									<option value="<?= $dist->district_id; ?>" <?php if($district_id == $dist->district_id){echo 'selected';} ?>><?= $dist->district_name ?></option>
+								<?php
+									endforeach;
+								endif;
+								?>
+								</select>
+								<div id="district_loading" style="margin-top: 7px;">
+									<img src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/bootstrap4-editable/img/loading.gif'); ?>"> <small>Loading...</small>
+								</div>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Status<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="This setting allows using the sub district. If inactive, the sub district will be hidden."></i></span></label>
 							<div class="col-md-9">
 								<div class="custom-control custom-radio mb-1">
 									<input type="radio" id="customRadio1" name="status" class="custom-control-input" value="1" <?php if($status == 1){echo 'checked';}?>>
@@ -114,7 +136,7 @@
 						<div class="form-group row m-b-0">
 							<div class="col-md-12 col-sm-12 text-center">
 								<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>&nbsp;&nbsp;
-								<a href="<?php echo base_url('district') ?>" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Back</a>
+								<a href="<?php echo base_url('sub_district') ?>" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Back</a>
 							</div>
 						</div>
 					</form>

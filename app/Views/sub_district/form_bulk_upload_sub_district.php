@@ -3,7 +3,7 @@
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb float-xl-right">
 				<li class="breadcrumb-item"><a href="javascript:;"><?= $breadcrumb ?></a></li>
-				<li class="breadcrumb-item"><a href="<?php echo base_url('city') ?>"><?= $title ?></a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url('sub_district') ?>"><?= $title ?></a></li>
 				<li class="breadcrumb-item active">Bulk Upload</li>
 			</ol>
 			<!-- end breadcrumb -->
@@ -27,10 +27,10 @@
 					<div class="timeline-body">
 						<div class="timeline-header">
 							<span class="username">Download CSV file</span>
-							<span class="views"><a href="<?php echo base_url('city') ?>" class="btn btn-default btn-sm"><i class="fa fa-arrow-circle-left"></i> Back</a></span>
+							<span class="views"><a href="<?php echo base_url('sub_district') ?>" class="btn btn-default btn-sm"><i class="fa fa-arrow-circle-left"></i> Back</a></span>
 						</div>
 						<div class="timeline-content">
-							<a href="<?php echo base_url('assets/templates/cities.csv') ?>" class="btn btn-info btn-block"><i class="fa fa-download"></i> Download CSV Template</a>
+							<a href="<?php echo base_url('assets/templates/sub_districts.csv') ?>" class="btn btn-info btn-block"><i class="fa fa-download"></i> Download CSV Template</a>
 						</div>
 					</div>
 					<!-- end timeline-body -->
@@ -49,11 +49,11 @@
 					<!-- begin timeline-body -->
 					<div class="timeline-body">
 						<div class="timeline-header">
-							<span class="username">Add city info in CSV template</span>
+							<span class="username">Add sub district info in CSV template</span>
 						</div>
 						<div class="timeline-content">
 							<p>
-								Required fields are code, name, and state.
+								Required fields are code, name, and district.
 							</p>
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-td-valign-middle">
@@ -61,25 +61,23 @@
 										<tr>
 											<th class="text-nowrap">code</th>
 											<th class="text-nowrap">name</th>
-											<th class="text-nowrap">state</th>
+											<th class="text-nowrap">district</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>3174</td>
-											<td>Kota Jakarta Selatan</td>
-											<td>JK</td>
+											<td>3101011001</td>
+											<td>Pulau Panggang</td>
+											<td>310101</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 							<p>
 								Description:<br>
-								<strong>code</strong> - Four-character city code based on the laws used in a country (e.g., 3174).<br>
-								<strong>name</strong> - City name based on the laws used in a country (e.g., Kota Jakarta Selatan).<br>
-								<strong>capital_code</strong> - Three-character capital city code based on the laws used in a country (e.g., KYB).<br>
-								<strong>capital_name</strong> - Capital city name based on the laws used in a country (e.g., Kebayoran Baru).<br>
-								<strong>state</strong> - State of the city (e.g., JK).
+								<strong>code</strong> - Ten-character sub district code based on the laws used in a country (e.g., 3101011001).<br>
+								<strong>name</strong> - Sub district name (e.g., Pulau Panggang).<br>
+								<strong>district</strong> - District of the sub district (e.g., 310101).
 							</p>
 						</div>
 					</div>
@@ -103,7 +101,7 @@
 						</div>
 						<div class="timeline-content">
 							<p>
-								The upload cities file has fields separated by a comma only. The first line contains the valid field names. The rest of the lines (records) contain information about each city.<br>
+								The upload sub districts file has fields separated by a comma only. The first line contains the valid field names. The rest of the lines (records) contain information about each sub district.<br>
 								<strong>Tip:</strong> Avoid special characters in field information like quotes or other commas. Test a file with only one record before a large upload. You can use a spread sheet program to create the file with the required columns and fields. Then save the file as "CSV (comma delimited)". These files can be opened with simple text editors (e.g., Notepad++) for verification.
 							</p>
 							<?php
@@ -134,10 +132,10 @@
 						</div>
 						<div class="timeline-comment-box">
 							<div class="input">
-								<form action="<?php echo base_url('city/bulk_upload') ?>" method="post" enctype="multipart/form-data">
-									<?php $error = $validation->getError('city_csv'); ?>
+								<form action="<?php echo base_url('sub_district/bulk_upload') ?>" method="post" enctype="multipart/form-data">
+									<?php $error = $validation->getError('sub_district_csv'); ?>
 									<div class="input-group">
-										<input type="file" name="city_csv" class="form-control rounded-corner <?php if($error){ echo 'is-invalid'; } ?>" />
+										<input type="file" name="sub_district_csv" class="form-control rounded-corner <?php if($error){ echo 'is-invalid'; } ?>" />
 										<span class="input-group-btn p-l-10">
 										<button class="btn btn-primary f-s-12 rounded-corner" type="submit"><i class="fa fa-upload"></i> Upload</button>
 										</span>
@@ -149,7 +147,7 @@
 					</div>
 					<!-- end timeline-body -->
 				</li>
-				<?php if(@$city) { ?>
+				<?php if(@$sub_district) { ?>
 				<li>
 					<!-- begin timeline-time -->
 					<div class="timeline-time">
@@ -167,30 +165,24 @@
 							<span class="username">CSV preview</span>
 						</div>
 						<div class="timeline-content">
-							<form action="<?php echo base_url('city/bulk_save') ?>" method="post">
+							<form action="<?php echo base_url('sub_district/bulk_save') ?>" method="post">
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-td-valign-middle">
 									<thead class="text-center">
 										<tr>
-											<th class="text-nowrap" rowspan="2">Code</th>
-											<th class="text-nowrap" rowspan="2">Name</th>
-											<th class="text-nowrap" colspan="2">Capital</th>
-											<th class="text-nowrap" rowspan="2">State</th>
-										</tr>
-										<tr>
 											<th class="text-nowrap">Code</th>
 											<th class="text-nowrap">Name</th>
+											<th class="text-nowrap">District</th>
 										</tr>
 									</thead>
 									<tbody>
 									<?php
 										$no=0;
-										foreach ($city as $row) {
-											$city_code = $model->getCityByField('city_code', @$row['code']);
-											$capital_city_code = $model->getCityByField('capital_city_code', @$row['capital_code']);
-											$state_iso_code = $model->getStateByField('state_iso_code', @$row['state']);
+										foreach ($sub_district as $row) {
+											$sdistrict_code = $model->getSubDistrictByField('sdistrict_code', @$row['code']);
+											$district_code = $model->getDistrictByField('district_code', @$row['district']);
 
-											if(empty(@$row['code']) OR (is_numeric(@$row['code']) != 1) OR (strlen(@$row['code']) != 4) OR @$city_code){
+											if(empty(@$row['code']) OR (is_numeric(@$row['code']) != 1) OR (strlen(@$row['code']) != 10) OR @$sdistrict_code){
 												$code_error = true;
 											}else{
 												$code_error = false;
@@ -204,26 +196,17 @@
 											}
 											$check_errors[] = $name_error;
 
-											if((is_string(@$row['capital_code']) != 1) OR (strlen(@$row['capital_code']) != 3) OR @$capital_city_code){
-												$capital_code_error = true;
+											if(!empty(@$row['district']) AND !$district_code){
+												$district_error = true;
 											}else{
-												$capital_code_error = false;
+												$district_error = false;
 											}
-											$check_errors[] = $capital_code_error;
-
-											if(!empty(@$row['state']) AND !$state_iso_code){
-												$state_error = true;
-											}else{
-												$state_error = false;
-											}
-											$check_errors[] = $state_error;
+											$check_errors[] = $district_error;
 									?>
 										<tr>
-											<td class="<?php if($code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="city[<?= $no ?>][city_code]" value="<?= @$row['code'] ?>"><?= @$row['code'] ?></td>
-											<td class="<?php if($name_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="city[<?= $no ?>][city_name]" value="<?= @$row['name'] ?>"><?= @$row['name'] ?></td>
-											<td class="<?php if($capital_code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="city[<?= $no ?>][capital_city_code]" value="<?= @$row['capital_code'] ?>"><?= @$row['capital_code'] ?></td>
-											<td><input type="hidden" name="city[<?= $no ?>][capital_city_name]" value="<?= @$row['capital_name'] ?>"><?= @$row['capital_name'] ?></td>
-											<td class="<?php if($state_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="city[<?= $no ?>][state]" value="<?= @$state_iso_code->state_id ?>"><?= @$row['state'] ?></td>
+											<td class="<?php if($code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="sub_district[<?= $no ?>][sdistrict_code]" value="<?= @$row['code'] ?>"><?= @$row['code'] ?></td>
+											<td class="<?php if($name_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="sub_district[<?= $no ?>][sdistrict_name]" value="<?= @$row['name'] ?>"><?= @$row['name'] ?></td>
+											<td class="<?php if($district_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="sub_district[<?= $no ?>][district]" value="<?= @$district_code->district_id ?>"><?= @$row['district'] ?></td>
 										</tr>
 									<?php $no++; } ?>
 									</tbody>

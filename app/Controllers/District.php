@@ -42,7 +42,8 @@ class District extends BaseController
 			}
 		}
 		$callback = array(
-			'city_list' => $city_list
+			'city_list' => $city_list,
+			'district_list' => '<option></option>'
 		);
 		echo json_encode($callback);
 	}
@@ -67,7 +68,7 @@ class District extends BaseController
 			$validation = $this->validate([
 				'state' => ['label' => 'State', 'rules' => 'required'],
 				'city' => ['label' => 'City', 'rules' => 'required'],
-				'district_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[7]|max_length[7]|is_unique[district.district_code]'],
+				'district_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[6]|max_length[6]|is_unique[district.district_code]'],
 				'district_name' => ['label' => 'Name', 'rules' => 'required']
 			]);
 			if(!$validation){
@@ -136,9 +137,8 @@ class District extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
-				'district.*.state' => ['label' => 'State', 'rules' => 'required'],
 				'district.*.city' => ['label' => 'City', 'rules' => 'required'],
-				'district.*.district_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[7]|max_length[7]|is_unique[district.district_code]'],
+				'district.*.district_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[6]|max_length[6]|is_unique[district.district_code]'],
 				'district.*.district_name' => ['label' => 'Name', 'rules' => 'required']
 			]);
 			if(!$validation){
@@ -186,9 +186,9 @@ class District extends BaseController
 				'district' => $district
 			);
 			if($data['district']->district_code == $this->request->getPost('district_code')){
-				$district_code_rules = 'required|numeric|min_length[7]|max_length[7]';
+				$district_code_rules = 'required|numeric|min_length[6]|max_length[6]';
 			}else{
-				$district_code_rules = 'required|numeric|min_length[7]|max_length[7]|is_unique[district.district_code]';
+				$district_code_rules = 'required|numeric|min_length[6]|max_length[6]|is_unique[district.district_code]';
 			}
 			$validation = $this->validate([
 				'state' => ['label' => 'State', 'rules' => 'required'],

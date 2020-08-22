@@ -66,18 +66,18 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>3171010</td>
-											<td>Jagakarsa</td>
-											<td>3171</td>
+											<td>310101</td>
+											<td>Kepulauan Seribu Utara</td>
+											<td>3101</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 							<p>
 								Description:<br>
-								<strong>code</strong> - Seven-character district code based on the laws used in a country (e.g., 3171010).<br>
-								<strong>name</strong> - District name (e.g., Jagakarsa).<br>
-								<strong>city</strong> - City of the district (e.g., 3171).
+								<strong>code</strong> - Six-character district code based on the laws used in a country (e.g., 310101).<br>
+								<strong>name</strong> - District name (e.g., Kepulauan Seribu Utara).<br>
+								<strong>city</strong> - City of the district (e.g., 3101).
 							</p>
 						</div>
 					</div>
@@ -182,7 +182,7 @@
 											$district_code = $model->getDistrictByField('district_code', @$row['code']);
 											$city_code = $model->getCityByField('city_code', @$row['city']);
 
-											if(empty(@$row['code']) OR (is_numeric(@$row['code']) != 1) OR (strlen(@$row['code']) != 7) OR @$district_code){
+											if(empty(@$row['code']) OR (is_numeric(@$row['code']) != 1) OR (strlen(@$row['code']) != 6) OR @$district_code){
 												$code_error = true;
 											}else{
 												$code_error = false;

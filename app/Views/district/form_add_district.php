@@ -26,7 +26,7 @@
 					<form action="<?php echo base_url('district/add') ?>" method="post">
 						<?php $error = $validation->getError('district_code'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Seven-character district code based on the laws used in a country (e.g., 3171010)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Six-character district code based on the laws used in a country (e.g., 310101)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="district_code" value="<?= $request->getPost('district_code'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
@@ -34,7 +34,7 @@
 						</div>
 						<?php $error = $validation->getError('district_name'); ?>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="District name (e.g., Jagakarsa)."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="District name (e.g., Kepulauan Seribu Utara)."></i></span></label>
 							<div class="col-md-9">
 								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="district_name" value="<?= $request->getPost('district_name'); ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
