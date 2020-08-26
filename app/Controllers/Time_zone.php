@@ -19,8 +19,6 @@ class Time_zone extends BaseController
 			$data = array(
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'model' => $this->model,
-				'time_zone' => $this->model->getTimeZone(),
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
@@ -30,6 +28,91 @@ class Time_zone extends BaseController
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
 		}
+	}
+
+	public function getData()
+	{
+		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
+		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		if(@$checkLevel->read == 1){
+			$columns = array(
+				0 => 'tz_id',
+				1 => 'tz_name',
+				2 => 'tz_abbr',
+				3 => 'country_name',
+				4 => 'tz_status'
+			);
+			$limit = $this->request->getPost('length');
+			$start = $this->request->getPost('start');
+			$order = $columns[$this->request->getPost('order')[0]['column']];
+			$dir = $this->request->getPost('order')[0]['dir'];
+
+			$totalData = $this->model->getTimeZoneCount();
+			$totalFiltered = $totalData;
+			if(empty($this->request->getPost('search')['value'])){
+				$time_zone = $this->model->getTimeZone($limit, $start, $order, $dir);
+			}else{
+				$search = $this->request->getPost('search')['value'];
+				$time_zone =  $this->model->searchTimeZone($limit, $start, $search, $order, $dir);
+				$totalFiltered = $this->model->searchTimeZoneCount($search);
+			}
+
+			$data = array();
+			if(@$time_zone){
+				foreach($time_zone as $row){
+					$start++;
+					if($row->tz_status == 1){
+						$tz_status = '<span class="text-success">Active</span>';
+					}elseif($row->tz_status == 0){
+						$tz_status = '<span class="text-danger">Inactive</span>';
+					}else{
+						$tz_status = '';
+					}
+					if(@$checkLevel->update == 1){
+						$action_edit = '<a href="'.base_url('time_zone/edit/'.$row->tz_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+					}
+					if(@$this->model->getTimeZoneRelatedTable('state', $row->tz_id)){
+						$delete_disabled = 'disabled';
+					}
+					if(@$checkLevel->delete == 1){
+						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('time_zone/delete/'.$row->tz_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					}
+					$nestedData['number'] = $start;
+					$nestedData['tz_name'] = $row->tz_name;
+					$nestedData['tz_abbr'] = $row->tz_abbr;
+					$nestedData['country_name'] = $row->country_name;
+					$nestedData['tz_status'] = $tz_status;
+					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$data[] = $nestedData;
+				}
+			}
+
+			$json_data = array(
+				'draw' => intval($this->request->getPost('draw')),
+				'recordsTotal' => intval($totalData),
+				'recordsFiltered' => intval($totalFiltered),
+				'data' => $data
+			);
+			echo json_encode($json_data);
+		}else{
+			echo json_encode(array());
+		}
+	}
+
+	public function getColumns()
+	{
+		$fields = array('tz_name', 'tz_abbr', 'country_name', 'tz_status');
+		$columns[]['data'] = 'number';
+		foreach ($fields as $field) {
+			$columns[] = array(
+				'data' => $field
+			);
+		}
+		$columns[] = array(
+			'data' => 'action',
+			'className' => 'text-center'
+		);
+		echo json_encode($columns); 
 	}
 
 	public function add()

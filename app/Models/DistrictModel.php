@@ -7,17 +7,60 @@ class DistrictModel extends Model
 	protected $table = 'district';
 	protected $primaryKey = 'district_id';
 
-	public function getDistrict()
+	public function getDistrict($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
-		->select('district_id, district_code, district_name, district_status, city_name, state_name, country_name')
+		->select('district_id, district_code, district_name, city_name, state_name, country_name, district_status')
 		->join('city', 'district.city_id=city.city_id')
 		->join('state', 'city.state_id=state.state_id')
 		->join('time_zone', 'state.tz_id=time_zone.tz_id')
 		->join('country', 'time_zone.country_id=country.country_id')
-		->orderBy('time_zone.country_id, city.state_id, district.city_id, district_id', 'ASC')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getDistrictCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchDistrict($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->select('district_id, district_code, district_name, city_name, state_name, country_name, district_status')
+		->join('city', 'district.city_id=city.city_id')
+		->join('state', 'city.state_id=state.state_id')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->like('district_code', $search)
+		->orLike('district_name', $search)
+		->orLike('city_name', $search)
+		->orLike('state_name', $search)
+		->orLike('country_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchDistrictCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->join('city', 'district.city_id=city.city_id')
+		->join('state', 'city.state_id=state.state_id')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->like('district_code', $search)
+		->orLike('district_name', $search)
+		->orLike('city_name', $search)
+		->orLike('state_name', $search)
+		->orLike('country_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getDistrictById($id)

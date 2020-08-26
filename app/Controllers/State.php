@@ -19,8 +19,6 @@ class State extends BaseController
 			$data = array(
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'model' => $this->model,
-				'state' => $this->model->getState(),
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
@@ -30,6 +28,97 @@ class State extends BaseController
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
 		}
+	}
+
+	public function getData()
+	{
+		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
+		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		if(@$checkLevel->read == 1){
+			$columns = array(
+				0 => 'state_id',
+				1 => 'state_iso_code',
+				2 => 'state_ref_code',
+				3 => 'state_name',
+				4 => 'state_capital',
+				5 => 'tz_name',
+				6 => 'geo_unit_name',
+				7 => 'state_status'
+			);
+			$limit = $this->request->getPost('length');
+			$start = $this->request->getPost('start');
+			$order = $columns[$this->request->getPost('order')[0]['column']];
+			$dir = $this->request->getPost('order')[0]['dir'];
+
+			$totalData = $this->model->getStateCount();
+			$totalFiltered = $totalData;
+			if(empty($this->request->getPost('search')['value'])){
+				$state = $this->model->getState($limit, $start, $order, $dir);
+			}else{
+				$search = $this->request->getPost('search')['value'];
+				$state =  $this->model->searchState($limit, $start, $search, $order, $dir);
+				$totalFiltered = $this->model->searchStateCount($search);
+			}
+
+			$data = array();
+			if(@$state){
+				foreach($state as $row){
+					$start++;
+					if($row->state_status == 1){
+						$state_status = '<span class="text-success">Active</span>';
+					}elseif($row->state_status == 0){
+						$state_status = '<span class="text-danger">Inactive</span>';
+					}else{
+						$state_status = '';
+					}
+					if(@$checkLevel->update == 1){
+						$action_edit = '<a href="'.base_url('state/edit/'.$row->state_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+					}
+					if(@$this->model->getStateRelatedTable('city', $row->state_id)){
+						$delete_disabled = 'disabled';
+					}
+					if(@$checkLevel->delete == 1){
+						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('state/delete/'.$row->state_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					}
+					$nestedData['number'] = $start;
+					$nestedData['state_iso_code'] = $row->country_alpha2_code.'-'.$row->state_iso_code;
+					$nestedData['state_ref_code'] = $row->state_ref_code;
+					$nestedData['state_name'] = $row->state_name;
+					$nestedData['state_capital'] = $row->state_capital;
+					$nestedData['tz_name'] = $row->tz_name;
+					$nestedData['geo_unit_name'] = $row->geo_unit_name;
+					$nestedData['state_status'] = $state_status;
+					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$data[] = $nestedData;
+				}
+			}
+
+			$json_data = array(
+				'draw' => intval($this->request->getPost('draw')),
+				'recordsTotal' => intval($totalData),
+				'recordsFiltered' => intval($totalFiltered),
+				'data' => $data
+			);
+			echo json_encode($json_data);
+		}else{
+			echo json_encode(array());
+		}
+	}
+
+	public function getColumns()
+	{
+		$fields = array('state_iso_code', 'state_ref_code', 'state_name', 'state_capital', 'tz_name', 'geo_unit_name', 'state_status');
+		$columns[]['data'] = 'number';
+		foreach ($fields as $field) {
+			$columns[] = array(
+				'data' => $field
+			);
+		}
+		$columns[] = array(
+			'data' => 'action',
+			'className' => 'text-center'
+		);
+		echo json_encode($columns); 
 	}
 
 	public function get_time_zone()

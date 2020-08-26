@@ -7,11 +7,44 @@ class CountryModel extends Model
 	protected $table = 'country';
 	protected $primaryKey = 'country_id';
 
-	public function getCountry()
+	public function getCountry($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getCountryCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchCountry($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->like('country_alpha2_code', $search)
+		->orLike('country_alpha3_code', $search)
+		->orLike('country_numeric_code', $search)
+		->orLike('country_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchCountryCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->like('country_alpha2_code', $search)
+		->orLike('country_alpha3_code', $search)
+		->orLike('country_numeric_code', $search)
+		->orLike('country_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getCountryDetail($id)

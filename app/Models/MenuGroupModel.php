@@ -7,11 +7,38 @@ class MenuGroupModel extends Model
 	protected $table = 'menu_group';
 	protected $primaryKey = 'mgroup_id';
 
-	public function getMenuGroup()
+	public function getMenuGroup($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getMenuGroupCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchMenuGroup($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->orLike('mgroup_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchMenuGroupCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->orLike('mgroup_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getMenuGroupById($id)

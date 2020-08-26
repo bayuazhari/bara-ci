@@ -19,8 +19,6 @@ class Population extends BaseController
 			$data = array(
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'model' => $this->model,
-				'population' => $this->model->getPopulation(),
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
@@ -30,6 +28,84 @@ class Population extends BaseController
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
 		}
+	}
+
+	public function getData()
+	{
+		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
+		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		if(@$checkLevel->read == 1){
+			$columns = array(
+				0 => 'population_id',
+				1 => 'population_source',
+				2 => 'population_year',
+				3 => 'country_name',
+				4 => 'total_population'
+			);
+			$limit = $this->request->getPost('length');
+			$start = $this->request->getPost('start');
+			$order = $columns[$this->request->getPost('order')[0]['column']];
+			$dir = $this->request->getPost('order')[0]['dir'];
+
+			$totalData = $this->model->getPopulationCount();
+			$totalFiltered = $totalData;
+			if(empty($this->request->getPost('search')['value'])){
+				$population = $this->model->getPopulation($limit, $start, $order, $dir);
+			}else{
+				$search = $this->request->getPost('search')['value'];
+				$population =  $this->model->searchPopulation($limit, $start, $search, $order, $dir);
+				$totalFiltered = $this->model->searchPopulationCount($search);
+			}
+
+			$data = array();
+			if(@$population){
+				foreach($population as $row){
+					$start++;
+					if(@$checkLevel->update == 1){
+						$action_edit = '<a href="'.base_url('population/edit/'.$row->population_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+					}
+					/*if(@$this->model->getPopulationRelatedTable('state', $row->population_id)){
+						$delete_disabled = 'disabled';
+					}*/
+					if(@$checkLevel->delete == 1){
+						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('population/delete/'.$row->population_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					}
+					$nestedData['number'] = $start;
+					$nestedData['population_source'] = $row->population_source;
+					$nestedData['population_year'] = $row->population_year;
+					$nestedData['country_name'] = $row->country_name;
+					$nestedData['total_population'] = number_format($row->total_population);
+					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$data[] = $nestedData;
+				}
+			}
+
+			$json_data = array(
+				'draw' => intval($this->request->getPost('draw')),
+				'recordsTotal' => intval($totalData),
+				'recordsFiltered' => intval($totalFiltered),
+				'data' => $data
+			);
+			echo json_encode($json_data);
+		}else{
+			echo json_encode(array());
+		}
+	}
+
+	public function getColumns()
+	{
+		$fields = array('population_source', 'population_year', 'country_name', 'total_population');
+		$columns[]['data'] = 'number';
+		foreach ($fields as $field) {
+			$columns[] = array(
+				'data' => $field
+			);
+		}
+		$columns[] = array(
+			'data' => 'action',
+			'className' => 'text-center'
+		);
+		echo json_encode($columns); 
 	}
 
 	public function add()

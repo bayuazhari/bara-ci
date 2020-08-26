@@ -7,11 +7,40 @@ class LanguageModel extends Model
 	protected $table = 'language';
 	protected $primaryKey = 'lang_id';
 
-	public function getLanguage()
+	public function getLanguage($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getLanguageCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchLanguage($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->like('lang_code', $search)
+		->orLike('lang_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchLanguageCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->like('lang_code', $search)
+		->orLike('lang_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getLanguageById($id)

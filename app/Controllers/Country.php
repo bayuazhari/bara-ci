@@ -19,8 +19,6 @@ class Country extends BaseController
 			$data = array(
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'model' => $this->model,
-				'country' => $this->model->getCountry(),
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
@@ -30,6 +28,95 @@ class Country extends BaseController
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
 		}
+	}
+
+	public function getData()
+	{
+		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
+		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		if(@$checkLevel->read == 1){
+			$columns = array(
+				0 => 'country_id',
+				1 => 'country_alpha2_code',
+				2 => 'country_alpha2_code',
+				3 => 'country_alpha3_code',
+				4 => 'country_numeric_code',
+				5 => 'country_name',
+				6 => 'country_status'
+			);
+			$limit = $this->request->getPost('length');
+			$start = $this->request->getPost('start');
+			$order = $columns[$this->request->getPost('order')[0]['column']];
+			$dir = $this->request->getPost('order')[0]['dir'];
+
+			$totalData = $this->model->getCountryCount();
+			$totalFiltered = $totalData;
+			if(empty($this->request->getPost('search')['value'])){
+				$country = $this->model->getCountry($limit, $start, $order, $dir);
+			}else{
+				$search = $this->request->getPost('search')['value'];
+				$country =  $this->model->searchCountry($limit, $start, $search, $order, $dir);
+				$totalFiltered = $this->model->searchCountryCount($search);
+			}
+
+			$data = array();
+			if(@$country){
+				foreach($country as $row){
+					$start++;
+					if($row->country_status == 1){
+						$country_status = '<span class="text-success">Active</span>';
+					}elseif($row->country_status == 0){
+						$country_status = '<span class="text-danger">Inactive</span>';
+					}else{
+						$country_status = '';
+					}
+					if(@$checkLevel->update == 1){
+						$action_edit = '<a href="'.base_url('country/edit/'.$row->country_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+					}
+					if(@$this->model->getCountryRelatedTable('population', $row->country_id) AND @$this->model->getCountryRelatedTable('time_zone', $row->country_id)){
+						$delete_disabled = 'disabled';
+					}
+					if(@$checkLevel->delete == 1){
+						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('country/delete/'.$row->country_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					}
+					$nestedData['number'] = $start;
+					$nestedData['country_icon'] = '<h4 class="flag-icon flag-icon-'.strtolower($row->country_alpha2_code).'"></h4>';
+					$nestedData['country_alpha2_code'] = $row->country_alpha2_code;
+					$nestedData['country_alpha3_code'] = $row->country_alpha3_code;
+					$nestedData['country_numeric_code'] = $row->country_numeric_code;
+					$nestedData['country_name'] = $row->country_name;
+					$nestedData['country_status'] = $country_status;
+					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$data[] = $nestedData;
+				}
+			}
+
+			$json_data = array(
+				'draw' => intval($this->request->getPost('draw')),
+				'recordsTotal' => intval($totalData),
+				'recordsFiltered' => intval($totalFiltered),
+				'data' => $data
+			);
+			echo json_encode($json_data);
+		}else{
+			echo json_encode(array());
+		}
+	}
+
+	public function getColumns()
+	{
+		$fields = array('country_icon', 'country_alpha2_code', 'country_alpha3_code', 'country_numeric_code', 'country_name', 'country_status');
+		$columns[]['data'] = 'number';
+		foreach ($fields as $field) {
+			$columns[] = array(
+				'data' => $field
+			);
+		}
+		$columns[] = array(
+			'data' => 'action',
+			'className' => 'text-center'
+		);
+		echo json_encode($columns); 
 	}
 
 	public function detail()

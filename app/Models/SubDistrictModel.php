@@ -7,17 +7,57 @@ class SubDistrictModel extends Model
 	protected $table = 'sub_district';
 	protected $primaryKey = 'sdistrict_id';
 
-	public function getSubDistrict()
+	public function getSubDistrict($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
-		->select('sdistrict_id, sdistrict_code, sdistrict_name, sdistrict_status, district_name, city_name, state_name')
+		->select('sdistrict_id, sdistrict_code, sdistrict_name, district_name, city_name, state_name, sdistrict_status')
 		->join('district', 'sub_district.district_id=district.district_id')
 		->join('city', 'district.city_id=city.city_id')
 		->join('state', 'city.state_id=state.state_id')
-		->join('time_zone', 'state.tz_id=time_zone.tz_id')
-		->orderBy('time_zone.country_id, city.state_id, district.city_id, sub_district.district_id, sdistrict_id', 'ASC')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getSubDistrictCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchSubDistrict($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->select('sdistrict_id, sdistrict_code, sdistrict_name, district_name, city_name, state_name, sdistrict_status')
+		->join('district', 'sub_district.district_id=district.district_id')
+		->join('city', 'district.city_id=city.city_id')
+		->join('state', 'city.state_id=state.state_id')
+		->like('sdistrict_code', $search)
+		->orLike('sdistrict_name', $search)
+		->orLike('district_name', $search)
+		->orLike('city_name', $search)
+		->orLike('state_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchSubDistrictCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->join('district', 'sub_district.district_id=district.district_id')
+		->join('city', 'district.city_id=city.city_id')
+		->join('state', 'city.state_id=state.state_id')
+		->like('sdistrict_code', $search)
+		->orLike('sdistrict_name', $search)
+		->orLike('district_name', $search)
+		->orLike('city_name', $search)
+		->orLike('state_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getSubDistrictById($id)

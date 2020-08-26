@@ -7,16 +7,59 @@ class CityModel extends Model
 	protected $table = 'city';
 	protected $primaryKey = 'city_id';
 
-	public function getCity()
+	public function getCity($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
-		->select('city_id, city_code, city_name, capital_city_code, capital_city_name, city_status, state_name, country_name')
+		->select('city_id, city_code, city_name, capital_city_code, capital_city_name, state_name, country_name, city_status')
 		->join('state', 'city.state_id=state.state_id')
 		->join('time_zone', 'state.tz_id=time_zone.tz_id')
 		->join('country', 'time_zone.country_id=country.country_id')
-		->orderBy('time_zone.country_id, city.state_id, city_id', 'ASC')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getCityCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchCity($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->select('city_id, city_code, city_name, capital_city_code, capital_city_name, state_name, country_name, city_status')
+		->join('state', 'city.state_id=state.state_id')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->like('city_code', $search)
+		->orLike('city_name', $search)
+		->orLike('capital_city_code', $search)
+		->orLike('capital_city_name', $search)
+		->orLike('state_name', $search)
+		->orLike('country_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchCityCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->join('state', 'city.state_id=state.state_id')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->like('city_code', $search)
+		->orLike('city_name', $search)
+		->orLike('capital_city_code', $search)
+		->orLike('capital_city_name', $search)
+		->orLike('state_name', $search)
+		->orLike('country_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getCityById($id)

@@ -19,8 +19,6 @@ class Sub_district extends BaseController
 			$data = array(
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'model' => $this->model,
-				'sub_district' => $this->model->getSubDistrict(),
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
@@ -30,6 +28,95 @@ class Sub_district extends BaseController
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
 		}
+	}
+
+	public function getData()
+	{
+		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
+		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		if(@$checkLevel->read == 1){
+			$columns = array(
+				0 => 'sdistrict_id',
+				1 => 'sdistrict_code',
+				2 => 'sdistrict_name',
+				3 => 'district_name',
+				4 => 'city_name',
+				5 => 'state_name',
+				6 => 'sdistrict_status'
+			);
+			$limit = $this->request->getPost('length');
+			$start = $this->request->getPost('start');
+			$order = $columns[$this->request->getPost('order')[0]['column']];
+			$dir = $this->request->getPost('order')[0]['dir'];
+
+			$totalData = $this->model->getSubDistrictCount();
+			$totalFiltered = $totalData;
+			if(empty($this->request->getPost('search')['value'])){
+				$sub_district = $this->model->getSubDistrict($limit, $start, $order, $dir);
+			}else{
+				$search = $this->request->getPost('search')['value'];
+				$sub_district =  $this->model->searchSubDistrict($limit, $start, $search, $order, $dir);
+				$totalFiltered = $this->model->searchSubDistrictCount($search);
+			}
+
+			$data = array();
+			if(@$sub_district){
+				foreach($sub_district as $row){
+					$start++;
+					if($row->sdistrict_status == 1){
+						$sdistrict_status = '<span class="text-success">Active</span>';
+					}elseif($row->sdistrict_status == 0){
+						$sdistrict_status = '<span class="text-danger">Inactive</span>';
+					}else{
+						$sdistrict_status = '';
+					}
+					if(@$checkLevel->update == 1){
+						$action_edit = '<a href="'.base_url('sub_district/edit/'.$row->sdistrict_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+					}
+					/*if(@$this->model->getSubDistrictRelatedTable('sub_district', $row->sdistrict_id)){ 
+						$delete_disabled = 'disabled';
+					}*/
+					if(@$checkLevel->delete == 1){
+						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('sub_district/delete/'.$row->sdistrict_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					}
+					$nestedData['number'] = $start;
+					$nestedData['sdistrict_code'] = $row->sdistrict_code;
+					$nestedData['sdistrict_name'] = $row->sdistrict_name;
+					$nestedData['district_name'] = $row->district_name;
+					$nestedData['city_name'] = $row->city_name;
+					$nestedData['state_name'] = $row->state_name;
+					$nestedData['sdistrict_status'] = $sdistrict_status;
+					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$data[] = $nestedData;
+				}
+			}
+
+			$json_data = array(
+				'draw' => intval($this->request->getPost('draw')),
+				'recordsTotal' => intval($totalData),
+				'recordsFiltered' => intval($totalFiltered),
+				'data' => $data
+			);
+			echo json_encode($json_data);
+		}else{
+			echo json_encode(array());
+		}
+	}
+
+	public function getColumns()
+	{
+		$fields = array('sdistrict_code', 'sdistrict_name', 'district_name', 'city_name', 'state_name', 'sdistrict_status');
+		$columns[]['data'] = 'number';
+		foreach ($fields as $field) {
+			$columns[] = array(
+				'data' => $field
+			);
+		}
+		$columns[] = array(
+			'data' => 'action',
+			'className' => 'text-center'
+		);
+		echo json_encode($columns); 
 	}
 
 	public function get_district()

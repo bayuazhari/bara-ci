@@ -7,15 +7,61 @@ class StateModel extends Model
 	protected $table = 'state';
 	protected $primaryKey = 'state_id';
 
-	public function getState()
+	public function getState($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->select('state_id, country_alpha2_code, state_iso_code, state_ref_code, state_name, state_capital, tz_name, geo_unit_name, state_status')
 		->join('time_zone', 'state.tz_id=time_zone.tz_id')
 		->join('country', 'time_zone.country_id=country.country_id')
 		->join('geo_unit', 'state.geo_unit_id=geo_unit.geo_unit_id')
-		->orderBy('time_zone.country_id, state.geo_unit_id, state_id', 'ASC')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getStateCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchState($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->select('state_id, country_alpha2_code, state_iso_code, state_ref_code, state_name, state_capital, tz_name, geo_unit_name, state_status')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->join('geo_unit', 'state.geo_unit_id=geo_unit.geo_unit_id')
+		->like('country_alpha2_code', $search)
+		->orLike('state_iso_code', $search)
+		->orLike('state_ref_code', $search)
+		->orLike('state_name', $search)
+		->orLike('state_capital', $search)
+		->orLike('tz_name', $search)
+		->orLike('geo_unit_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchStateCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->join('geo_unit', 'state.geo_unit_id=geo_unit.geo_unit_id')
+		->like('country_alpha2_code', $search)
+		->orLike('state_iso_code', $search)
+		->orLike('state_ref_code', $search)
+		->orLike('state_name', $search)
+		->orLike('state_capital', $search)
+		->orLike('tz_name', $search)
+		->orLike('geo_unit_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getStateById($id)

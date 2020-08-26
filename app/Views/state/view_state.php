@@ -52,7 +52,7 @@
 				<!-- begin panel-body -->
 				<div class="panel-body">
 					<div class="table-responsive">
-						<table id="data-table-default" class="table table-striped table-bordered table-td-valign-middle">
+						<table id="data-table-server-side" class="table table-striped table-bordered table-td-valign-middle">
 							<thead class="text-center">
 								<tr>
 									<th width="1%" rowspan="2">#</th>
@@ -69,50 +69,6 @@
 									<th class="text-nowrap">Ref.</th>
 								</tr>
 							</thead>
-							<tbody>
-							<?php
-								if(@$state) :
-									$no=0;
-									foreach ($state as $row) :
-										$no++;
-							?>
-								<tr>
-									<td width="1%" class="f-s-600 text-inverse"><?= $no ?></td>
-									<td><?= $row->country_alpha2_code.'-'.$row->state_iso_code ?></td>
-									<td><?= $row->state_ref_code ?></td>
-									<td><?= $row->state_name ?></td>
-									<td><?= $row->state_capital ?></td>
-									<td><?= $row->tz_name ?></td>
-									<td><?= $row->geo_unit_name ?></td>
-									<?php
-										if($row->state_status == 1){
-											echo '<td class="text-success">Active</td>';
-										}elseif($row->state_status == 0){
-											echo '<td class="text-danger">Inactive</td>';
-										}else{
-											echo '<td></td>';
-										}
-									?>
-									<td class="text-center">
-									<?php if(@$checkLevel->update == 1 OR @$checkLevel->delete == 1){ ?>
-										<div class="btn-group">
-											<a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a>
-											<div class="dropdown-menu dropdown-menu-right">
-											<?php if(@$checkLevel->update == 1){ ?>
-												<a href="<?php echo base_url('state/edit/'.$row->state_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
-											<?php } if(@$checkLevel->delete == 1){ ?>
-												<a href="javascript:;" class="dropdown-item <?php if(@$model->getStateRelatedTable('city', $row->state_id)){ echo 'disabled'; } ?>"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('state/delete/'.$row->state_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
-											<?php } ?>
-											</div>
-										</div>
-										<?php }else{ echo 'No action'; } ?>
-									</td>
-								</tr>
-							<?php
-									endforeach;
-								endif;
-							?>
-							</tbody>
 						</table>
 					</div>
 				</div>

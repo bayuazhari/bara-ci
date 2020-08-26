@@ -52,7 +52,7 @@
 				<!-- begin panel-body -->
 				<div class="panel-body">
 					<div class="table-responsive">
-						<table id="data-table-default" class="table table-striped table-bordered table-td-valign-middle">
+						<table id="data-table-server-side" class="table table-striped table-bordered table-td-valign-middle">
 							<thead class="text-center">
 								<tr>
 									<th width="1%" rowspan="2">#</th>
@@ -68,48 +68,6 @@
 									<th class="text-nowrap">Numeric</th>
 								</tr>
 							</thead>
-							<tbody>
-							<?php
-								if(@$country) :
-									$no=0;
-									foreach ($country as $row) :
-										$no++;
-							?>
-								<tr>
-									<td width="1%" class="f-s-600 text-inverse"><?= $no ?></td>
-									<td><h4 class="flag-icon flag-icon-<?= strtolower($row->country_alpha2_code) ?>"></h4></td>
-									<td><?= $row->country_alpha2_code ?></td>
-									<td><?= $row->country_alpha3_code ?></td>
-									<td><?= $row->country_numeric_code ?></td>
-									<td><?= $row->country_name ?></td>
-									<?php
-										if($row->country_status == 1){
-											echo '<td class="text-success">Active</td>';
-										}elseif($row->country_status == 0){
-											echo '<td class="text-danger">Inactive</td>';
-										}else{
-											echo '<td></td>';
-										}
-									?>
-									<td class="text-center">
-										<div class="btn-group">
-											<a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-id="<?= $row->country_id ?>" data-href="<?php echo base_url('country/detail/') ?>"><i class="fa fa-info-circle"></i> Detail</a>
-											<?php if(@$checkLevel->update == 1){ ?>
-												<a href="<?php echo base_url('country/edit/'.$row->country_id); ?>" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
-											<?php } if(@$checkLevel->delete == 1){ ?>
-												<a href="javascript:;" class="dropdown-item <?php if(@$model->getCountryRelatedTable('population', $row->country_id) AND @$model->getCountryRelatedTable('time_zone', $row->country_id)){ echo 'disabled'; } ?>"  data-toggle="modal" data-target="#modal-delete" data-href="<?php echo base_url('country/delete/'.$row->country_id) ?>"><i class="fa fa-trash-alt"></i> Delete</a>
-											<?php } ?>
-											</div>
-										</div>
-									</td>
-								</tr>
-							<?php
-									endforeach;
-								endif;
-							?>
-							</tbody>
 						</table>
 					</div>
 				</div>

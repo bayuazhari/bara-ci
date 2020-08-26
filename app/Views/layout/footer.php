@@ -119,6 +119,7 @@
 	<script src="<?php echo base_url('assets/plugins/bootstrap-show-password/dist/bootstrap-show-password.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js'); ?>"></script>
 
+	<script src="<?php echo base_url('assets/js/demo/table-manage-server-side.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/table-manage-default.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/table-manage-buttons.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/form-plugins.demo.js'); ?>"></script>

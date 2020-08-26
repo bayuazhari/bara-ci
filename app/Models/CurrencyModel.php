@@ -7,11 +7,42 @@ class CurrencyModel extends Model
 	protected $table = 'currency';
 	protected $primaryKey = 'currency_id';
 
-	public function getCurrency()
+	public function getCurrency($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getCurrencyCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchCurrency($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->like('currency_code', $search)
+		->orLike('currency_name', $search)
+		->orLike('currency_symbol', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchCurrencyCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->like('currency_code', $search)
+		->orLike('currency_name', $search)
+		->orLike('currency_symbol', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getCurrencyById($id)

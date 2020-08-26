@@ -7,11 +7,40 @@ class GeoUnitModel extends Model
 	protected $table = 'geo_unit';
 	protected $primaryKey = 'geo_unit_id';
 
-	public function getGeoUnit()
+	public function getGeoUnit($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getGeoUnitCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchGeoUnit($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->like('geo_unit_code', $search)
+		->orLike('geo_unit_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchGeoUnitCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->like('geo_unit_code', $search)
+		->orLike('geo_unit_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getGeoUnitById($id)

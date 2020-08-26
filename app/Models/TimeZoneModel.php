@@ -7,13 +7,47 @@ class TimeZoneModel extends Model
 	protected $table = 'time_zone';
 	protected $primaryKey = 'tz_id';
 
-	public function getTimeZone()
+	public function getTimeZone($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->select('tz_id, tz_name, tz_abbr, country_name, tz_status')
 		->join('country', 'time_zone.country_id=country.country_id')
-		->orderBy('time_zone.country_id, tz_id', 'ASC')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getTimeZoneCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchTimeZone($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->select('tz_id, tz_name, tz_abbr, country_name, tz_status')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->like('tz_name', $search)
+		->orLike('tz_abbr', $search)
+		->orLike('country_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchTimeZoneCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->like('tz_name', $search)
+		->orLike('tz_abbr', $search)
+		->orLike('country_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getTimeZoneById($id)

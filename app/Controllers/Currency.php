@@ -19,8 +19,6 @@ class Currency extends BaseController
 			$data = array(
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'model' => $this->model,
-				'currency' => $this->model->getCurrency(),
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
@@ -30,6 +28,91 @@ class Currency extends BaseController
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
 			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
 		}
+	}
+
+	public function getData()
+	{
+		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
+		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		if(@$checkLevel->read == 1){
+			$columns = array(
+				0 => 'currency_id',
+				1 => 'currency_code',
+				2 => 'currency_name',
+				3 => 'currency_symbol',
+				4 => 'currency_status'
+			);
+			$limit = $this->request->getPost('length');
+			$start = $this->request->getPost('start');
+			$order = $columns[$this->request->getPost('order')[0]['column']];
+			$dir = $this->request->getPost('order')[0]['dir'];
+
+			$totalData = $this->model->getCurrencyCount();
+			$totalFiltered = $totalData;
+			if(empty($this->request->getPost('search')['value'])){
+				$currency = $this->model->getCurrency($limit, $start, $order, $dir);
+			}else{
+				$search = $this->request->getPost('search')['value'];
+				$currency =  $this->model->searchCurrency($limit, $start, $search, $order, $dir);
+				$totalFiltered = $this->model->searchCurrencyCount($search);
+			}
+
+			$data = array();
+			if(@$currency){
+				foreach($currency as $row){
+					$start++;
+					if($row->currency_status == 1){
+						$currency_status = '<span class="text-success">Active</span>';
+					}elseif($row->currency_status == 0){
+						$currency_status = '<span class="text-danger">Inactive</span>';
+					}else{
+						$currency_status = '';
+					}
+					if(@$checkLevel->update == 1){
+						$action_edit = '<a href="'.base_url('currency/edit/'.$row->currency_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+					}
+					if(@$this->model->getCurrencyRelatedTable('country', $row->currency_id)){
+						$delete_disabled = 'disabled';
+					}
+					if(@$checkLevel->delete == 1){
+						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('currency/delete/'.$row->currency_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					}
+					$nestedData['number'] = $start;
+					$nestedData['currency_code'] = $row->currency_code;
+					$nestedData['currency_name'] = $row->currency_name;
+					$nestedData['currency_symbol'] = $row->currency_symbol;
+					$nestedData['currency_status'] = $currency_status;
+					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$data[] = $nestedData;
+				}
+			}
+
+			$json_data = array(
+				'draw' => intval($this->request->getPost('draw')),
+				'recordsTotal' => intval($totalData),
+				'recordsFiltered' => intval($totalFiltered),
+				'data' => $data
+			);
+			echo json_encode($json_data);
+		}else{
+			echo json_encode(array());
+		}
+	}
+
+	public function getColumns()
+	{
+		$fields = array('currency_code', 'currency_name', 'currency_symbol', 'currency_status');
+		$columns[]['data'] = 'number';
+		foreach ($fields as $field) {
+			$columns[] = array(
+				'data' => $field
+			);
+		}
+		$columns[] = array(
+			'data' => 'action',
+			'className' => 'text-center'
+		);
+		echo json_encode($columns); 
 	}
 
 	public function add()

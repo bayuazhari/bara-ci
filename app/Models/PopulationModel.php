@@ -7,14 +7,49 @@ class PopulationModel extends Model
 	protected $table = 'population';
 	protected $primaryKey = 'population_id';
 
-	public function getPopulation()
+	public function getPopulation($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->select('population_id, population_source, population_year, country_name, total_population')
 		->join('country', 'population.country_id=country.country_id')
-		->orderBy('population_year', 'DESC')
-		->orderBy('population.country_id, population_id', 'ASC')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getPopulationCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchPopulation($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->select('population_id, population_source, population_year, country_name, total_population')
+		->join('country', 'population.country_id=country.country_id')
+		->like('population_source', $search)
+		->orLike('population_year', $search)
+		->orLike('country_name', $search)
+		->orLike('total_population', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchPopulationCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->join('country', 'population.country_id=country.country_id')
+		->like('population_source', $search)
+		->orLike('population_year', $search)
+		->orLike('country_name', $search)
+		->orLike('total_population', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getPopulationById($id)
