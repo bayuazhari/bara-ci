@@ -118,11 +118,18 @@
 	<script src="<?php echo base_url('assets/plugins/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/plugins/bootstrap-show-password/dist/bootstrap-show-password.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js'); ?>"></script>
+	
+	<script src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/bootstrap4-editable/js/bootstrap-editable.min.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/address/address.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/lib/typeahead.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/typeaheadjs.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/wysihtml5/wysihtml5.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/plugins/jquery-mockjax/dist/jquery.mockjax.min.js'); ?>"></script>
 
 	<script src="<?php echo base_url('assets/js/demo/table-manage-server-side.demo.js'); ?>"></script>
-	<script src="<?php echo base_url('assets/js/demo/table-manage-default.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/table-manage-buttons.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/form-plugins.demo.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/js/demo/form-editable.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/timeline.demo.js'); ?>"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->
 	<script type="text/javascript">

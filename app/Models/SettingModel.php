@@ -4,6 +4,14 @@ use CodeIgniter\Model;
 
 class SettingModel extends Model
 {
+	public function getSettingByGroup($group)
+	{
+		$query = $this->db->table('setting')
+		->where('setting_group', $group)
+		->get();
+		return $query->getResult();
+	}
+
 	public function getMenuByUrl($menu_url)
 	{
 		$query = $this->db->table('menu')
@@ -32,4 +40,10 @@ class SettingModel extends Model
 		return false;
 	}
 
+	public function updateSetting($id, $data)
+	{
+		$this->db->table('setting')
+		->where('setting_id', $id)
+		->update($data);
+	}
 }

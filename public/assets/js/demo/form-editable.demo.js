@@ -79,22 +79,21 @@ var handleEditableFieldConstruct = function() {
 	$.fn.editable.defaults.mode = 'inline';
 	$.fn.editable.defaults.inputclass = 'form-control input-sm';
 	$.fn.editable.defaults.url = '/post';
-	$('#username').editable();
-	$('#firstname').editable({
+	$('.default-editable').editable();
+	$('.required-editable').editable({
 		validate: function(value) {
 			if($.trim(value) === '') { 
-				return 'This field is requiCOLOR_RED';
+				return 'This field is required';
 			}
 		}
 	});
-	$('#sex').editable({
-		prepend: 'not selected',
+	$('.selected-editable').editable({
 		source: [
-			{value: 1, text: 'Male'},
-			{value: 2, text: 'Female'}
+			{value: 1, text: 'Yes'},
+			{value: 0, text: 'No'}
 		],
 		display: function(value, sourceData) {
-			var icons = {'': '', 1: '<i class="fa fa-male m-r-5"></i>', 2: '<i class="fa fa-female m-r-5"></i>'},
+			var icons = {'': '', 1: '<i class="fa fa-check m-r-5"></i>', 0: '<i class="fa fa-times m-r-5"></i>'},
 			elem = $.grep(sourceData, function(o){return o.value == value;});
 
 			if (elem.length) {    
@@ -102,7 +101,22 @@ var handleEditableFieldConstruct = function() {
 			} else {
 				$(this).empty(); 
 			}
-		}   
+		}
+	});
+	$('#mail_protocol').editable({
+		source: [
+			{value: 'smtp', text: 'SMTP'},
+			{value: 'mail', text: 'Mail'}
+		],
+		display: function(value, sourceData) {
+			elem = $.grep(sourceData, function(o){return o.value == value;});
+
+			if (elem.length) {    
+				$(this).text(elem[0].text); 
+			} else {
+				$(this).empty(); 
+			}
+		}
 	});
 	$('#group').editable({ 
 		showbuttons: false 

@@ -30,6 +30,10 @@
 	<link href="<?php echo base_url('assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.css'); ?>" rel="stylesheet" />
 	<link href="<?php echo base_url('assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker-fontawesome.css'); ?>" rel="stylesheet" />
 	<link href="<?php echo base_url('assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker-glyphicons.css'); ?>" rel="stylesheet" />
+
+	<link href="<?php echo base_url('assets/plugins/x-editable-bs4/dist/bootstrap4-editable/css/bootstrap-editable.css'); ?>" rel="stylesheet" />
+	<link href="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/address/address.css'); ?>" rel="stylesheet" />
+	<link href="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/lib/typeahead.js-bootstrap.css'); ?>" rel="stylesheet" />
 	<!-- ================== END PAGE LEVEL STYLE ================== -->
 </head>
 <body>
