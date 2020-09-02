@@ -83,7 +83,7 @@
 								<td class="bg-light" width="25%"><?= $image->setting_name ?></td>
 								<td>
 								<?php if(@$image->setting_value){ ?>
-									<div class="widget-img <?php if($image->setting_option != 'favicon'){ echo 'widget-img-xl'; } ?> rounded pull-left m-r-5 m-b-5" style="background-image: url(<?php echo base_url('assets/img/logo/'.$image->setting_value); ?>)"></div>
+									<img src="<?php echo base_url('assets/img/logo/'.$image->setting_value); ?>" class="img-rounded m-r-5 m-b-5" style="max-height: 100px;" />
 								<?php } ?>
 									<form action="<?php echo base_url('setting/upload_image') ?>" method="post" enctype="multipart/form-data">
 										<div class="input-group">

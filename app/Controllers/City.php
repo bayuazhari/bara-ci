@@ -17,6 +17,8 @@ class City extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'checkLevel' => $checkLevel
@@ -121,18 +123,44 @@ class City extends BaseController
 		echo json_encode($columns); 
 	}
 
+	public function get_state()
+	{
+		$state = $this->model->getState($this->request->getPost('country'));
+		$state_list = '<option></option>';
+		if(@$state){
+			foreach ($state as $row) {
+				$state_list .= '<option value="'.$row->state_id.'">'.$row->state_name.'</option>';
+			}
+		}
+		$callback = array(
+			'state_list' => $state_list,
+			'city_list' => '<option></option>',
+			'district_list' => '<option></option>'
+		);
+		echo json_encode($callback);
+	}
+
 	public function add()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
+			if(@$this->request->getPost('country')){
+				$state = $this->model->getState($this->request->getPost('country'));
+			}else{
+				$state = NULL;
+			}
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
-				'state' => $this->model->getState()
+				'country' => $this->model->getCountry(),
+				'state' => $state
 			);
 			$validation = $this->validate([
+				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'state' => ['label' => 'State', 'rules' => 'required'],
 				'city_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[4]|max_length[4]|is_unique[city.city_code]'],
 				'city_name' => ['label' => 'Name', 'rules' => 'required'],
@@ -173,6 +201,8 @@ class City extends BaseController
 				'city_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[city_csv]|ext_in[city_csv,csv]|max_size[city_csv,2048]']
 			]);
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'validation' => $this->validator
@@ -243,12 +273,23 @@ class City extends BaseController
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
+			$city = $this->model->getCityById($id);
+			if(@$this->request->getPost('country')){
+				$state = $this->model->getState($this->request->getPost('country'));
+			}elseif(@$city->country_id){
+				$state = $this->model->getState($city->country_id);
+			}else{
+				$state = NULL;
+			}
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
-				'state' => $this->model->getState(),
-				'city' => $this->model->getCityById($id)
+				'country' => $this->model->getCountry(),
+				'state' => $state,
+				'city' => $city
 			);
 			if($data['city']->city_code == $this->request->getPost('city_code')){
 				$city_code_rules = 'required|numeric|min_length[4]|max_length[4]';
@@ -261,6 +302,7 @@ class City extends BaseController
 				$capital_city_code_rules = 'permit_empty|alpha|min_length[3]|max_length[3]|is_unique[city.capital_city_code]';
 			}
 			$validation = $this->validate([
+				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'state' => ['label' => 'State', 'rules' => 'required'],
 				'city_code' => ['label' => 'Code', 'rules' => $city_code_rules],
 				'city_name' => ['label' => 'Name', 'rules' => 'required'],

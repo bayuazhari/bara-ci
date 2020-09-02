@@ -17,6 +17,8 @@ class State extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'checkLevel' => $checkLevel
@@ -151,6 +153,8 @@ class State extends BaseController
 				$iso_prefix_code = NULL;
 			}
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
@@ -203,6 +207,8 @@ class State extends BaseController
 				'state_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[state_csv]|ext_in[state_csv,csv]|max_size[state_csv,2048]']
 			]);
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'validation' => $this->validator
@@ -287,6 +293,8 @@ class State extends BaseController
 				$iso_prefix_code = NULL;
 			}
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,

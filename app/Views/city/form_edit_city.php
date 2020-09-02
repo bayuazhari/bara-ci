@@ -24,6 +24,7 @@
 				<?php
 				$id = $city->city_id;
 				if(@$request->getPost()){
+					$country_id = $request->getPost('country');
 					$state_id = $request->getPost('state');
 					$city_code = $request->getPost('city_code');
 					$city_name = $request->getPost('city_name');
@@ -31,6 +32,7 @@
 					$capital_city_name = $request->getPost('capital_city_name');
 					$status = $request->getPost('status');
 				}else{
+					$country_id = $city->country_id;
 					$state_id = $city->state_id;
 					$city_code = $city->city_code;
 					$city_name = $city->city_name;
@@ -72,22 +74,33 @@
 								<?php if($error2){ echo '<div class="invalid-feedback">'.$error2.'</div>'; } ?>
 							</div>
 						</div>
+						<?php $error = $validation->getError('country'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Country<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Country of the state."></i></span></label>
+							<div class="col-md-9">
+								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" id="country" name="country" data-placeholder="Select a country">
+								<?php if(@$country) : ?>
+									<option></option>
+								<?php foreach ($country as $coun) : ?>
+									<option value="<?= $coun->country_id; ?>" <?php if($country_id == $coun->country_id){echo 'selected';} ?>><?= $coun->country_name ?></option>
+								<?php
+									endforeach;
+								endif;
+								?>
+								</select>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
 						<?php $error = $validation->getError('state'); ?>
 						<div class="form-group row m-b-15">
 							<label class="col-form-label col-md-2 text-lg-right">State<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="State of the city."></i></span></label>
 							<div class="col-md-9">
-								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="state" data-placeholder="Select a state">
+								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" id="state" name="state" data-placeholder="Select a state">
 								<?php if(@$state) : ?>
 									<option></option>
-								<?php foreach ($state as $key => $stt) :
-									if(@$state[$key-1]->country_id != $stt->country_id) {
-								?>
-									<optgroup label="<?= $stt->country_name ?>">
-								<?php } ?>
+								<?php foreach ($state as $stt) : ?>
 										<option value="<?= $stt->state_id; ?>" <?php if($state_id == $stt->state_id){echo 'selected';} ?>><?= $stt->state_name ?></option>
-								<?php if(@$state[$key+1]->country_id != $stt->country_id) { ?>
 								<?php
-										}
 									endforeach;
 								endif;
 								?>

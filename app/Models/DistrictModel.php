@@ -67,19 +67,28 @@ class DistrictModel extends Model
 	{
 		$query = $this->db->table($this->table)
 		->join('city', 'district.city_id=city.city_id')
+		->join('state', 'city.state_id=state.state_id')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
 		->where($this->primaryKey, $id)
 		->limit(1)
 		->get();
 		return $query->getRow();
 	}
 
-	public function getState()
+	public function getCountry()
+	{
+		$query = $this->db->table('country')
+		->where('country_status', '1')
+		->get();
+		return $query->getResult();
+	}
+
+	public function getState($country_id)
 	{
 		$query = $this->db->table('state')
 		->join('time_zone', 'state.tz_id=time_zone.tz_id')
-		->join('country', 'time_zone.country_id=country.country_id')
+		->where('country_id', $country_id)
 		->where('state_status', '1')
-		->orderBy('time_zone.country_id, state.geo_unit_id, state_id', 'ASC')
 		->get();
 		return $query->getResult();
 	}

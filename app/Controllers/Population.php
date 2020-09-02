@@ -17,6 +17,8 @@ class Population extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'checkLevel' => $checkLevel
@@ -114,6 +116,8 @@ class Population extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
@@ -157,6 +161,8 @@ class Population extends BaseController
 				'population_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[population_csv]|ext_in[population_csv,csv]|max_size[population_csv,2048]']
 			]);
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'validation' => $this->validator
@@ -225,6 +231,8 @@ class Population extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,

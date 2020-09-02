@@ -17,6 +17,8 @@ class Sub_district extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'checkLevel' => $checkLevel
@@ -139,6 +141,11 @@ class Sub_district extends BaseController
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
+			if(@$this->request->getPost('country')){
+				$state = $this->model->getState($this->request->getPost('country'));
+			}else{
+				$state = NULL;
+			}
 			if(@$this->request->getPost('state')){
 				$city = $this->model->getCity($this->request->getPost('state'));
 			}else{
@@ -150,14 +157,18 @@ class Sub_district extends BaseController
 				$district = NULL;
 			}
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
-				'state' => $this->model->getState(),
+				'country' => $this->model->getCountry(),
+				'state' => $state,
 				'city' => $city,
 				'district' => $district
 			);
 			$validation = $this->validate([
+				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'state' => ['label' => 'State', 'rules' => 'required'],
 				'city' => ['label' => 'City', 'rules' => 'required'],
 				'district' => ['label' => 'District', 'rules' => 'required'],
@@ -196,6 +207,8 @@ class Sub_district extends BaseController
 				'sub_district_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[sub_district_csv]|ext_in[sub_district_csv,csv]|max_size[sub_district_csv,2048]']
 			]);
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'validation' => $this->validator
@@ -263,6 +276,13 @@ class Sub_district extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$sub_district = $this->model->getSubDistrictById($id);
+			if(@$this->request->getPost('country')){
+				$state = $this->model->getState($this->request->getPost('country'));
+			}elseif(@$sub_district->country_id){
+				$state = $this->model->getState($sub_district->country_id);
+			}else{
+				$state = NULL;
+			}
 			if(@$this->request->getPost('state')){
 				$city = $this->model->getCity($this->request->getPost('state'));
 			}elseif(@$sub_district->state_id){
@@ -278,10 +298,13 @@ class Sub_district extends BaseController
 				$district = NULL;
 			}
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
-				'state' => $this->model->getState(),
+				'country' => $this->model->getCountry(),
+				'state' => $state,
 				'city' => $city,
 				'district' => $district,
 				'sub_district' => $sub_district
@@ -292,6 +315,7 @@ class Sub_district extends BaseController
 				$sub_district_code_rules = 'required|numeric|min_length[10]|max_length[10]|is_unique[sub_district.sdistrict_code]';
 			}
 			$validation = $this->validate([
+				'country' => ['label' => 'Country', 'rules' => 'required'],
 				'state' => ['label' => 'State', 'rules' => 'required'],
 				'city' => ['label' => 'City', 'rules' => 'required'],
 				'district' => ['label' => 'District', 'rules' => 'required'],

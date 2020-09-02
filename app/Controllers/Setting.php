@@ -15,9 +15,10 @@ class Setting extends BaseController
 		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
+				'setting' => $this->setting,
+				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
-				'breadcrumb' => @$checkMenu->mgroup_name,
-				'setting' => $this->setting
+				'breadcrumb' => @$checkMenu->mgroup_name
 			);
 			echo view('layout/header', $data);
 			echo view('view_setting');

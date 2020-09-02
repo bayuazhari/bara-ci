@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Bara Framework | <?= $title ?></title>
+	<title><?= @$setting->getSettingById(1)->setting_value.' - '.@$title; ?></title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-	<meta content="" name="description" />
-	<meta content="" name="author" />
+	<meta content="<?= @$setting->getSettingById(2)->setting_value; ?>" name="description" />
+	<meta content="<?= @$setting->getSettingById(3)->setting_value; ?>" name="keywords" />
+	<meta content="<?= @$setting->getSettingById(4)->setting_value; ?>" name="author" />
 	
 	<!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<link type="image/png" sizes="16x16" href="<?php echo base_url('assets/img/logo/'.@$setting->getSettingById(7)->setting_value); ?>" rel="icon">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 	<link href="<?php echo base_url('assets/css/default/app.min.css'); ?>" rel="stylesheet" />
 	<!-- ================== END BASE CSS STYLE ================== -->
@@ -49,7 +51,16 @@
 		<div id="header" class="header navbar-default">
 			<!-- begin navbar-header -->
 			<div class="navbar-header">
-				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a>
+				<a href="<?php echo base_url(); ?>" class="navbar-brand">
+				<?php 
+					$navbar_logo = $setting->getSettingById(8)->setting_value;
+					if(@$navbar_logo){ ?>
+					<img src="<?php echo base_url('assets/img/logo/'.$navbar_logo); ?>" class="img-rounded height-50" />&nbsp;
+				<?php }else{ ?>
+					<span class="navbar-logo"></span>
+				<?php } ?>
+					<?= @$setting->getSettingById(5)->setting_value; ?>
+				</a>
 				<button type="button" class="navbar-toggle" data-click="sidebar-toggled">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -176,300 +187,142 @@
 				<!-- end sidebar user -->
 				<!-- begin sidebar nav -->
 				<ul class="nav"><li class="nav-header">Navigation</li>
-					<li class="has-sub">
+				<?php
+					if(@$segment->getSegment(2)){
+						$check_menu_uri = $setting->getMenuByUrl($segment->getSegment(1).'/'.$segment->getSegment(2));
+						if(@$check_menu_uri){
+							$menu_uri = $segment->getSegment(1).'/'.$segment->getSegment(2);
+						}else{
+							$menu_uri = $segment->getSegment(1);
+						}
+					}elseif(@$segment->getSegment(1)){
+						$menu_uri = $segment->getSegment(1);
+					}else{
+						$menu_uri = 'home';
+					}
+
+					$sidebar_menu = $setting->getMenu('MG2000001');
+					if(@$sidebar_menu) {
+						foreach ($sidebar_menu as $sbmenu) {
+							$menu_level_1 = $setting->getMenu('MG2000001', $sbmenu->menu_id);
+							$menu_child_1 = count((array)$menu_level_1);
+							if($menu_child_1 > 0) {
+								$check_sidebar_menu = $setting->getMenuByUrl($menu_uri);
+								$check_menu_parent_1 = $setting->getMenuParent($check_sidebar_menu->mparent_id);
+								$check_menu_parent_2 = $setting->getMenuParent($check_menu_parent_1->mparent_id);
+								if($check_sidebar_menu->mparent_id == $sbmenu->menu_id){
+									$sidebar_menu_active = 'active';
+								}elseif($check_menu_parent_2->mparent_id == $sbmenu->menu_id){
+									$sidebar_menu_active = 'active';
+								}elseif($check_menu_parent_1->mparent_id == $sbmenu->menu_id){
+									$sidebar_menu_active = 'active';
+								}else{
+									$sidebar_menu_active = '';
+								}
+				?>
+					<li class="has-sub <?= $sidebar_menu_active; ?>">
 						<a href="javascript:;">
 							<b class="caret"></b>
-							<i class="fa fa-th-large"></i>
-							<span>Dashboard</span>
+							<i class="<?= $sbmenu->menu_class; ?>"></i>
+							<span><?= $sbmenu->menu_name; ?></span>
 						</a>
 						<ul class="sub-menu">
-							<li><a href="index.html">Dashboard v1</a></li>
-							<li><a href="index_v2.html">Dashboard v2</a></li>
-							<li><a href="index_v3.html">Dashboard v3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<span class="badge pull-right">10</span>
-							<i class="fa fa-hdd"></i>
-							<span>Email</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="email_inbox.html">Inbox</a></li>
-							<li><a href="email_compose.html">Compose</a></li>
-							<li><a href="email_detail.html">Detail</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="widget.html">
-							<i class="fab fa-simplybuilt"></i>
-							<span>Widgets <span class="label label-theme">NEW</span></span> 
-						</a>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-gem"></i>
-							<span>UI Elements <span class="label label-theme">NEW</span></span> 
-						</a>
-						<ul class="sub-menu">
-							<li><a href="ui_general.html">General <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="ui_typography.html">Typography</a></li>
-							<li><a href="ui_tabs_accordions.html">Tabs & Accordions</a></li>
-							<li><a href="ui_unlimited_tabs.html">Unlimited Nav Tabs</a></li>
-							<li><a href="ui_modal_notification.html">Modal & Notification <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="ui_widget_boxes.html">Widget Boxes</a></li>
-							<li><a href="ui_media_object.html">Media Object</a></li>
-							<li><a href="ui_buttons.html">Buttons <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="ui_icons.html">Icons</a></li>
-							<li><a href="ui_simple_line_icons.html">Simple Line Icons</a></li>
-							<li><a href="ui_ionicons.html">Ionicons</a></li>
-							<li><a href="ui_tree.html">Tree View</a></li>
-							<li><a href="ui_language_bar_icon.html">Language Bar & Icon</a></li>
-							<li><a href="ui_social_buttons.html">Social Buttons</a></li>
-							<li><a href="ui_tour.html">Intro JS</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="bootstrap_4.html">
-							<div class="icon-img">
-								<img src="../assets/img/logo/logo-bs4.png" alt="" />
-							</div>
-							<span>Bootstrap 4 <span class="label label-theme">NEW</span></span> 
-						</a>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-list-ol"></i>
-							<span>Form Stuff <span class="label label-theme">NEW</span></span> 
-						</a>
-						<ul class="sub-menu">
-							<li><a href="form_elements.html">Form Elements <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="form_plugins.html">Form Plugins <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="form_slider_switcher.html">Form Slider + Switcher</a></li>
-							<li><a href="form_validation.html">Form Validation</a></li>
-							<li><a href="form_wizards.html">Wizards</a></li>
-							<li><a href="form_wizards_validation.html">Wizards + Validation</a></li>
-							<li><a href="form_wysiwyg.html">WYSIWYG</a></li>
-							<li><a href="form_editable.html">X-Editable</a></li>
-							<li><a href="form_multiple_upload.html">Multiple File Upload</a></li>
-							<li><a href="form_summernote.html">Summernote</a></li>
-							<li><a href="form_dropzone.html">Dropzone</a></li>
-						</ul>
-					</li>
-					<li class="has-sub active">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-table"></i>
-							<span>Tables</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="table_basic.html">Basic Tables</a></li>
-							<li class="has-sub active">
-								<a href="javascript:;"><b class="caret"></b> Managed Tables</a>
-								<ul class="sub-menu">
-									<li class="active"><a href="table_manage.html">Default</a></li>
-									<li><a href="table_manage_autofill.html">Autofill</a></li>
-									<li><a href="table_manage_buttons.html">Buttons</a></li>
-									<li><a href="table_manage_colreorder.html">ColReorder</a></li>
-									<li><a href="table_manage_fixed_columns.html">Fixed Column</a></li>
-									<li><a href="table_manage_fixed_header.html">Fixed Header</a></li>
-									<li><a href="table_manage_keytable.html">KeyTable</a></li>
-									<li><a href="table_manage_responsive.html">Responsive</a></li>
-									<li><a href="table_manage_rowreorder.html">RowReorder</a></li>
-									<li><a href="table_manage_scroller.html">Scroller</a></li>
-									<li><a href="table_manage_select.html">Select</a></li>
-									<li><a href="table_manage_combine.html">Extension Combination</a></li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-star"></i>
-							<span>Front End</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="../../../frontend/template/template_one_page_parallax/index.html" target="_blank">One Page Parallax</a></li>
-							<li><a href="../../../frontend/template/template_blog/index.html" target="_blank">Blog</a></li>
-							<li><a href="../../../frontend/template/template_forum/index.html" target="_blank">Forum</a></li>
-							<li><a href="../../../frontend/template/template_e_commerce/index.html" target="_blank">E-Commerce</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-envelope"></i>
-							<span>Email Template</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="email_system.html">System Template</a></li>
-							<li><a href="email_newsletter.html">Newsletter Template</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-chart-pie"></i>
-							<span>Chart <span class="label label-theme">NEW</span></span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="chart-flot.html">Flot Chart</a></li>
-							<li><a href="chart-morris.html">Morris Chart</a></li>
-							<li><a href="chart-js.html">Chart JS</a></li>
-							<li><a href="chart-d3.html">d3 Chart</a></li>
-							<li><a href="chart-apex.html">Apex Chart <i class="fa fa-paper-plane text-theme"></i></a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="calendar.html">
-							<i class="fa fa-calendar"></i> 
-							<span>Calendar</span>
-						</a>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-map"></i>
-							<span>Map</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="map_vector.html">Vector Map</a></li>
-							<li><a href="map_google.html">Google Map</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-image"></i>
-							<span>Gallery</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="gallery.html">Gallery v1</a></li>
-							<li><a href="gallery_v2.html">Gallery v2</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-cogs"></i>
-							<span>Page Options <span class="label label-theme">NEW</span></span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="page_blank.html">Blank Page</a></li>
-							<li><a href="page_with_footer.html">Page with Footer</a></li>
-							<li><a href="page_without_sidebar.html">Page without Sidebar</a></li>
-							<li><a href="page_with_right_sidebar.html">Page with Right Sidebar</a></li>
-							<li><a href="page_with_minified_sidebar.html">Page with Minified Sidebar</a></li>
-							<li><a href="page_with_two_sidebar.html">Page with Two Sidebar</a></li>
-							<li><a href="page_with_line_icons.html">Page with Line Icons</a></li>
-							<li><a href="page_with_ionicons.html">Page with Ionicons</a></li>
-							<li><a href="page_full_height.html">Full Height Content</a></li>
-							<li><a href="page_with_wide_sidebar.html">Page with Wide Sidebar</a></li>
-							<li><a href="page_with_light_sidebar.html">Page with Light Sidebar</a></li>
-							<li><a href="page_with_mega_menu.html">Page with Mega Menu</a></li>
-							<li><a href="page_with_top_menu.html">Page with Top Menu</a></li>
-							<li><a href="page_with_boxed_layout.html">Page with Boxed Layout</a></li>
-							<li><a href="page_with_mixed_menu.html">Page with Mixed Menu</a></li>
-							<li><a href="page_boxed_layout_with_mixed_menu.html">Boxed Layout with Mixed Menu</a></li>
-							<li><a href="page_with_transparent_sidebar.html">Page with Transparent Sidebar</a></li>
-							<li><a href="page_with_search_sidebar.html">Page with Search Sidebar <i class="fa fa-paper-plane text-theme"></i></a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-gift"></i>
-							<span>Extra <span class="label label-theme">NEW</span></span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="extra_timeline.html">Timeline</a></li>
-							<li><a href="extra_coming_soon.html">Coming Soon Page</a></li>
-							<li><a href="extra_search_results.html">Search Results</a></li>
-							<li><a href="extra_invoice.html">Invoice</a></li>
-							<li><a href="extra_404_error.html">404 Error Page</a></li>
-							<li><a href="extra_profile.html">Profile Page</a></li>
-							<li><a href="extra_scrum_board.html">Scrum Board <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="extra_cookie_acceptance_banner.html">Cookie Acceptance Banner <i class="fa fa-paper-plane text-theme"></i></a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-key"></i>
-							<span>Login & Register</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="login.html">Login</a></li>
-							<li><a href="login_v2.html">Login v2</a></li>
-							<li><a href="login_v3.html">Login v3</a></li>
-							<li><a href="register_v3.html">Register v3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-cubes"></i>
-							<span>Version <span class="label label-theme">NEW</span></span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="../template_html/index_v3.html">HTML</a></li>
-							<li><a href="../template_ajax/">AJAX</a></li>
-							<li><a href="../template_angularjs/">ANGULAR JS</a></li>
-							<li><a href="../template_angularjs8/">ANGULAR JS 8</a></li>
-							<li><a href="../template_laravel/">LARAVEL</a></li>
-							<li><a href="../template_vuejs/">VUE JS</a></li>
-							<li><a href="../template_reactjs/">REACT JS</a></li>
-							<li><a href="../template_material/index_v3.html">MATERIAL DESIGN</a></li>
-							<li><a href="../template_apple/index_v3.html">APPLE DESIGN</a></li>
-							<li><a href="../template_transparent/index_v3.html">TRANSPARENT DESIGN <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="../template_facebook/index_v3.html">FACEBOOK DESIGN <i class="fa fa-paper-plane text-theme"></i></a></li>
-							<li><a href="../template_google/index_v3.html">GOOGLE DESIGN <i class="fa fa-paper-plane text-theme"></i></a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-medkit"></i>
-							<span>Helper</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="helper_css.html">Predefined CSS Classes</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-							<b class="caret"></b>
-							<i class="fa fa-align-left"></i>
-							<span>Menu Level</span>
-						</a>
-						<ul class="sub-menu">
-							<li class="has-sub">
+						<?php
+							foreach ($menu_level_1 as $mnlvl1){
+								$menu_level_2 = $setting->getMenu('MG2000001', $mnlvl1->menu_id);
+								$menu_child_2 = count((array)$menu_level_2);
+								if($menu_child_2 > 0) {
+									$check_menu_level_1 = $setting->getMenuByUrl($menu_uri);
+									$check_menu_parent_3 = $setting->getMenuParent($check_menu_level_1->mparent_id);
+									if($check_menu_level_1->mparent_id == $mnlvl1->menu_id){
+										$menu_level_1_active = 'active';
+									}elseif($check_menu_parent_3->mparent_id == $mnlvl1->menu_id){
+										$menu_level_1_active = 'active';
+									}else{
+										$menu_level_1_active = '';
+									}
+						?>
+							<li class="has-sub <?= $menu_level_1_active; ?>">
 								<a href="javascript:;">
 									<b class="caret"></b>
-									Menu 1.1
+									<?= $mnlvl1->menu_name; ?>
 								</a>
 								<ul class="sub-menu">
-									<li class="has-sub">
+								<?php
+									foreach ($menu_level_2 as $mnlvl2){
+										$menu_level_3 = $setting->getMenu('MG2000001', $mnlvl2->menu_id);
+										$menu_child_3 = count((array)$menu_level_3);
+										if($menu_child_3 > 0) {
+											$check_menu_level_2 = $setting->getMenuByUrl($menu_uri);
+											if($check_menu_level_2->mparent_id == $mnlvl2->menu_id){
+												$menu_level_2_active = 'active';
+											}else{
+												$menu_level_2_active = '';
+											}
+								?>
+									<li class="has-sub <?= $menu_level_2_active; ?>">
 										<a href="javascript:;">
 											<b class="caret"></b>
-											Menu 2.1
+											<?= $mnlvl2->menu_name; ?>
 										</a>
 										<ul class="sub-menu">
-											<li><a href="javascript:;">Menu 3.1</a></li>
-											<li><a href="javascript:;">Menu 3.2</a></li>
+										<?php foreach ($menu_level_3 as $mnlvl3){
+											if($menu_uri == $mnlvl3->menu_url){
+												$menu_level_3_active = 'active';
+											}else{
+												$menu_level_3_active = '';
+											}
+										?>
+											<li class="<?= $menu_level_3_active; ?>"><a href="<?php echo base_url($mnlvl3->menu_url); ?>"><?= $mnlvl3->menu_name; ?></a></li>
+										<?php } ?>
 										</ul>
 									</li>
-									<li><a href="javascript:;">Menu 2.2</a></li>
-									<li><a href="javascript:;">Menu 2.3</a></li>
+									<?php } else {
+										if($menu_uri == $mnlvl2->menu_url){
+											$menu_level_2_active = 'active';
+										}else{
+											$menu_level_2_active = '';
+										}
+									?>
+									<li class="<?= $menu_level_2_active; ?>"><a href="<?php echo base_url($mnlvl2->menu_url); ?>"><?= $mnlvl2->menu_name; ?></a></li>
+								<?php
+										}
+									}
+								?>
 								</ul>
 							</li>
-							<li><a href="javascript:;">Menu 1.2</a></li>
-							<li><a href="javascript:;">Menu 1.3</a></li>
+							<?php } else {
+								if($menu_uri == $mnlvl1->menu_url){
+									$menu_level_1_active = 'active';
+								}else{
+									$menu_level_1_active = '';
+								}
+							?>
+							<li class="<?= $menu_level_1_active; ?>"><a href="<?php echo base_url($mnlvl1->menu_url); ?>"><?= $mnlvl1->menu_name; ?></a></li>
+						<?php
+								}
+							}
+						?>
 						</ul>
 					</li>
+					<?php } else {
+						if($menu_uri == $sbmenu->menu_url){
+							$sidebar_menu_active = 'active';
+						}else{
+							$sidebar_menu_active = '';
+						}
+					?>
+					<li class="<?= $sidebar_menu_active; ?>">
+						<a href="<?php echo base_url($sbmenu->menu_url); ?>">
+							<i class="<?= $sbmenu->menu_class; ?>"></i> 
+							<span><?= $sbmenu->menu_name; ?></span>
+						</a>
+					</li>
+				<?php
+							}
+						}
+					}
+				?>
 					<!-- begin sidebar minify button -->
 					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 					<!-- end sidebar minify button -->

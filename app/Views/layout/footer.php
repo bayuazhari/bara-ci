@@ -1,6 +1,6 @@
 		<!-- begin #footer -->
 		<div id="footer" class="footer">
-			&copy; 2020 Bara Framework. All Rights Reserved
+			<?= @$setting->getSettingById(6)->setting_value; ?>
 		</div>
 		<!-- end #footer -->
 		<!-- begin theme-panel -->
@@ -173,6 +173,33 @@
 						$("#time_zone").next(".select2-container").show();
 						$("#time_zone").html(response.time_zone_list);
 						$("#iso-prefix-code").html(response.country_code);
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+					}
+				});
+			});
+
+			$("#state_loading").hide();
+			$("#country").change(function() {
+				$("#state_loading").show();
+				$("#state").next(".select2-container").hide();
+				$.ajax({
+					type : 'POST',
+					url : '<?php echo base_url("city/get_state"); ?>',
+					data :  { country : $("#country").val() },
+					dataType: "json",
+					beforeSend: function(e) {
+						if(e && e.overrideMimeType) {
+							e.overrideMimeType("application/json;charset=UTF-8");
+						}
+					},
+					success : function(response) {
+						$("#state_loading").hide();
+						$("#state").next(".select2-container").show();
+						$("#state").html(response.state_list);
+						$("#city").html(response.city_list);
+						$("#district").html(response.district_list);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
