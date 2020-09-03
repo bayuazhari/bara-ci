@@ -68,19 +68,24 @@ class Menu_group extends BaseController
 					}else{
 						$mgroup_status = '';
 					}
-					if(@$checkLevel->update == 1){
-						$action_edit = '<a href="'.base_url('menu_group/edit/'.$row->mgroup_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
-					}
-					if(@$this->model->getMenuGroupRelatedTable('menu', $row->mgroup_id)){
-						$delete_disabled = 'disabled';
-					}
-					if(@$checkLevel->delete == 1){
-						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('menu_group/delete/'.$row->mgroup_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					if(@$checkLevel->update == 1 OR @$checkLevel->delete == 1){
+						if(@$checkLevel->update == 1){
+							$action_edit = '<a href="'.base_url('menu_group/edit/'.$row->mgroup_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+						}
+						if(@$this->model->getMenuGroupRelatedTable('menu', $row->mgroup_id)){
+							$delete_disabled = 'disabled';
+						}
+						if(@$checkLevel->delete == 1){
+							$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('menu_group/delete/'.$row->mgroup_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+						}
+						$actions = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					}else{
+						$actions = 'No action';
 					}
 					$nestedData['number'] = $start;
 					$nestedData['mgroup_name'] = $row->mgroup_name;
 					$nestedData['mgroup_status'] = $mgroup_status;
-					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$nestedData['action'] = $actions;
 					$data[] = $nestedData;
 				}
 			}

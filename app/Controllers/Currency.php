@@ -70,21 +70,26 @@ class Currency extends BaseController
 					}else{
 						$currency_status = '';
 					}
-					if(@$checkLevel->update == 1){
-						$action_edit = '<a href="'.base_url('currency/edit/'.$row->currency_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
-					}
-					if(@$this->model->getCurrencyRelatedTable('country', $row->currency_id)){
-						$delete_disabled = 'disabled';
-					}
-					if(@$checkLevel->delete == 1){
-						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('currency/delete/'.$row->currency_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					if(@$checkLevel->update == 1 OR @$checkLevel->delete == 1){
+						if(@$checkLevel->update == 1){
+							$action_edit = '<a href="'.base_url('currency/edit/'.$row->currency_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+						}
+						if(@$this->model->getCurrencyRelatedTable('country', $row->currency_id)){
+							$delete_disabled = 'disabled';
+						}
+						if(@$checkLevel->delete == 1){
+							$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('currency/delete/'.$row->currency_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+						}
+						$actions = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					}else{
+						$actions = 'No action';
 					}
 					$nestedData['number'] = $start;
 					$nestedData['currency_code'] = $row->currency_code;
 					$nestedData['currency_name'] = $row->currency_name;
 					$nestedData['currency_symbol'] = $row->currency_symbol;
 					$nestedData['currency_status'] = $currency_status;
-					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$nestedData['action'] = $actions;
 					$data[] = $nestedData;
 				}
 			}

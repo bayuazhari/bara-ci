@@ -73,14 +73,19 @@ class City extends BaseController
 					}else{
 						$city_status = '';
 					}
-					if(@$checkLevel->update == 1){
-						$action_edit = '<a href="'.base_url('city/edit/'.$row->city_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
-					}
-					if(@$this->model->getCityRelatedTable('district', $row->city_id)){
-						$delete_disabled = 'disabled';
-					}
-					if(@$checkLevel->delete == 1){
-						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('city/delete/'.$row->city_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+					if(@$checkLevel->update == 1 OR @$checkLevel->delete == 1){
+						if(@$checkLevel->update == 1){
+							$action_edit = '<a href="'.base_url('city/edit/'.$row->city_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
+						}
+						if(@$this->model->getCityRelatedTable('district', $row->city_id)){
+							$delete_disabled = 'disabled';
+						}
+						if(@$checkLevel->delete == 1){
+							$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('city/delete/'.$row->city_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+						}
+						$actions = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					}else{
+						$actions = 'No action';
 					}
 					$nestedData['number'] = $start;
 					$nestedData['city_code'] = $row->city_code;
@@ -90,7 +95,7 @@ class City extends BaseController
 					$nestedData['state_name'] = $row->state_name;
 					$nestedData['country_name'] = $row->country_name;
 					$nestedData['city_status'] = $city_status;
-					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$nestedData['action'] = $actions;
 					$data[] = $nestedData;
 				}
 			}

@@ -145,12 +145,18 @@
 						<span class="d-none d-md-inline">Adam Schwartz</span> <b class="caret"></b>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
-						<a href="javascript:;" class="dropdown-item">Edit Profile</a>
-						<a href="javascript:;" class="dropdown-item"><span class="badge badge-danger pull-right">2</span> Inbox</a>
-						<a href="javascript:;" class="dropdown-item">Calendar</a>
-						<a href="javascript:;" class="dropdown-item">Setting</a>
+					<?php
+						$profile_menu = $setting->getMenu('MG2000002');
+						if(@$profile_menu) {
+							foreach ($profile_menu as $pmenu) {
+					?>
+						<a href="<?php echo base_url($pmenu->menu_url); ?>" class="dropdown-item"><i class="<?= $pmenu->menu_class; ?>"></i> <?= $pmenu->menu_name; ?></a>
+					<?php
+							}
+						}
+					?>
 						<div class="dropdown-divider"></div>
-						<a href="javascript:;" class="dropdown-item">Log Out</a>
+						<a href="<?php echo base_url('login/logout'); ?>" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Log Out</a>
 					</div>
 				</li>
 			</ul>
@@ -178,9 +184,15 @@
 					</li>
 					<li>
 						<ul class="nav nav-profile">
-							<li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
-							<li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
-							<li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
+						<?php
+							if(@$profile_menu) {
+								foreach ($profile_menu as $pmenu) {
+						?>
+							<li><a href="<?php echo base_url($pmenu->menu_url); ?>"><i class="<?= $pmenu->menu_class; ?>"></i> <?= $pmenu->menu_name; ?></a></li>
+						<?php
+								}
+							}
+						?>
 						</ul>
 					</li>
 				</ul>
@@ -208,13 +220,13 @@
 							$menu_child_1 = count((array)$menu_level_1);
 							if($menu_child_1 > 0) {
 								$check_sidebar_menu = $setting->getMenuByUrl($menu_uri);
-								$check_menu_parent_1 = $setting->getMenuParent($check_sidebar_menu->mparent_id);
-								$check_menu_parent_2 = $setting->getMenuParent($check_menu_parent_1->mparent_id);
-								if($check_sidebar_menu->mparent_id == $sbmenu->menu_id){
+								$check_menu_parent_1 = $setting->getMenuParent(@$check_sidebar_menu->mparent_id);
+								$check_menu_parent_2 = $setting->getMenuParent(@$check_menu_parent_1->mparent_id);
+								if(@$check_sidebar_menu->mparent_id == $sbmenu->menu_id){
 									$sidebar_menu_active = 'active';
-								}elseif($check_menu_parent_2->mparent_id == $sbmenu->menu_id){
+								}elseif(@$check_menu_parent_2->mparent_id == $sbmenu->menu_id){
 									$sidebar_menu_active = 'active';
-								}elseif($check_menu_parent_1->mparent_id == $sbmenu->menu_id){
+								}elseif(@$check_menu_parent_1->mparent_id == $sbmenu->menu_id){
 									$sidebar_menu_active = 'active';
 								}else{
 									$sidebar_menu_active = '';
@@ -233,10 +245,10 @@
 								$menu_child_2 = count((array)$menu_level_2);
 								if($menu_child_2 > 0) {
 									$check_menu_level_1 = $setting->getMenuByUrl($menu_uri);
-									$check_menu_parent_3 = $setting->getMenuParent($check_menu_level_1->mparent_id);
-									if($check_menu_level_1->mparent_id == $mnlvl1->menu_id){
+									$check_menu_parent_3 = $setting->getMenuParent(@$check_menu_level_1->mparent_id);
+									if(@$check_menu_level_1->mparent_id == $mnlvl1->menu_id){
 										$menu_level_1_active = 'active';
-									}elseif($check_menu_parent_3->mparent_id == $mnlvl1->menu_id){
+									}elseif(@$check_menu_parent_3->mparent_id == $mnlvl1->menu_id){
 										$menu_level_1_active = 'active';
 									}else{
 										$menu_level_1_active = '';
@@ -254,7 +266,7 @@
 										$menu_child_3 = count((array)$menu_level_3);
 										if($menu_child_3 > 0) {
 											$check_menu_level_2 = $setting->getMenuByUrl($menu_uri);
-											if($check_menu_level_2->mparent_id == $mnlvl2->menu_id){
+											if(@$check_menu_level_2->mparent_id == $mnlvl2->menu_id){
 												$menu_level_2_active = 'active';
 											}else{
 												$menu_level_2_active = '';

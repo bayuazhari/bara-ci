@@ -88,7 +88,7 @@ class Country extends BaseController
 					$nestedData['country_numeric_code'] = $row->country_numeric_code;
 					$nestedData['country_name'] = $row->country_name;
 					$nestedData['country_status'] = $country_status;
-					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
+					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right"><a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-id="'.$row->country_id.'" data-href="'.base_url('country/detail/').'"><i class="fa fa-info-circle"></i> Detail</a>'.@$action_edit.@$action_delete.'</div></div>';
 					$data[] = $nestedData;
 				}
 			}
