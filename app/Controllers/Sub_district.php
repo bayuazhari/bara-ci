@@ -24,7 +24,7 @@ class Sub_district extends BaseController
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
-			echo view('sub_district/view_sub_district', $data);
+			echo view('sub_district/view_sub_district');
 			echo view('layout/footer');
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');

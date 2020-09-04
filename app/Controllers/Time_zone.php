@@ -24,7 +24,7 @@ class Time_zone extends BaseController
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
-			echo view('time_zone/view_time_zone', $data);
+			echo view('time_zone/view_time_zone');
 			echo view('layout/footer');
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');

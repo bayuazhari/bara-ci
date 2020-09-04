@@ -24,7 +24,7 @@ class Geo_unit extends BaseController
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
-			echo view('geo_unit/view_geo_unit', $data);
+			echo view('geo_unit/view_geo_unit');
 			echo view('layout/footer');
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');

@@ -24,7 +24,7 @@ class Language extends BaseController
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
-			echo view('language/view_language', $data);
+			echo view('language/view_language');
 			echo view('layout/footer');
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');

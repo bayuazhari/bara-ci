@@ -80,62 +80,75 @@
 				<li class="dropdown">
 					<a href="#" data-toggle="dropdown" class="dropdown-toggle f-s-14">
 						<i class="fa fa-bell"></i>
-						<span class="label">5</span>
+					<?php if (@$total_notif) { ?>
+						<span class="label"><?= $total_notif ?></span>
+					<?php } ?>
 					</a>
 					<div class="dropdown-menu media-list dropdown-menu-right">
-						<div class="dropdown-header">NOTIFICATIONS (5)</div>
-						<a href="javascript:;" class="dropdown-item media">
+						<div class="dropdown-header">NOTIFICATIONS</div>
+					<?php
+						if(@$notification) {
+							foreach ($notification as $notif) {
+								$time_diff = (time() - strtotime($notif->notif_date));
+								$second = $time_diff;
+								$minute = round($time_diff / 60 );
+								$hour = round($time_diff / 3600 );
+								$day = round($time_diff / 86400 );
+								$week = round($time_diff / 604800 );
+								$month = round($time_diff / 2419200 );
+
+								if ($second < 60) {
+									$notif_date = 'Just now';
+								} else if ($minute < 60) {
+									if($minute == 1){
+										$notif_date = 'One minutes ago';
+									}else{
+										$notif_date = $minute.' minutes ago';
+									}
+								} else if ($hour < 24) {
+									if($hour == 1){
+										$notif_date = 'An hour ago';
+									}else{
+										$notif_date = $hour.' hours ago';
+									}
+								} else if ($day < 7) {
+									if($day == 1){
+										$notif_date = 'Yesterday';
+									}else{
+										$notif_date = $day.' days ago';
+									}
+								} else if ($week < 4) {
+									if($week == 1){
+										$notif_date = 'A week ago';
+									}else{
+										$notif_date = $week.' weeks ago';
+									}
+								} else if ($month < 12) {
+									if($month == 1){
+										$notif_date = 'A month ago';
+									}else{
+										$notif_date = $month.' months ago';
+									}
+								} else {
+									$notif_date = date('F d, Y H:i', strtotime($notif->notif_date));
+								}
+					?>
+						<a href="<?php echo base_url('notification/detail/'.$notif->notif_id); ?>" class="dropdown-item media">
 							<div class="media-left">
-								<i class="fa fa-bug media-object bg-silver-darker"></i>
+								<i class="<?= $notif->notif_class; ?>"></i>
 							</div>
 							<div class="media-body">
-								<h6 class="media-heading">Server Error Reports <i class="fa fa-exclamation-circle text-danger"></i></h6>
-								<div class="text-muted f-s-10">3 minutes ago</div>
+								<h6 class="media-heading"><?= $notif->notif_title; ?></h6>
+								<p><?= $notif->notif_desc; ?></p>
+								<div class="text-muted f-s-10"><?= $notif_date ?></div>
 							</div>
 						</a>
-						<a href="javascript:;" class="dropdown-item media">
-							<div class="media-left">
-								<img src="../assets/img/user/user-1.jpg" class="media-object" alt="" />
-								<i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
-							</div>
-							<div class="media-body">
-								<h6 class="media-heading">John Smith</h6>
-								<p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-								<div class="text-muted f-s-10">25 minutes ago</div>
-							</div>
-						</a>
-						<a href="javascript:;" class="dropdown-item media">
-							<div class="media-left">
-								<img src="../assets/img/user/user-2.jpg" class="media-object" alt="" />
-								<i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
-							</div>
-							<div class="media-body">
-								<h6 class="media-heading">Olivia</h6>
-								<p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-								<div class="text-muted f-s-10">35 minutes ago</div>
-							</div>
-						</a>
-						<a href="javascript:;" class="dropdown-item media">
-							<div class="media-left">
-								<i class="fa fa-plus media-object bg-silver-darker"></i>
-							</div>
-							<div class="media-body">
-								<h6 class="media-heading"> New User Registered</h6>
-								<div class="text-muted f-s-10">1 hour ago</div>
-							</div>
-						</a>
-						<a href="javascript:;" class="dropdown-item media">
-							<div class="media-left">
-								<i class="fa fa-envelope media-object bg-silver-darker"></i>
-								<i class="fab fa-google text-warning media-object-icon f-s-14"></i>
-							</div>
-							<div class="media-body">
-								<h6 class="media-heading"> New Email From John</h6>
-								<div class="text-muted f-s-10">2 hour ago</div>
-							</div>
-						</a>
+					<?php
+							}
+						}
+					?>
 						<div class="dropdown-footer text-center">
-							<a href="javascript:;">View more</a>
+							<a href="<?php echo base_url('notification'); ?>">View more</a>
 						</div>
 					</div>
 				</li>

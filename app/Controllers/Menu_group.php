@@ -24,7 +24,7 @@ class Menu_group extends BaseController
 				'checkLevel' => $checkLevel
 			);
 			echo view('layout/header', $data);
-			echo view('menu_group/view_menu_group', $data);
+			echo view('menu_group/view_menu_group');
 			echo view('layout/footer');
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');

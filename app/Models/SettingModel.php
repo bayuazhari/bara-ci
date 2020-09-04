@@ -4,10 +4,10 @@ use CodeIgniter\Model;
 
 class SettingModel extends Model
 {
-	public function getSettingByGroup($group)
+	public function getSettingByGroup($setting_group)
 	{
 		$query = $this->db->table('setting')
-		->where('setting_group', $group)
+		->where('setting_group', $setting_group)
 		->get();
 		return $query->getResult();
 	}
@@ -69,10 +69,93 @@ class SettingModel extends Model
 		return false;
 	}
 
-	public function updateSetting($setting_id, $data)
+	public function getNotif($recipient_id)
+	{
+		$query = $this->db->table('notification')
+		->where('recipient_id', $recipient_id)
+		->where('is_read', '0')
+		->orderBy('notif_date', 'DESC')
+		->limit(5)
+		->get();
+		return $query->getResult();
+	}
+
+	public function getNotifCount($recipient_id)
+	{
+		$query = $this->db->table('notification')
+		->selectCount('notif_id', 'total')
+		->where('recipient_id', $recipient_id)
+		->where('is_read', '0')
+		->get();
+		return $query->getRow()->total;
+	}
+
+	public function getAllNotif($limit, $start, $col, $dir)
+	{
+		$query = $this->db->table('notification')
+		->select('notif_id, notif_title, notif_desc, notif_date, first_name, last_name, is_read')
+		->join('user', 'notification.sender_id=user.user_id', 'left')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function getAllNotifCount()
+	{
+		$query = $this->db->table('notification')
+		->selectCount('notif_id', 'total')
+		->get();
+		return $query->getRow()->total;
+	}
+
+	public function searchNotif($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table('notification')
+		->select('notif_id, notif_title, notif_desc, notif_date, first_name, last_name, is_read')
+		->join('user', 'notification.sender_id=user.user_id', 'left')
+		->like('notif_title', $search)
+		->orLike('notif_desc', $search)
+		->orLike('notif_date', $search)
+		->orLike('first_name', $search)
+		->orLike('last_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchNotifCount($search)
+	{
+		$query = $this->db->table('notification')
+		->selectCount('notif_id', 'total')
+		->join('user', 'notification.sender_id=user.user_id')
+		->like('notif_title', $search)
+		->orLike('notif_desc', $search)
+		->orLike('notif_date', $search)
+		->orLike('first_name', $search)
+		->orLike('last_name', $search)
+		->get();
+		return $query->getRow()->total;
+	}
+
+	public function insertNotif($data)
+	{
+		$this->db->table('notification')
+		->insert($data);
+	}
+
+	public function updateSetting($setting_id, $setting_data)
 	{
 		$this->db->table('setting')
 		->where('setting_id', $setting_id)
-		->update($data);
+		->update($setting_data);
+	}
+
+	public function updateNotif($notif_id, $notif_data)
+	{
+		$this->db->table('notification')
+		->where('notif_id', $notif_id)
+		->update($notif_data);
 	}
 }
