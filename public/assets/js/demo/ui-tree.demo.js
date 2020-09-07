@@ -182,6 +182,44 @@ var handleJstreeAjax = function() {
 };
 
 
+var handleJstreeMenu = function() {
+	$("#jstree-menu").jstree({
+		"core": {
+			"themes": {
+				"responsive": false
+			}, 
+			"check_callback": true,
+			'data': {
+				'url': function (node) {
+					return node.id === '#' ? 'menu/getTree': '#';
+				},
+				'data': function (node) {
+					return { 'id': node.id };
+				},
+				"dataType": "json"
+			}
+		},
+		"types": {
+			"default": {
+				"icon": "fa fa-genderless"
+			},
+			"file": {
+				"icon": "fa fa-file fa-lg"
+			}
+		},
+		"plugins": [ "dnd", "state", "types" ]
+	}).on('move_node.jstree', function (e, data) {
+		jQuery.post('/menu/updatePosition',{
+			id: data.node.id,
+			parent: data.parent,
+			position: data.position
+		}, function (data, status) {
+			alert("Data: " + data + "\nStatus: " + status);
+		}, 'Json');
+	});
+};
+
+
 var TreeView = function () {
 	"use strict";
 	return {
@@ -191,6 +229,7 @@ var TreeView = function () {
 			handleJstreeCheckable();
 			handleJstreeDragAndDrop();
 			handleJstreeAjax();
+			handleJstreeMenu();
 		}
 	};
 }();

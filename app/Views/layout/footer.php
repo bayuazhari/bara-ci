@@ -126,11 +126,13 @@
 	<script src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/wysihtml5/wysihtml5.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/plugins/jquery-mockjax/dist/jquery.mockjax.min.js'); ?>"></script>
 
+	<script src="<?php echo base_url('assets/plugins/jstree/dist/jstree.min.js'); ?>"></script>
+
 	<script src="<?php echo base_url('assets/js/demo/table-manage-server-side.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/table-manage-buttons.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/form-plugins.demo.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/demo/form-editable.demo.js'); ?>"></script>
-	<script src="<?php echo base_url('assets/js/demo/timeline.demo.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/js/demo/ui-tree.demo.js'); ?>"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->
 	<script type="text/javascript">
 		$(document).ready(function() {

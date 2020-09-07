@@ -14,10 +14,9 @@ class Notification extends BaseController
 		$data = array(
 			'setting' => $this->setting,
 			'segment' => $this->request->uri,
-			'title' =>  @$checkMenu->menu_name,
+			'title' =>  'Notification',
 			'total_notif' => $this->setting->getNotifCount('0'),
-			'notification' => $this->setting->getNotif('0'),
-			'breadcrumb' => @$checkMenu->mgroup_name
+			'notification' => $this->setting->getNotif('0')
 		);
 		echo view('layout/header', $data);
 		echo view('notification/view_notification');
@@ -28,10 +27,10 @@ class Notification extends BaseController
 	{
 		$columns = array(
 			0 => 'notif_id',
-			1 => 'notif_title',
-			2 => 'notif_desc',
-			3 => 'notif_date',
-			4 => 'first_name',
+			1 => 'first_name',
+			2 => 'notif_title',
+			3 => 'notif_desc',
+			4 => 'notif_date',
 			5 => 'is_read'
 		);
 		$limit = $this->request->getPost('length');
@@ -53,6 +52,50 @@ class Notification extends BaseController
 		if(@$notification){
 			foreach($notification as $row){
 				$start++;
+				$time_diff = (time() - strtotime($row->notif_date));
+				$second = $time_diff;
+				$minute = round($time_diff / 60 );
+				$hour = round($time_diff / 3600 );
+				$day = round($time_diff / 86400 );
+				$week = round($time_diff / 604800 );
+				$month = round($time_diff / 2419200 );
+
+				if ($second < 60) {
+					$notif_date = 'Just now';
+				} else if ($minute < 60) {
+					if($minute == 1){
+						$notif_date = 'One minutes ago';
+					}else{
+						$notif_date = $minute.' minutes ago';
+					}
+				} else if ($hour < 24) {
+					if($hour == 1){
+						$notif_date = 'An hour ago';
+					}else{
+						$notif_date = $hour.' hours ago';
+					}
+				} else if ($day < 7) {
+					if($day == 1){
+						$notif_date = 'Yesterday';
+					}else{
+						$notif_date = $day.' days ago';
+					}
+				} else if ($week < 4) {
+					if($week == 1){
+						$notif_date = 'A week ago';
+					}else{
+						$notif_date = $week.' weeks ago';
+					}
+				} else if ($month < 12) {
+					if($month == 1){
+						$notif_date = 'A month ago';
+					}else{
+						$notif_date = $month.' months ago';
+					}
+				} else {
+					$notif_date = date('F d, Y H:i', strtotime($row->notif_date));
+				}
+				
 				if($row->is_read == 1){
 					$is_read = '<span class="text-success">Read</span>';
 				}elseif($row->is_read == 0){
@@ -61,10 +104,10 @@ class Notification extends BaseController
 					$is_read = '';
 				}
 				$nestedData['number'] = $start;
+				$nestedData['sender_name'] = $row->first_name.' '.$row->last_name;
 				$nestedData['notif_title'] = $row->notif_title;
 				$nestedData['notif_desc'] = $row->notif_desc;
-				$nestedData['notif_date'] = $row->notif_date;
-				$nestedData['sender_name'] = $row->first_name.' '.$row->last_name;
+				$nestedData['notif_date'] = $notif_date;
 				$nestedData['is_read'] = $is_read;
 				$data[] = $nestedData;
 			}
@@ -81,7 +124,7 @@ class Notification extends BaseController
 
 	public function getColumns()
 	{
-		$fields = array('notif_title', 'notif_desc', 'notif_date', 'sender_name', 'is_read');
+		$fields = array('sender_name', 'notif_title', 'notif_desc', 'notif_date', 'is_read');
 		$columns[]['data'] = 'number';
 		foreach ($fields as $field) {
 			$columns[] = array(

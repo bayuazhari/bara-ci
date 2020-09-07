@@ -36,6 +36,8 @@
 	<link href="<?php echo base_url('assets/plugins/x-editable-bs4/dist/bootstrap4-editable/css/bootstrap-editable.css'); ?>" rel="stylesheet" />
 	<link href="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/address/address.css'); ?>" rel="stylesheet" />
 	<link href="<?php echo base_url('assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/lib/typeahead.js-bootstrap.css'); ?>" rel="stylesheet" />
+
+	<link href="<?php echo base_url('assets/plugins/jstree/dist/themes/default/style.min.css'); ?>" rel="stylesheet" />
 	<!-- ================== END PAGE LEVEL STYLE ================== -->
 </head>
 <body>
@@ -154,7 +156,7 @@
 				</li>
 				<li class="dropdown navbar-user">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<img src="../assets/img/user/user-13.jpg" alt="" /> 
+						<img src="<?php echo base_url('assets/img/user/user-0.png'); ?>" alt="" /> 
 						<span class="d-none d-md-inline">Adam Schwartz</span> <b class="caret"></b>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
@@ -187,7 +189,7 @@
 						<a href="javascript:;" data-toggle="nav-profile">
 							<div class="cover with-shadow"></div>
 							<div class="image">
-								<img src="../assets/img/user/user-13.jpg" alt="" />
+								<img src="<?php echo base_url('assets/img/user/user-0.png'); ?>" alt="" />
 							</div>
 							<div class="info">
 								<b class="caret pull-right"></b>Sean Ngu

@@ -94,7 +94,7 @@ class SettingModel extends Model
 	{
 		$query = $this->db->table('notification')
 		->select('notif_id, notif_title, notif_desc, notif_date, first_name, last_name, is_read')
-		->join('user', 'notification.sender_id=user.user_id', 'left')
+		->join('user', 'notification.sender_id=user.user_id')
 		->limit($limit, $start)
 		->orderBy($col, $dir)
 		->get();
@@ -113,7 +113,7 @@ class SettingModel extends Model
 	{
 		$query = $this->db->table('notification')
 		->select('notif_id, notif_title, notif_desc, notif_date, first_name, last_name, is_read')
-		->join('user', 'notification.sender_id=user.user_id', 'left')
+		->join('user', 'notification.sender_id=user.user_id')
 		->like('notif_title', $search)
 		->orLike('notif_desc', $search)
 		->orLike('notif_date', $search)
@@ -137,6 +137,27 @@ class SettingModel extends Model
 		->orLike('last_name', $search)
 		->get();
 		return $query->getRow()->total;
+	}
+
+	public function getNotifId()
+	{
+		$lastId = $this->db->table($this->table)
+		->select('MAX(RIGHT(notif_id, 11)) AS last_id')
+		->get();
+		$lastMidId = $this->db->table($this->table)
+		->select('MAX(MID(notif_id, 3, 6)) AS last_mid_id')
+		->get()
+		->getRow()
+		->last_mid_id;
+		$midId = date('ymd');
+		$char = "N1".$midId;
+		if($lastMidId == $midId){
+			$tmp = ($lastId->getRow()->last_id)+1;
+			$id = substr($tmp, -5);
+		}else{
+			$id = "00001";
+		}
+		return $char.$id;
 	}
 
 	public function insertNotif($data)
