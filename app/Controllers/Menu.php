@@ -97,6 +97,7 @@ class Menu extends BaseController
 				echo view('menu/form_add_menu', $data);
 				echo view('layout/footer');
 			}else{
+				$menuLastPosition = $this->model->getMenuLastPosition($this->request->getPost('menu_group')) + 1;
 				$menuData = array(
 					'menu_id' => $this->model->getMenuId(),
 					'mgroup_id' => $this->request->getPost('menu_group'),
@@ -104,6 +105,7 @@ class Menu extends BaseController
 					'menu_url' => $this->request->getPost('menu_url'),
 					'menu_class' => $this->request->getPost('menu_class'),
 					'menu_label' => $this->request->getPost('menu_label'),
+					'menu_position' => $menuLastPosition,
 					'menu_status' => 1
 				);
 				$this->model->insertMenu($menuData);
@@ -170,6 +172,7 @@ class Menu extends BaseController
 			}else{
 				$mparent_id = NULL;
 			}
+				
 			$menuData = array(
 				'mparent_id' => $mparent_id,
 				'menu_position' => $this->request->getPost('position')

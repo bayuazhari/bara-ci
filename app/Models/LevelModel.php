@@ -2,46 +2,61 @@
 
 use CodeIgniter\Model;
 
-class MenuGroupModel extends Model
+class LevelModel extends Model
 {
-	protected $table = 'menu_group';
-	protected $primaryKey = 'mgroup_id';
+	protected $table = 'level';
+	protected $primaryKey = 'level_id';
 
-	public function getMenuGroup($limit, $start, $col, $dir)
+	public function getLevel($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
+		->join('menu', 'level.menu_id=menu.menu_id')
 		->limit($limit, $start)
 		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
 	}
 
-	public function getMenuGroupCount()
+	public function getLevelCount()
 	{
 		$query = $this->db->table($this->table);
 		return $query->countAll();
 	}
 
-	public function searchMenuGroup($limit, $start, $search, $col, $dir)
+	public function searchLevel($limit, $start, $search, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
-		->like('mgroup_name', $search)
+		->join('menu', 'level.menu_id=menu.menu_id')
+		->like('level_name', $search)
+		->orLike('menu_name', $search)
 		->limit($limit, $start)
 		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
 	}
 
-	public function searchMenuGroupCount($search)
+	public function searchLevelCount($search)
 	{
 		$query = $this->db->table($this->table)
 		->selectCount($this->primaryKey, 'total')
-		->like('mgroup_name', $search)
+		->join('menu', 'level.menu_id=menu.menu_id')
+		->like('level_name', $search)
+		->orLike('menu_name', $search)
 		->get();
 		return $query->getRow()->total;
 	}
 
-	public function getMenuGroupById($id)
+	public function getLevelDetail($id)
+	{
+		$query = $this->db->table($this->table)
+		->join('menu', 'level.menu_id=menu.menu_id')
+		->where($this->primaryKey, $id)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
+	public function getLevelById($id)
 	{
 		$query = $this->db->table($this->table)
 		->where($this->primaryKey, $id)
@@ -50,7 +65,16 @@ class MenuGroupModel extends Model
 		return $query->getRow();
 	}
 
-	public function getMenuGroupByField($field, $record)
+	public function getMenu()
+	{
+		$query = $this->db->table('menu')
+		->where('menu_status', '1')
+		->orderBy('mgroup_id, mparent_id, menu_position', 'ASC')
+		->get();
+		return $query->getResult();
+	}
+
+	public function getLevelByField($field, $record)
 	{
 		$query = $this->db->table($this->table)
 		->where($field, $record)
@@ -59,7 +83,7 @@ class MenuGroupModel extends Model
 		return $query->getRow();
 	}
 
-	public function getMenuGroupRelatedTable($table, $record)
+	public function getLevelRelatedTable($table, $record)
 	{
 		$query = $this->db->table($table)
 		->where($this->primaryKey, $record)
@@ -68,18 +92,18 @@ class MenuGroupModel extends Model
 		return $query->getRow();
 	}
 
-	public function getMenuGroupId()
+	public function getLevelId()
 	{
 		$lastId = $this->db->table($this->table)
-		->select('MAX(RIGHT(mgroup_id, 7)) AS last_id')
+		->select('MAX(RIGHT(level_id, 7)) AS last_id')
 		->get();
 		$lastMidId = $this->db->table($this->table)
-		->select('MAX(MID(mgroup_id, 3, 2)) AS last_mid_id')
+		->select('MAX(MID(level_id, 3, 2)) AS last_mid_id')
 		->get()
 		->getRow()
 		->last_mid_id;
 		$midId = date('y');
-		$char = "MG".$midId;
+		$char = "L1".$midId;
 		if($lastMidId == $midId){
 			$tmp = ($lastId->getRow()->last_id)+1;
 			$id = substr($tmp, -5);
@@ -89,20 +113,20 @@ class MenuGroupModel extends Model
 		return $char.$id;
 	}
 
-	public function insertMenuGroup($data)
+	public function insertLevel($data)
 	{
 		$this->db->table($this->table)
 		->insert($data);
 	}
 
-	public function updateMenuGroup($id, $data)
+	public function updateLevel($id, $data)
 	{
 		$this->db->table($this->table)
 		->where($this->primaryKey, $id)
 		->update($data);
 	}
 
-	public function deleteMenuGroup($id)
+	public function deleteLevel($id)
 	{
 		$this->db->table($this->table)
 		->where($this->primaryKey, $id)

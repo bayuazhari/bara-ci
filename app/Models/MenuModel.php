@@ -60,6 +60,16 @@ class MenuModel extends Model
 		return $query->getRow();
 	}
 
+	public function getMenuLastPosition($mgroup_id, $mparent_id = NULL)
+	{
+		$query = $this->db->table($this->table)
+		->selectMax('menu_position', 'position')
+		->where('mgroup_id', $mgroup_id)
+		->where('mparent_id', $mparent_id)
+		->get();
+		return $query->getRow()->position;
+	}
+
 	public function getMenuId()
 	{
 		$lastId = $this->db->table($this->table)

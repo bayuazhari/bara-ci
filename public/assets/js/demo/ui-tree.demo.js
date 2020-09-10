@@ -191,7 +191,7 @@ var handleJstreeMenu = function() {
 			"check_callback": true,
 			'data': {
 				'url': function (node) {
-					return node.id === '#' ? 'menu/getTree': '#';
+					return node.id === '#' ? 'menu/getTree?group=': '#';
 				},
 				'data': function (node) {
 					return { 'id': node.id };
