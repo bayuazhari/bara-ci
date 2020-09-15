@@ -62,7 +62,7 @@ class SettingModel extends Model
 		->getRow();
 		$roles = json_decode($query->level_role);
 		foreach ($roles as $row) {
-			if($row->role === $role){
+			if($row->menu === $role){
 				return $row;
 			}
 		}

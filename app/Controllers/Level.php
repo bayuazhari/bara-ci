@@ -136,7 +136,8 @@ class Level extends BaseController
 				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
-				'request' => $this->request
+				'request' => $this->request,
+				'menu' => $this->model->getMenu()
 			);
 			$validation = $this->validate([
 				'level_name' => ['label' => 'Name', 'rules' => 'required'],
@@ -180,6 +181,7 @@ class Level extends BaseController
 				'title' => @$checkMenu->menu_name,
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
+				'menu' => $this->model->getMenu(),
 				'level' => $this->model->getLevelById($id)
 			);
 			$validation = $this->validate([

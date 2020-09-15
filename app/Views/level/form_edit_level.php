@@ -4,31 +4,42 @@
 			<ol class="breadcrumb float-xl-right">
 				<li class="breadcrumb-item"><a href="javascript:;"><?= $breadcrumb ?></a></li>
 				<li class="breadcrumb-item"><a href="<?php echo base_url('level') ?>"><?= $title ?></a></li>
-				<li class="breadcrumb-item active">Add New</li>
+				<li class="breadcrumb-item active">Edit</li>
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header"><?= $title ?> <small>Add New</small></h1>
+			<h1 class="page-header"><?= $title ?> <small>Edit</small></h1>
 			<!-- end page-header -->
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
-					<h4 class="panel-title">Add New <?= $title ?></h4>
+					<h4 class="panel-title">Edit <?= $title ?></h4>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
 					</div>
 				</div>
 				<!-- end panel-heading -->
+				<?php
+				$id = $level->level_id;
+				if(@$request->getPost()){
+					$level_name = $request->getPost('level_name');
+					$menu_id = $request->getPost('menu');
+					$status = $request->getPost('status');
+				}else{
+					$level_name = $level->level_name;
+					$menu_id = $level->menu_id;
+					$status = $level->level_status;
+				} ?>
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<form action="<?php echo base_url('level/add') ?>" method="post">
+					<form action="<?php echo base_url('level/edit/'.$id) ?>" method="post">
 						<?php $error = $validation->getError('level_name'); ?>
 						<div class="form-group row m-b-15">
 							<label class="col-form-label col-md-2 text-lg-right">Name<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Level name (e.g., Admin)."></i></span></label>
 							<div class="col-md-9">
-								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="level_name" value="<?= $request->getPost('level_name'); ?>" />
+								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="level_name" value="<?= $level_name; ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
@@ -55,6 +66,21 @@
 												$index=0;
 												foreach ($menu as $mn) :
 													$no++;
+
+													if(@$request->getPost('level_role')){
+														$level_read = $request->getPost('level_role['.$index.'][read]');
+														$level_create = $request->getPost('level_role['.$index.'][create]');
+														$level_update = $request->getPost('level_role['.$index.'][update]');
+														$level_delete = $request->getPost('level_role['.$index.'][delete]');
+														$level_data = $request->getPost('level_role['.$index.'][data]');
+													}else{
+														$level_role = $setting->getLevelByRole($id, $mn->menu_id);
+														$level_read = @$level_role->read;
+														$level_create = @$level_role->create;
+														$level_update = @$level_role->update;
+														$level_delete = @$level_role->delete;
+														$level_data = @$level_role->data;
+													}
 										?>
 											<tr>
 												<td><?= $no; ?></td>
@@ -62,35 +88,35 @@
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][read]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="readCheck<?= $no; ?>" name="level_role[<?= $index; ?>][read]" value="1" <?php if($request->getPost('level_role['.$index.'][read]') == '1'){echo 'checked';} ?> />
+														<input type="checkbox" class="custom-control-input" id="readCheck<?= $no; ?>" name="level_role[<?= $index; ?>][read]" value="1" <?php if($level_read == '1'){echo 'checked';} ?> />
 														<label class="custom-control-label" for="readCheck<?= $no; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][create]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="createCheck<?= $no; ?>" name="level_role[<?= $index; ?>][create]" value="1" <?php if($request->getPost('level_role['.$index.'][create]') == '1'){echo 'checked';} ?> />
+														<input type="checkbox" class="custom-control-input" id="createCheck<?= $no; ?>" name="level_role[<?= $index; ?>][create]" value="1" <?php if($level_create == '1'){echo 'checked';} ?> />
 														<label class="custom-control-label" for="createCheck<?= $no; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][update]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="updateCheck<?= $no; ?>" name="level_role[<?= $index; ?>][update]" value="1" <?php if($request->getPost('level_role['.$index.'][update]') == '1'){echo 'checked';} ?> />
+														<input type="checkbox" class="custom-control-input" id="updateCheck<?= $no; ?>" name="level_role[<?= $index; ?>][update]" value="1" <?php if($level_update == '1'){echo 'checked';} ?> />
 														<label class="custom-control-label" for="updateCheck<?= $no; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][delete]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="deleteCheck<?= $no; ?>" name="level_role[<?= $index; ?>][delete]" value="1" <?php if($request->getPost('level_role['.$index.'][delete]') == '1'){echo 'checked';} ?> />
+														<input type="checkbox" class="custom-control-input" id="deleteCheck<?= $no; ?>" name="level_role[<?= $index; ?>][delete]" value="1" <?php if($level_delete == '1'){echo 'checked';} ?> />
 														<label class="custom-control-label" for="deleteCheck<?= $no; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
 													<select class="default-select2" name="level_role[<?= $index; ?>][data]" style="width: 115px">
-														<option value="DT02" <?php if($request->getPost('level_role['.$index.'][data]') == 'DT02'){echo 'selected';} ?>>Own</option>
-														<option value="DT01" <?php if($request->getPost('level_role['.$index.'][data]') == 'DT01'){echo 'selected';} ?>>All</option>
+														<option value="DT02" <?php if($level_data == 'DT02'){echo 'selected';} ?>>Own</option>
+														<option value="DT01" <?php if($level_data == 'DT01'){echo 'selected';} ?>>All</option>
 													</select>
 												</td>
 											</tr>
@@ -112,13 +138,26 @@
 								<?php if(@$menu) : ?>
 									<option></option>
 								<?php foreach ($menu as $mn) : ?>
-									<option value="<?= $mn->menu_id; ?>" <?php if($request->getPost('menu') == $mn->menu_id){echo 'selected';} ?>><?= $mn->menu_name ?></option>
+									<option value="<?= $mn->menu_id; ?>" <?php if($menu_id == $mn->menu_id){echo 'selected';} ?>><?= $mn->menu_name ?></option>
 								<?php
 									endforeach;
 								endif;
 								?>
 								</select>
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Status<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="This setting allows using the level. If inactive, the level will be hidden."></i></span></label>
+							<div class="col-md-9">
+								<div class="custom-control custom-radio mb-1">
+									<input type="radio" id="customRadio1" name="status" class="custom-control-input" value="1" <?php if($status == 1){echo 'checked';}?>>
+									<label class="custom-control-label" for="customRadio1"><span class="text-success">Active</span></label>
+								</div>
+								<div class="custom-control custom-radio">
+									<input type="radio" id="customRadio2" name="status" class="custom-control-input" value="0" <?php if($status == 0){echo 'checked';}?>>
+									<label class="custom-control-label" for="customRadio2"><span class="text-danger">Inactive</span></label>
+								</div>
 							</div>
 						</div>
 						<div class="form-group row m-b-0">
