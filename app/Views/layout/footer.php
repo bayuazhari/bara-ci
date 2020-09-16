@@ -259,6 +259,31 @@
 					}
 				});
 			});
+
+			$("#sub_district_loading").hide();
+			$("#district").change(function() {
+				$("#sub_district_loading").show();
+				$("#sub_district").next(".select2-container").hide();
+				$.ajax({
+					type : 'POST',
+					url : '<?php echo base_url("user/get_sub_district"); ?>',
+					data :  { district : $("#district").val() },
+					dataType: "json",
+					beforeSend: function(e) {
+						if(e && e.overrideMimeType) {
+							e.overrideMimeType("application/json;charset=UTF-8");
+						}
+					},
+					success : function(response) {
+						$("#sub_district_loading").hide();
+						$("#sub_district").next(".select2-container").show();
+						$("#sub_district").html(response.sub_district_list);
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+					}
+				});
+			});
 		});
 	</script>
 </body>

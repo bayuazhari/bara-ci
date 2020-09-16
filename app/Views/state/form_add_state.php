@@ -47,16 +47,20 @@
 						?>
 						<div class="form-group row m-b-15">
 							<label class="col-form-label col-md-2 text-lg-right">Code</label>
-							<div class="col-md-5">
-								<div class="input-group">
-									<div class="input-group-prepend"><span class="input-group-text" id="iso-prefix-code"><?= @$iso_prefix_code ?></span></div>
-									<input type="text" class="form-control <?php if($error1){ echo 'is-invalid'; } ?>" name="state_iso_code" placeholder="ISO" value="<?= $request->getPost('state_iso_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Two-character state code based on ISO 3166 (e.g., JK)." />
-									<?php if($error1){ echo '<div class="invalid-feedback">'.$error1.'</div>'; } ?>
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="input-group">
+											<div class="input-group-prepend"><span class="input-group-text" id="iso-prefix-code"><?= @$iso_prefix_code ?></span></div>
+											<input type="text" class="form-control <?php if($error1){ echo 'is-invalid'; } ?>" name="state_iso_code" placeholder="ISO" value="<?= $request->getPost('state_iso_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Two-character state code based on ISO 3166 (e.g., JK)." />
+											<?php if($error1){ echo '<div class="invalid-feedback">'.$error1.'</div>'; } ?>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<input type="text" class="form-control <?php if($error2){ echo 'is-invalid'; } ?>" name="state_ref_code" placeholder="Reference" value="<?= $request->getPost('state_ref_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Two-character state reference code based on the laws used in a country (e.g., 31)." />
+										<?php if($error2){ echo '<div class="invalid-feedback">'.$error2.'</div>'; } ?>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-4">
-								<input type="text" class="form-control <?php if($error2){ echo 'is-invalid'; } ?>" name="state_ref_code" placeholder="Reference" value="<?= $request->getPost('state_ref_code'); ?>" data-toggle="tooltip" data-placement="bottom" title="Two-character state reference code based on the laws used in a country (e.g., 31)." />
-								<?php if($error2){ echo '<div class="invalid-feedback">'.$error2.'</div>'; } ?>
 							</div>
 						</div>
 						<?php $error = $validation->getError('state_name'); ?>
