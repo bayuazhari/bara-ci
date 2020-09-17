@@ -125,7 +125,7 @@ class User extends BaseController
 		$data = array(
 			'user' => $this->model->getUserDetail($id)
 		);
-		echo view('country/view_user_detail', $data);
+		echo view('user/view_user_detail', $data);
 	}
 
 	public function get_sub_district()
@@ -328,28 +328,28 @@ class User extends BaseController
 			if(@$this->request->getPost('country')){
 				$state = $this->model->getState($this->request->getPost('country'));
 			}elseif(@$user->country_id){
-				$state = $this->model->getState($sub_district->country_id);
+				$state = $this->model->getState($user->country_id);
 			}else{
 				$state = NULL;
 			}
 			if(@$this->request->getPost('state')){
 				$city = $this->model->getCity($this->request->getPost('state'));
 			}elseif(@$user->state_id){
-				$city = $this->model->getCity($sub_district->state_id);
+				$city = $this->model->getCity($user->state_id);
 			}else{
 				$city = NULL;
 			}
 			if(@$this->request->getPost('city')){
 				$district = $this->model->getDistrict($this->request->getPost('city'));
 			}elseif(@$user->city_id){
-				$district = $this->model->getDistrict($sub_district->city_id);
+				$district = $this->model->getDistrict($user->city_id);
 			}else{
 				$district = NULL;
 			}
 			if(@$this->request->getPost('district')){
 				$sub_district = $this->model->getSubDistrict($this->request->getPost('district'));
 			}elseif(@$user->district_id){
-				$sub_district = $this->model->getSubDistrict($sub_district->district_id);
+				$sub_district = $this->model->getSubDistrict($user->district_id);
 			}else{
 				$sub_district = NULL;
 			}
@@ -366,7 +366,7 @@ class User extends BaseController
 				'city' => $city,
 				'district' => $district,
 				'sub_district' => $sub_district,
-				'user' => $this->model->getUserById($id)
+				'user' => $user
 			);
 			if($data['user']->user_email == $this->request->getPost('user_email')){
 				$user_email_rules = 'required|valid_email';

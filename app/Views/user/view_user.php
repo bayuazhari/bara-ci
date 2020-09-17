@@ -68,6 +68,23 @@
 					</div>
 				</div>
 				<!-- end panel-body -->
+				<!-- #modal-detail -->
+				<div class="modal modal-message fade" id="modal-detail">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title"><?= $title ?> Detail</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							</div>
+							<div class="modal-body">
+								<div class="detail-data"></div>
+							</div>
+							<div class="modal-footer">
+								<a class="btn btn-white" data-dismiss="modal">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- #modal-delete -->
 				<div class="modal fade" id="modal-delete">
 					<div class="modal-dialog">

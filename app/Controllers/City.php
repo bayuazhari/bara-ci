@@ -140,7 +140,8 @@ class City extends BaseController
 		$callback = array(
 			'state_list' => $state_list,
 			'city_list' => '<option></option>',
-			'district_list' => '<option></option>'
+			'district_list' => '<option></option>',
+			'sub_district_list' => '<option></option>'
 		);
 		echo json_encode($callback);
 	}

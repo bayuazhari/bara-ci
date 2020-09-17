@@ -164,9 +164,12 @@
 						$profile_menu = $setting->getMenu('MG2000002');
 						if(@$profile_menu) {
 							foreach ($profile_menu as $pmenu) {
+								$pmenu_level = $setting->getLevelByRole('L12000001', $pmenu->menu_id);
+								if(@$pmenu_level->read == 1){
 					?>
 						<a href="<?php echo base_url($pmenu->menu_url); ?>" class="dropdown-item"><i class="<?= $pmenu->menu_class; ?>"></i> <?= $pmenu->menu_name; ?></a>
 					<?php
+								}
 							}
 						}
 					?>
@@ -202,9 +205,12 @@
 						<?php
 							if(@$profile_menu) {
 								foreach ($profile_menu as $pmenu) {
+									$pmenu_level = $setting->getLevelByRole('L12000001', $pmenu->menu_id);
+									if(@$pmenu_level->read == 1){
 						?>
 							<li><a href="<?php echo base_url($pmenu->menu_url); ?>"><i class="<?= $pmenu->menu_class; ?>"></i> <?= $pmenu->menu_name; ?></a></li>
 						<?php
+									}
 								}
 							}
 						?>
@@ -294,50 +300,63 @@
 										</a>
 										<ul class="sub-menu">
 										<?php foreach ($menu_level_3 as $mnlvl3){
-											if($menu_uri == $mnlvl3->menu_url){
-												$menu_level_3_active = 'active';
-											}else{
-												$menu_level_3_active = '';
-											}
+											$mnlvl3_level = $setting->getLevelByRole('L12000001', $mnlvl3->menu_id);
+											if(@$mnlvl3_level->read == 1){
+												if($menu_uri == $mnlvl3->menu_url){
+													$menu_level_3_active = 'active';
+												}else{
+													$menu_level_3_active = '';
+												}
 										?>
 											<li class="<?= $menu_level_3_active; ?>"><a href="<?php echo base_url($mnlvl3->menu_url); ?>"><?= $mnlvl3->menu_name; ?></a></li>
-										<?php } ?>
+										<?php
+											}
+										}
+										?>
 										</ul>
 									</li>
 									<?php } else {
-										if($menu_uri == $mnlvl2->menu_url){
-											$menu_level_2_active = 'active';
-										}else{
-											$menu_level_2_active = '';
-										}
+										$mnlvl2_level = $setting->getLevelByRole('L12000001', $mnlvl2->menu_id);
+										if(@$mnlvl2_level->read == 1){
+											if($menu_uri == $mnlvl2->menu_url){
+												$menu_level_2_active = 'active';
+											}else{
+												$menu_level_2_active = '';
+											}
 									?>
 									<li class="<?= $menu_level_2_active; ?>"><a href="<?php echo base_url($mnlvl2->menu_url); ?>"><?= $mnlvl2->menu_name; ?></a></li>
 								<?php
+											}
 										}
 									}
 								?>
 								</ul>
 							</li>
 							<?php } else {
-								if($menu_uri == $mnlvl1->menu_url){
-									$menu_level_1_active = 'active';
-								}else{
-									$menu_level_1_active = '';
-								}
+								$mnlvl1_level = $setting->getLevelByRole('L12000001', $mnlvl1->menu_id);
+								if(@$mnlvl1_level->read == 1){
+									if($menu_uri == $mnlvl1->menu_url){
+										$menu_level_1_active = 'active';
+									}else{
+										$menu_level_1_active = '';
+									}
 							?>
 							<li class="<?= $menu_level_1_active; ?>"><a href="<?php echo base_url($mnlvl1->menu_url); ?>"><?= $mnlvl1->menu_name; ?></a></li>
 						<?php
+									}
 								}
 							}
 						?>
 						</ul>
 					</li>
 					<?php } else {
-						if($menu_uri == $sbmenu->menu_url){
-							$sidebar_menu_active = 'active';
-						}else{
-							$sidebar_menu_active = '';
-						}
+						$sbmenu_level = $setting->getLevelByRole('L12000001', $sbmenu->menu_id);
+						if(@$sbmenu_level->read == 1){
+							if($menu_uri == $sbmenu->menu_url){
+								$sidebar_menu_active = 'active';
+							}else{
+								$sidebar_menu_active = '';
+							}
 					?>
 					<li class="<?= $sidebar_menu_active; ?>">
 						<a href="<?php echo base_url($sbmenu->menu_url); ?>">
@@ -346,6 +365,7 @@
 						</a>
 					</li>
 				<?php
+								}
 							}
 						}
 					}

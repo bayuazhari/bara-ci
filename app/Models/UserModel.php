@@ -58,7 +58,12 @@ class UserModel extends Model
 	{
 		$query = $this->db->table($this->table)
 		->join('level', 'user.level_id=level.level_id')
-		->join('sub_district', 'user.sdistrict_id=sub_district.sdistrict_id', 'left')
+		->join('sub_district', 'user.sdistrict_id=sub_district.sdistrict_id')
+		->join('district', 'sub_district.district_id=district.district_id')
+		->join('city', 'district.city_id=city.city_id')
+		->join('state', 'city.state_id=state.state_id')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
 		->where($this->primaryKey, $id)
 		->limit(1)
 		->get();
@@ -140,6 +145,24 @@ class UserModel extends Model
 	public function getUserByField($field, $record)
 	{
 		$query = $this->db->table($this->table)
+		->where($field, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
+	public function getLevelByField($field, $record)
+	{
+		$query = $this->db->table('level')
+		->where($field, $record)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
+	public function getSubDistrictByField($field, $record)
+	{
+		$query = $this->db->table('sub_district')
 		->where($field, $record)
 		->limit(1)
 		->get();

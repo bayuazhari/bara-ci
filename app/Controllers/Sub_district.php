@@ -136,7 +136,8 @@ class Sub_district extends BaseController
 			}
 		}
 		$callback = array(
-			'district_list' => $district_list
+			'district_list' => $district_list,
+			'sub_district_list' => '<option></option>'
 		);
 		echo json_encode($callback);
 	}

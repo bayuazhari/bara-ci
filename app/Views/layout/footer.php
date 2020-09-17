@@ -202,6 +202,7 @@
 						$("#state").html(response.state_list);
 						$("#city").html(response.city_list);
 						$("#district").html(response.district_list);
+						$("#sub_district").html(response.sub_district_list);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -228,6 +229,7 @@
 						$("#city").next(".select2-container").show();
 						$("#city").html(response.city_list);
 						$("#district").html(response.district_list);
+						$("#sub_district").html(response.sub_district_list);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -253,6 +255,7 @@
 						$("#district_loading").hide();
 						$("#district").next(".select2-container").show();
 						$("#district").html(response.district_list);
+						$("#sub_district").html(response.sub_district_list);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);

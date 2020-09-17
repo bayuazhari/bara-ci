@@ -137,7 +137,8 @@ class District extends BaseController
 		}
 		$callback = array(
 			'city_list' => $city_list,
-			'district_list' => '<option></option>'
+			'district_list' => '<option></option>',
+			'sub_district_list' => '<option></option>'
 		);
 		echo json_encode($callback);
 	}
