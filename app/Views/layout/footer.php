@@ -149,6 +149,12 @@
 				});
 			});
 
+			$('#modal-confirm').on('show.bs.modal', function(e) {
+				$('#header-info').html($(e.relatedTarget).data('header'));
+				$('#body-info').html($(e.relatedTarget).data('body'));
+				$(this).find('.btn-confirm').attr('href', $(e.relatedTarget).data('href'));
+			});
+			
 			$('#modal-delete').on('show.bs.modal', function(e) {
 				$(this).find('.btn-delete').attr('href', $(e.relatedTarget).data('href'));
 			});

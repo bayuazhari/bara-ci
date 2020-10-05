@@ -123,6 +123,8 @@
 							foreach ($setting->getSettingByGroup('mail') as $mail):
 								if($mail->setting_option == 'mail_protocol'){
 									$setting_option = 'id="mail_protocol"';
+								}elseif($mail->setting_option == 'mail_crypto'){
+									$setting_option = 'id="mail_crypto"';
 								}else{
 									$setting_option = 'class="required-editable"';
 								}

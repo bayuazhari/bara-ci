@@ -9,6 +9,8 @@ class User extends BaseController
 	{
 		$this->setting = new SettingModel();
 		$this->model = new UserModel();
+		
+		$this->email = \Config\Services::email();
 	}
 
 	public function index()
@@ -39,11 +41,12 @@ class User extends BaseController
 		if(@$checkLevel->read == 1){
 			$columns = array(
 				0 => 'user_id',
-				1 => 'first_name',
-				2 => 'user_email',
-				3 => 'country_calling_code',
-				4 => 'level_name',
-				5 => 'user_status'
+				1 => 'user_id',
+				2 => 'first_name',
+				3 => 'user_email',
+				4 => 'country_calling_code',
+				5 => 'level_name',
+				6 => 'user_status'
 			);
 			$limit = $this->request->getPost('length');
 			$start = $this->request->getPost('start');
@@ -64,13 +67,36 @@ class User extends BaseController
 			if(@$user){
 				foreach($user as $row){
 					$start++;
+					if(@$row->user_photo_name){
+						$user_photo = $row->user_id.'/'.$row->user_photo_name;
+					}else{
+						$user_photo = 'user-0.png';
+					}
+
+					if($row->email_verification == 1){
+						$email_verification = ' <i class="fa fa-check-circle text-success"></i>';
+					}elseif($row->email_verification == 0){
+						$email_verification = ' <a href="javascript:;" data-toggle="modal" data-target="#modal-confirm" data-header="Email Verification" data-body="<p>Are you sure? You will send email verification to user.</p>" data-href="'.base_url('user/send_email_verification/'.$row->user_id).'"><i class="fa fa-exclamation-triangle text-warning"></i></a>';
+					}else{
+						$email_verification = '';
+					}
+
+					if($row->phone_verification == 1){
+						$phone_verification = ' <i class="fa fa-check-circle text-success"></i>';
+					}elseif($row->phone_verification == 0){
+						$phone_verification = ' <a href="javascript:;" data-toggle="modal" data-target="#modal-confirm" data-header="Phone Verification" data-body="<p>Are you sure? You will send SMS verification to user.</p>" data-href="'.base_url('user/send_sms_verification/'.$row->user_id).'"><i class="fa fa-exclamation-triangle text-warning"></i></a>';
+					}else{
+						$phone_verification = '';
+					}
+
 					if($row->user_status == 1){
 						$user_status = '<span class="text-success">Active</span>';
 					}elseif($row->user_status == 0){
-						$user_status = '<span class="text-danger">Inactive</span>';
+						$user_status = '<span class="text-danger">Blocked</span>';
 					}else{
 						$user_status = '';
 					}
+
 					if(@$checkLevel->update == 1){
 						$action_edit = '<a href="'.base_url('user/edit/'.$row->user_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 					}
@@ -78,12 +104,13 @@ class User extends BaseController
 						$delete_disabled = 'disabled';
 					}
 					if(@$checkLevel->delete == 1){
-						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('user/delete/'.$row->user_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'" data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('user/delete/'.$row->user_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 					}
 					$nestedData['number'] = $start;
+					$nestedData['user_photo'] = '<img src="'.base_url('assets/img/user/'.$user_photo).'" class="img-rounded height-30" />';
 					$nestedData['full_name'] = $row->first_name.' '.$row->last_name;
-					$nestedData['user_email'] = $row->user_email;
-					$nestedData['user_phone'] = '+'.$row->country_calling_code.$row->user_phone;
+					$nestedData['user_email'] = $row->user_email.$email_verification;
+					$nestedData['user_phone'] = '+'.$row->country_calling_code.$row->user_phone.$phone_verification;
 					$nestedData['level_name'] = $row->level_name;
 					$nestedData['user_status'] = $user_status;
 					$nestedData['action'] = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right"><a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-id="'.$row->user_id.'" data-href="'.base_url('user/detail/').'"><i class="fa fa-info-circle"></i> Detail</a>'.@$action_edit.@$action_delete.'</div></div>';
@@ -107,6 +134,10 @@ class User extends BaseController
 	{
 		$fields = array('full_name', 'user_email', 'user_phone', 'level_name', 'user_status');
 		$columns[]['data'] = 'number';
+		$columns[] = array(
+			'data' => 'user_photo',
+			'className' => 'with-img'
+		);
 		foreach ($fields as $field) {
 			$columns[] = array(
 				'data' => $field
@@ -210,10 +241,10 @@ class User extends BaseController
 					'first_name' => $this->request->getPost('first_name'),
 					'last_name' => $this->request->getPost('last_name'),
 					'user_email' => $this->request->getPost('user_email'),
-					'email_activation' => 0,
+					'email_verification' => 0,
 					'country_calling_code' => $this->request->getPost('country_calling_code'),
 					'user_phone' => $this->request->getPost('user_phone'),
-					'phone_activation' => 0,
+					'phone_verification' => 0,
 					'user_password' => $this->request->getPost('user_password'),
 					'user_address' => $this->request->getPost('user_address'),
 					'sdistrict_id' => $this->request->getPost('sub_district'),
@@ -222,7 +253,33 @@ class User extends BaseController
 					'user_status' => 1
 				);
 				$this->model->insertUser($userData);
-				session()->setFlashdata('success', 'User has been added successfully. (SysCode: <a href="'.base_url('user?id='.$userData['user_id']).'" class="alert-link">'.$userData['user_id'].'</a>)');
+
+				$config = array(
+					'protocol' => @$this->setting->getSettingById(12)->setting_value,
+					'SMTPHost' => @$this->setting->getSettingById(13)->setting_value,
+					'SMTPUser' => @$this->setting->getSettingById(14)->setting_value,
+					'SMTPPass' => @$this->setting->getSettingById(15)->setting_value,
+					'SMTPPort' => @$this->setting->getSettingById(16)->setting_value,
+					'SMTPCrypto' => @$this->setting->getSettingById(17)->setting_value,
+					'mailType' => 'html'
+				);
+
+				$this->email->initialize($config);
+
+				$this->email->setFrom($config['SMTPUser'], @$this->setting->getSettingById(4)->setting_value);
+				$this->email->setTo($userData['user_email']);
+
+				$this->email->setSubject('['.@$this->setting->getSettingById(1)->setting_value.'] Please verify your email address');
+				$this->email->setMessage('Hi '.$userData['first_name'].' '.$userData['last_name'].',<br><br>To complete your sign up, please verify your email:<br><br><a href="'.base_url('user/email_verification/'.$userData['user_id']).'">Click here</a><br><br>Thank you, '.@$this->setting->getSettingById(1)->setting_value.' Team');
+				if($this->email->send()){
+					$session_item = 'success';
+					$email_msg = '';
+				}else{
+					$session_item = 'warning';
+					$email_msg = '<br><br>'.$this->email->printDebugger(['headers']);;
+				}
+
+				session()->setFlashdata($session_item, 'User has been added successfully. (SysCode: <a href="'.base_url('user?id='.$userData['user_id']).'" class="alert-link">'.$userData['user_id'].'</a>)'.$email_msg);
 				return redirect()->to(base_url('user'));
 			}
 		}else{
@@ -297,10 +354,10 @@ class User extends BaseController
 						'first_name' => $row['first_name'],
 						'last_name' => $row['last_name'],
 						'user_email' => $row['user_email'],
-						'email_activation' => 0,
+						'email_verification' => 0,
 						'country_calling_code' => $row['country_calling_code'],
 						'user_phone' => $row['user_phone'],
-						'phone_activation' => 0,
+						'phone_verification' => 0,
 						'user_password' => $row['user_password'],
 						'user_address' => $row['user_address'],
 						'sdistrict_id' => $row['sub_district'],
@@ -370,17 +427,17 @@ class User extends BaseController
 			);
 			if($data['user']->user_email == $this->request->getPost('user_email')){
 				$user_email_rules = 'required|valid_email';
-				$email_activation = $data['user']->email_activation;
+				$email_verification = $data['user']->email_verification;
 			}else{
 				$user_email_rules = 'required|valid_email|is_unique[user.user_email]';
-				$email_activation = 0;
+				$email_verification = 0;
 			}
 			if($data['user']->user_phone == $this->request->getPost('user_phone')){
 				$user_phone_rules = 'required|numeric';
-				$phone_activation = $data['user']->phone_activation;
+				$phone_verification = $data['user']->phone_verification;
 			}else{
 				$user_phone_rules = 'required|numeric|is_unique[user.user_phone]';
-				$phone_activation = 0;
+				$phone_verification = 0;
 			}
 			$validation = $this->validate([
 				'level' => ['label' => 'Level', 'rules' => 'required'],
@@ -407,16 +464,47 @@ class User extends BaseController
 					'first_name' => $this->request->getPost('first_name'),
 					'last_name' => $this->request->getPost('last_name'),
 					'user_email' => $this->request->getPost('user_email'),
-					'email_activation' => $email_activation,
+					'email_verification' => $email_verification,
 					'country_calling_code' => $this->request->getPost('country_calling_code'),
 					'user_phone' => $this->request->getPost('user_phone'),
-					'phone_activation' => $phone_activation,
+					'phone_verification' => $phone_verification,
 					'user_address' => $this->request->getPost('user_address'),
 					'sdistrict_id' => $this->request->getPost('sub_district'),
 					'user_status' => $this->request->getPost('status')
 				);
 				$this->model->updateUser($id, $userData);
-				session()->setFlashdata('success', 'User has been updated successfully. (SysCode: <a href="'.base_url('user?id='.$id).'" class="alert-link">'.$id.'</a>)');
+
+				if($userData['email_verification'] == 0 AND $userData['user_status'] == 1){
+					$config = array(
+						'protocol' => @$this->setting->getSettingById(12)->setting_value,
+						'SMTPHost' => @$this->setting->getSettingById(13)->setting_value,
+						'SMTPUser' => @$this->setting->getSettingById(14)->setting_value,
+						'SMTPPass' => @$this->setting->getSettingById(15)->setting_value,
+						'SMTPPort' => @$this->setting->getSettingById(16)->setting_value,
+						'SMTPCrypto' => @$this->setting->getSettingById(17)->setting_value,
+						'mailType' => 'html'
+					);
+
+					$this->email->initialize($config);
+
+					$this->email->setFrom($config['SMTPUser'], @$this->setting->getSettingById(4)->setting_value);
+					$this->email->setTo($userData['user_email']);
+
+					$this->email->setSubject('['.@$this->setting->getSettingById(1)->setting_value.'] Please verify your email address');
+					$this->email->setMessage('Hi '.$userData['first_name'].' '.$userData['last_name'].',<br><br>To complete your sign up, please verify your email:<br><br><a href="'.base_url('user/email_verification/'.$id).'">Click here</a><br><br>Thank you, '.@$this->setting->getSettingById(1)->setting_value.' Team');
+					if($this->email->send()){
+						$session_item = 'success';
+						$email_msg = '';
+					}else{
+						$session_item = 'warning';
+						$email_msg = '<br><br>'.$this->email->printDebugger(['headers']);;
+					}
+				}else{
+					$session_item = 'success';
+					$email_msg = '';
+				}
+
+				session()->setFlashdata($session_item, 'User has been updated successfully. (SysCode: <a href="'.base_url('user?id='.$id).'" class="alert-link">'.$id.'</a>)'.$email_msg);
 				return redirect()->to(base_url('user'));
 			}
 		}else{
@@ -455,10 +543,10 @@ class User extends BaseController
 			'first_name' => @$user->first_name,
 			'last_name' => @$user->last_name,
 			'user_email' => @$user->user_email,
-			'email_activation' => @$user->email_activation,
+			'email_verification' => @$user->email_verification,
 			'country_calling_code' => @$user->country_calling_code,
 			'user_phone' => @$user->user_phone,
-			'phone_activation' => @$user->phone_activation,
+			'phone_verification' => @$user->phone_verification,
 			'user_password' => @$user->user_password,
 			'user_address' => @$user->user_address,
 			'sdistrict_id' => @$user->sdistrict_id,
@@ -469,5 +557,18 @@ class User extends BaseController
 		$this->model->insertUser($userData);
 		session()->setFlashdata('success', 'Action undone. (SysCode: <a href="'.base_url('user?id='.$user_id).'" class="alert-link">'.$user_id.'</a>)');
 		return redirect()->to(base_url('user'));
+	}
+
+	public function email_verification($id)
+	{
+		$user = $this->model->getUserById($id);
+		if(@$user->email_verification == 0 AND @$user->user_status == 1){
+			$userData = array(
+				'email_verification' => 1
+			);
+			$this->model->updateUser($id, $userData);
+			session()->setFlashdata('success', 'Your Email Address is successfully verified! Please login to access your account.');
+		}
+		return redirect()->to(base_url('login'));
 	}
 }

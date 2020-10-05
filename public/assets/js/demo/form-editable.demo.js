@@ -118,6 +118,21 @@ var handleEditableFieldConstruct = function() {
 			}
 		}
 	});
+	$('#mail_crypto').editable({
+		source: [
+			{value: 'tls', text: 'TLS'},
+			{value: 'ssl', text: 'SSL'}
+		],
+		display: function(value, sourceData) {
+			elem = $.grep(sourceData, function(o){return o.value == value;});
+
+			if (elem.length) {    
+				$(this).text(elem[0].text); 
+			} else {
+				$(this).empty(); 
+			}
+		}
+	});
 	$('#group').editable({ 
 		showbuttons: false 
 	});

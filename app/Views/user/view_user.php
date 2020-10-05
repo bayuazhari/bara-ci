@@ -56,6 +56,7 @@
 							<thead class="text-center">
 								<tr>
 									<th width="1%">#</th>
+									<th width="1%" data-orderable="false"></th>
 									<th class="text-nowrap">Name</th>
 									<th class="text-nowrap">Email</th>
 									<th class="text-nowrap">Phone</th>
@@ -81,6 +82,22 @@
 							</div>
 							<div class="modal-footer">
 								<a class="btn btn-white" data-dismiss="modal">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- #modal-confirm -->
+				<div class="modal fade" id="modal-confirm">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="header-info"></h4>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							</div>
+							<div class="modal-body" id="body-info"></div>
+							<div class="modal-footer">
+								<a class="btn btn-white" data-dismiss="modal">Cancel</a>
+								<a class="btn btn-primary btn-confirm">Resend</a>
 							</div>
 						</div>
 					</div>

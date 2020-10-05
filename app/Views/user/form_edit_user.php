@@ -220,7 +220,7 @@
 							</div>
 						</div>
 						<div class="form-group row m-b-15">
-							<label class="col-form-label col-md-2 text-lg-right">Status<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="This setting allows using the menu group. If inactive, the menu group will be hidden."></i></span></label>
+							<label class="col-form-label col-md-2 text-lg-right">Status<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="This setting allows using the user. If blocked, the user will be hidden."></i></span></label>
 							<div class="col-md-9">
 								<div class="custom-control custom-radio mb-1">
 									<input type="radio" id="customRadio1" name="status" class="custom-control-input" value="1" <?php if($status == 1){echo 'checked';}?>>
@@ -228,7 +228,7 @@
 								</div>
 								<div class="custom-control custom-radio">
 									<input type="radio" id="customRadio2" name="status" class="custom-control-input" value="0" <?php if($status == 0){echo 'checked';}?>>
-									<label class="custom-control-label" for="customRadio2"><span class="text-danger">Inactive</span></label>
+									<label class="custom-control-label" for="customRadio2"><span class="text-danger">Blocked</span></label>
 								</div>
 							</div>
 						</div>
