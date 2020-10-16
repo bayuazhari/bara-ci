@@ -12,7 +12,7 @@ class Setting extends BaseController
 	public function index()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -34,7 +34,7 @@ class Setting extends BaseController
 	public function edit()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$validation = $this->validate([
 				'pk' => ['label' => 'Primary Key', 'rules' => 'required'],
@@ -58,7 +58,7 @@ class Setting extends BaseController
 	public function upload_image()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$validation = $this->validate([
 				'pk' => ['label' => 'Primary Key', 'rules' => 'required'],

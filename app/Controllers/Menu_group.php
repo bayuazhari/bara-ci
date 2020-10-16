@@ -14,7 +14,7 @@ class Menu_group extends BaseController
 	public function index()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -35,7 +35,7 @@ class Menu_group extends BaseController
 	public function getData()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$columns = array(
 				0 => 'mgroup_id',
@@ -121,7 +121,7 @@ class Menu_group extends BaseController
 	public function add()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -157,7 +157,7 @@ class Menu_group extends BaseController
 	public function bulk_upload()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'menu_group_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[menu_group_csv]|ext_in[menu_group_csv,csv]|max_size[menu_group_csv,2048]']
@@ -196,7 +196,7 @@ class Menu_group extends BaseController
 	public function bulk_save()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'menu_group.*.mgroup_name' => ['label' => 'Name', 'rules' => 'required']
@@ -225,7 +225,7 @@ class Menu_group extends BaseController
 	public function edit($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -262,7 +262,7 @@ class Menu_group extends BaseController
 	public function delete($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->delete == 1){
 			$menuGroupData = $this->model->getMenuGroupById($id);
 			$this->model->deleteMenuGroup($id);

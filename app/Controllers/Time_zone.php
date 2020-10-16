@@ -14,7 +14,7 @@ class Time_zone extends BaseController
 	public function index()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -35,7 +35,7 @@ class Time_zone extends BaseController
 	public function getData()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$columns = array(
 				0 => 'tz_id',
@@ -125,7 +125,7 @@ class Time_zone extends BaseController
 	public function add()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -166,7 +166,7 @@ class Time_zone extends BaseController
 	public function bulk_upload()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'time_zone_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[time_zone_csv]|ext_in[time_zone_csv,csv]|max_size[time_zone_csv,2048]']
@@ -205,7 +205,7 @@ class Time_zone extends BaseController
 	public function bulk_save()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'time_zone.*.country' => ['label' => 'Country', 'rules' => 'required'],
@@ -238,7 +238,7 @@ class Time_zone extends BaseController
 	public function edit($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -279,7 +279,7 @@ class Time_zone extends BaseController
 	public function delete($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->delete == 1){
 			$timeZoneData = $this->model->getTimeZoneById($id);
 			$this->model->deleteTimeZone($id);

@@ -23,7 +23,7 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<form action="<?php echo base_url('user/add') ?>" method="post">
+					<form action="<?php echo base_url('user/add') ?>" method="post" enctype="multipart/form-data">
 						<?php
 						$error1 = $validation->getError('first_name');
 						$error2 = $validation->getError('last_name');
@@ -187,6 +187,9 @@
 										</div>
 										<?php if($error6){ echo '<div class="invalid-feedback">'.$error6.'</div>'; } ?>
 									</div>
+									<div class="col-md-6">
+										<input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="Zip Code" value="<?= $request->getPost('zip_code'); ?>" readonly />
+									</div>
 								</div>
 							</div>
 						</div>
@@ -204,6 +207,14 @@
 								endif;
 								?>
 								</select>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
+						<?php $error = $validation->getError('user_photo'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Photo<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" data-html="true" title="Files must be less than <strong>2 MB</strong>.<br>Allowed file types: <strong>png jpg gif</strong>."></i></span></label>
+							<div class="col-md-9">
+								<input type="file" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="user_photo" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>

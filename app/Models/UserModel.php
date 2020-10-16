@@ -7,6 +7,24 @@ class UserModel extends Model
 	protected $table = 'user';
 	protected $primaryKey = 'user_id';
 
+	public function login($user_email, $user_password)
+	{
+		$query = $this->db->table($this->table)
+		->join('level', 'user.level_id=level.level_id')
+		->join('menu', 'level.menu_id=menu.menu_id')
+		->join('sub_district', 'user.sdistrict_id=sub_district.sdistrict_id')
+		->join('district', 'sub_district.district_id=district.district_id')
+		->join('city', 'district.city_id=city.city_id')
+		->join('state', 'city.state_id=state.state_id')
+		->join('time_zone', 'state.tz_id=time_zone.tz_id')
+		->join('country', 'time_zone.country_id=country.country_id')
+		->where('user_email', $user_email)
+		->where('user_password', $user_password)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
 	public function getUser($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
@@ -140,6 +158,15 @@ class UserModel extends Model
 		->where('sdistrict_status', '1')
 		->get();
 		return $query->getResult();
+	}
+
+	public function getSubDistrictById($sdistrict_id)
+	{
+		$query = $this->db->table('sub_district')
+		->where('sdistrict_id', $sdistrict_id)
+		->limit(1)
+		->get();
+		return $query->getRow();
 	}
 
 	public function getUserByField($field, $record)

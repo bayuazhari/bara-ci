@@ -36,6 +36,7 @@
 					$city_id = $request->getPost('city');
 					$district_id = $request->getPost('district');
 					$sdistrict_id = $request->getPost('sub_district');
+					$zip_code = $request->getPost('zip_code');
 					$status = $request->getPost('status');
 				}else{
 					$level_id = $user->level_id;
@@ -50,11 +51,12 @@
 					$city_id = $user->city_id;
 					$district_id = $user->district_id;
 					$sdistrict_id = $user->sdistrict_id;
+					$zip_code = $user->zip_code;
 					$status = $user->user_status;
 				} ?>
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<form action="<?php echo base_url('user/edit/'.$id) ?>" method="post">
+					<form action="<?php echo base_url('user/edit/'.$id) ?>" method="post" enctype="multipart/form-data">
 						<?php
 						$error1 = $validation->getError('first_name');
 						$error2 = $validation->getError('last_name');
@@ -199,6 +201,9 @@
 										</div>
 										<?php if($error6){ echo '<div class="invalid-feedback">'.$error6.'</div>'; } ?>
 									</div>
+									<div class="col-md-6">
+										<input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="Zip Code" value="<?= $zip_code; ?>" readonly />
+									</div>
 								</div>
 							</div>
 						</div>
@@ -216,6 +221,17 @@
 								endif;
 								?>
 								</select>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
+						<?php $error = $validation->getError('user_photo'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Photo<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" data-html="true" title="Files must be less than <strong>2 MB</strong>.<br>Allowed file types: <strong>png jpg gif</strong>."></i></span></label>
+							<div class="col-md-9">
+							<?php if(@$user->user_photo_name){ ?>
+								<img src="<?php echo base_url('assets/img/user/'.$user->user_id.'/'.$user->user_photo_name); ?>" class="img-rounded m-r-5 m-b-5" style="max-height: 100px;" />
+							<?php } ?>
+								<input type="file" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="user_photo" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>

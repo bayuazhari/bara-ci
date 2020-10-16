@@ -14,7 +14,7 @@ class District extends BaseController
 	public function index()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -35,7 +35,7 @@ class District extends BaseController
 	public function getData()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$columns = array(
 				0 => 'district_id',
@@ -138,7 +138,8 @@ class District extends BaseController
 		$callback = array(
 			'city_list' => $city_list,
 			'district_list' => '<option></option>',
-			'sub_district_list' => '<option></option>'
+			'sub_district_list' => '<option></option>',
+			'zip_code' => ''
 		);
 		echo json_encode($callback);
 	}
@@ -146,7 +147,7 @@ class District extends BaseController
 	public function add()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			if(@$this->request->getPost('country')){
 				$state = $this->model->getState($this->request->getPost('country'));
@@ -201,7 +202,7 @@ class District extends BaseController
 	public function bulk_upload()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'district_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[district_csv]|ext_in[district_csv,csv]|max_size[district_csv,2048]']
@@ -240,7 +241,7 @@ class District extends BaseController
 	public function bulk_save()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'district.*.city' => ['label' => 'City', 'rules' => 'required'],
@@ -273,7 +274,7 @@ class District extends BaseController
 	public function edit($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$district = $this->model->getDistrictById($id);
 			if(@$this->request->getPost('country')){
@@ -339,7 +340,7 @@ class District extends BaseController
 	public function delete($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->delete == 1){
 			$districtData = $this->model->getDistrictById($id);
 			$this->model->deleteDistrict($id);

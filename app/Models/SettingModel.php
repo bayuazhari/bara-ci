@@ -60,10 +60,12 @@ class SettingModel extends Model
 		->limit(1)
 		->get()
 		->getRow();
-		$roles = json_decode($query->level_role);
-		foreach ($roles as $row) {
-			if($row->menu === $role){
-				return $row;
+		$roles = json_decode(@$query->level_role);
+		if(@$roles){
+			foreach ($roles as $row) {
+				if($row->menu === $role){
+					return $row;
+				}
 			}
 		}
 		return false;

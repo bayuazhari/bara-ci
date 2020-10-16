@@ -117,6 +117,14 @@
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>
+						<?php $error = $validation->getError('zip_code'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Zip Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Postal code (e.g., 14530)."></i></span></label>
+							<div class="col-md-9">
+								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="zip_code" value="<?= $request->getPost('zip_code'); ?>" />
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
 						<div class="form-group row m-b-0">
 							<div class="col-md-12 col-sm-12 text-center">
 								<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>&nbsp;&nbsp;

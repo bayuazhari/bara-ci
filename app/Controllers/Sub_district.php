@@ -14,7 +14,7 @@ class Sub_district extends BaseController
 	public function index()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$data = array(
 				'setting' => $this->setting,
@@ -35,7 +35,7 @@ class Sub_district extends BaseController
 	public function getData()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->read == 1){
 			$columns = array(
 				0 => 'sdistrict_id',
@@ -44,7 +44,8 @@ class Sub_district extends BaseController
 				3 => 'district_name',
 				4 => 'city_name',
 				5 => 'state_name',
-				6 => 'sdistrict_status'
+				6 => 'zip_code',
+				7 => 'sdistrict_status'
 			);
 			$limit = $this->request->getPost('length');
 			$start = $this->request->getPost('start');
@@ -92,6 +93,7 @@ class Sub_district extends BaseController
 					$nestedData['district_name'] = $row->district_name;
 					$nestedData['city_name'] = $row->city_name;
 					$nestedData['state_name'] = $row->state_name;
+					$nestedData['zip_code'] = $row->zip_code;
 					$nestedData['sdistrict_status'] = $sdistrict_status;
 					$nestedData['action'] = $actions;
 					$data[] = $nestedData;
@@ -112,7 +114,7 @@ class Sub_district extends BaseController
 
 	public function getColumns()
 	{
-		$fields = array('sdistrict_code', 'sdistrict_name', 'district_name', 'city_name', 'state_name', 'sdistrict_status');
+		$fields = array('sdistrict_code', 'sdistrict_name', 'district_name', 'city_name', 'state_name', 'zip_code', 'sdistrict_status');
 		$columns[]['data'] = 'number';
 		foreach ($fields as $field) {
 			$columns[] = array(
@@ -137,7 +139,8 @@ class Sub_district extends BaseController
 		}
 		$callback = array(
 			'district_list' => $district_list,
-			'sub_district_list' => '<option></option>'
+			'sub_district_list' => '<option></option>',
+			'zip_code' => ''
 		);
 		echo json_encode($callback);
 	}
@@ -145,7 +148,7 @@ class Sub_district extends BaseController
 	public function add()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			if(@$this->request->getPost('country')){
 				$state = $this->model->getState($this->request->getPost('country'));
@@ -179,7 +182,8 @@ class Sub_district extends BaseController
 				'city' => ['label' => 'City', 'rules' => 'required'],
 				'district' => ['label' => 'District', 'rules' => 'required'],
 				'sdistrict_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[10]|max_length[10]|is_unique[sub_district.sdistrict_code]'],
-				'sdistrict_name' => ['label' => 'Name', 'rules' => 'required']
+				'sdistrict_name' => ['label' => 'Name', 'rules' => 'required'],
+				'zip_code' => ['label' => 'Zip Code', 'rules' => 'required']
 			]);
 			if(!$validation){
 				$data['validation'] = $this->validator;
@@ -192,6 +196,7 @@ class Sub_district extends BaseController
 					'district_id' => $this->request->getPost('district'),
 					'sdistrict_code' => $this->request->getPost('sdistrict_code'),
 					'sdistrict_name' => $this->request->getPost('sdistrict_name'),
+					'zip_code' => $this->request->getPost('zip_code'),
 					'sdistrict_status' => 1
 				);
 				$this->model->insertSubDistrict($subDistrictData);
@@ -207,7 +212,7 @@ class Sub_district extends BaseController
 	public function bulk_upload()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'sub_district_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[sub_district_csv]|ext_in[sub_district_csv,csv]|max_size[sub_district_csv,2048]']
@@ -246,12 +251,13 @@ class Sub_district extends BaseController
 	public function bulk_save()
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->create == 1){
 			$validation = $this->validate([
 				'sub_district.*.district' => ['label' => 'District', 'rules' => 'required'],
 				'sub_district.*.sdistrict_code' => ['label' => 'Code', 'rules' => 'required|numeric|min_length[10]|max_length[10]|is_unique[sub_district.sdistrict_code]'],
-				'sub_district.*.sdistrict_name' => ['label' => 'Name', 'rules' => 'required']
+				'sub_district.*.sdistrict_name' => ['label' => 'Name', 'rules' => 'required'],
+				'sub_district.*.zip_code' => ['label' => 'Zip Code', 'rules' => 'required']
 			]);
 			if(!$validation){
 				session()->setFlashdata('warning', 'The CSV file you uploaded contains some errors.'.$this->validator->listErrors());
@@ -263,6 +269,7 @@ class Sub_district extends BaseController
 						'district_id' => $row['district'],
 						'sdistrict_code' => $row['sdistrict_code'],
 						'sdistrict_name' => $row['sdistrict_name'],
+						'zip_code' => $row['zip_code'],
 						'sdistrict_status' => 1
 					);
 					$this->model->insertSubDistrict($subDistrictData);
@@ -279,7 +286,7 @@ class Sub_district extends BaseController
 	public function edit($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->update == 1){
 			$sub_district = $this->model->getSubDistrictById($id);
 			if(@$this->request->getPost('country')){
@@ -327,6 +334,7 @@ class Sub_district extends BaseController
 				'district' => ['label' => 'District', 'rules' => 'required'],
 				'sdistrict_code' => ['label' => 'Code', 'rules' => $sub_district_code_rules],
 				'sdistrict_name' => ['label' => 'Name', 'rules' => 'required'],
+				'zip_code' => ['label' => 'Zip Code', 'rules' => 'required'],
 				'status' => ['label' => 'Status', 'rules' => 'required']
 			]);
 			if(!$validation){
@@ -339,6 +347,7 @@ class Sub_district extends BaseController
 					'district_id' => $this->request->getPost('district'),
 					'sdistrict_code' => $this->request->getPost('sdistrict_code'),
 					'sdistrict_name' => $this->request->getPost('sdistrict_name'),
+					'zip_code' => $this->request->getPost('zip_code'),
 					'sdistrict_status' => $this->request->getPost('status')
 				);
 				$this->model->updateSubDistrict($id, $subDistrictData);
@@ -354,7 +363,7 @@ class Sub_district extends BaseController
 	public function delete($id)
 	{
 		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole('L12000001', @$checkMenu->menu_id);
+		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
 		if(@$checkLevel->delete == 1){
 			$subDistrictData = $this->model->getSubDistrictById($id);
 			$this->model->deleteSubDistrict($id);
@@ -380,6 +389,7 @@ class Sub_district extends BaseController
 			'district_id' => @$sub_district->district_id,
 			'sdistrict_code' => @$sub_district->sdistrict_code,
 			'sdistrict_name' => @$sub_district->sdistrict_name,
+			'zip_code' => @$sub_district->zip_code,
 			'sdistrict_status' => @$sub_district->sdistrict_status
 		);
 		$this->model->insertSubDistrict($subDistrictData);

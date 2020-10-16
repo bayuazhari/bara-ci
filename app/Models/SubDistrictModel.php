@@ -10,7 +10,7 @@ class SubDistrictModel extends Model
 	public function getSubDistrict($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
-		->select('sdistrict_id, sdistrict_code, sdistrict_name, district_name, city_name, state_name, sdistrict_status')
+		->select('sdistrict_id, sdistrict_code, sdistrict_name, district_name, city_name, state_name, zip_code, sdistrict_status')
 		->join('district', 'sub_district.district_id=district.district_id')
 		->join('city', 'district.city_id=city.city_id')
 		->join('state', 'city.state_id=state.state_id')
@@ -29,7 +29,7 @@ class SubDistrictModel extends Model
 	public function searchSubDistrict($limit, $start, $search, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
-		->select('sdistrict_id, sdistrict_code, sdistrict_name, district_name, city_name, state_name, sdistrict_status')
+		->select('sdistrict_id, sdistrict_code, sdistrict_name, district_name, city_name, state_name, zip_code, sdistrict_status')
 		->join('district', 'sub_district.district_id=district.district_id')
 		->join('city', 'district.city_id=city.city_id')
 		->join('state', 'city.state_id=state.state_id')

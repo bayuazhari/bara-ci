@@ -30,6 +30,7 @@
 					$district_id = $request->getPost('district');
 					$sdistrict_code = $request->getPost('sdistrict_code');
 					$sdistrict_name = $request->getPost('sdistrict_name');
+					$zip_code = $request->getPost('zip_code');
 					$status = $request->getPost('status');
 				}else{
 					$country_id = $sub_district->country_id;
@@ -38,6 +39,7 @@
 					$district_id = $sub_district->district_id;
 					$sdistrict_code = $sub_district->sdistrict_code;
 					$sdistrict_name = $sub_district->sdistrict_name;
+					$zip_code = $sub_district->zip_code;
 					$status = $sub_district->sdistrict_status;
 				} ?>
 				<!-- begin panel-body -->
@@ -130,6 +132,14 @@
 								<div id="district_loading" style="margin-top: 7px;">
 									<img src="<?php echo base_url('assets/plugins/x-editable-bs4/dist/bootstrap4-editable/img/loading.gif'); ?>"> <small>Loading...</small>
 								</div>
+								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+							</div>
+						</div>
+						<?php $error = $validation->getError('zip_code'); ?>
+						<div class="form-group row m-b-15">
+							<label class="col-form-label col-md-2 text-lg-right">Zip Code<span class="text-grey-darker ml-2"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Postal code (e.g., 14530)."></i></span></label>
+							<div class="col-md-9">
+								<input type="text" class="form-control <?php if($error){ echo 'is-invalid'; } ?>" name="zip_code" value="<?= $zip_code; ?>" />
 								<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 							</div>
 						</div>

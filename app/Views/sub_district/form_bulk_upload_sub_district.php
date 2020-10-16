@@ -62,6 +62,7 @@
 											<th class="text-nowrap">code</th>
 											<th class="text-nowrap">name</th>
 											<th class="text-nowrap">district</th>
+											<th class="text-nowrap">zip_code</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -69,6 +70,7 @@
 											<td>3101011001</td>
 											<td>Pulau Panggang</td>
 											<td>310101</td>
+											<td>14530</td>
 										</tr>
 									</tbody>
 								</table>
@@ -77,7 +79,8 @@
 								Description:<br>
 								<strong>code</strong> - Ten-character sub district code based on the laws used in a country (e.g., 3101011001).<br>
 								<strong>name</strong> - Sub district name (e.g., Pulau Panggang).<br>
-								<strong>district</strong> - District of the sub district (e.g., 310101).
+								<strong>district</strong> - District of the sub district (e.g., 310101).<br>
+								<strong>zip_code</strong> - Postal code (e.g., 14530).
 							</p>
 						</div>
 					</div>
@@ -173,6 +176,7 @@
 											<th class="text-nowrap">Code</th>
 											<th class="text-nowrap">Name</th>
 											<th class="text-nowrap">District</th>
+											<th class="text-nowrap">Zip Code</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -196,6 +200,13 @@
 											}
 											$check_errors[] = $name_error;
 
+											if(empty(@$row['zip_code'])){
+												$zip_code_error = true;
+											}else{
+												$zip_code_error = false;
+											}
+											$check_errors[] = $zip_code_error;
+
 											if(!empty(@$row['district']) AND !$district_code){
 												$district_error = true;
 											}else{
@@ -207,6 +218,7 @@
 											<td class="<?php if($code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="sub_district[<?= $no ?>][sdistrict_code]" value="<?= @$row['code'] ?>"><?= @$row['code'] ?></td>
 											<td class="<?php if($name_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="sub_district[<?= $no ?>][sdistrict_name]" value="<?= @$row['name'] ?>"><?= @$row['name'] ?></td>
 											<td class="<?php if($district_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="sub_district[<?= $no ?>][district]" value="<?= @$district_code->district_id ?>"><?= @$row['district'] ?></td>
+											<td class="<?php if($zip_code_error == true){ echo 'bg-red text-white'; } ?>"><input type="hidden" name="sub_district[<?= $no ?>][zip_code]" value="<?= @$row['zip_code'] ?>"><?= @$row['zip_code'] ?></td>
 										</tr>
 									<?php $no++; } ?>
 									</tbody>

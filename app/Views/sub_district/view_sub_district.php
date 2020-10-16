@@ -61,6 +61,7 @@
 									<th class="text-nowrap">District</th>
 									<th class="text-nowrap">City</th>
 									<th class="text-nowrap">State</th>
+									<th class="text-nowrap">Zip Code</th>
 									<th class="text-nowrap">Status</th>
 									<th class="text-nowrap" data-orderable="false">Action</th>
 								</tr>

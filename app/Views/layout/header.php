@@ -156,15 +156,22 @@
 				</li>
 				<li class="dropdown navbar-user">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<img src="<?php echo base_url('assets/img/user/user-0.png'); ?>" alt="" /> 
-						<span class="d-none d-md-inline">Adam Schwartz</span> <b class="caret"></b>
+					<?php
+						if(@session('user_photo')){
+							$user_photo = session('user_id').'/'.session('user_photo');
+						}else{
+							$user_photo = 'user-0.png';
+						}
+					?>
+						<img src="<?php echo base_url('assets/img/user/'.$user_photo); ?>" alt="" /> 
+						<span class="d-none d-md-inline"><?= session('full_name'); ?></span> <b class="caret"></b>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
 					<?php
 						$profile_menu = $setting->getMenu('MG2000002');
 						if(@$profile_menu) {
 							foreach ($profile_menu as $pmenu) {
-								$pmenu_level = $setting->getLevelByRole('L12000001', $pmenu->menu_id);
+								$pmenu_level = $setting->getLevelByRole(session('level_id'), $pmenu->menu_id);
 								if(@$pmenu_level->read == 1){
 					?>
 						<a href="<?php echo base_url($pmenu->menu_url); ?>" class="dropdown-item"><i class="<?= $pmenu->menu_class; ?>"></i> <?= $pmenu->menu_name; ?></a>
@@ -192,11 +199,11 @@
 						<a href="javascript:;" data-toggle="nav-profile">
 							<div class="cover with-shadow"></div>
 							<div class="image">
-								<img src="<?php echo base_url('assets/img/user/user-0.png'); ?>" alt="" />
+								<img src="<?php echo base_url('assets/img/user/'.$user_photo); ?>" alt="" />
 							</div>
 							<div class="info">
-								<b class="caret pull-right"></b>Sean Ngu
-								<small>Front end developer</small>
+								<b class="caret pull-right"></b><?= session('full_name'); ?>
+								<small><?= session('level_name'); ?></small>
 							</div>
 						</a>
 					</li>
@@ -205,7 +212,7 @@
 						<?php
 							if(@$profile_menu) {
 								foreach ($profile_menu as $pmenu) {
-									$pmenu_level = $setting->getLevelByRole('L12000001', $pmenu->menu_id);
+									$pmenu_level = $setting->getLevelByRole(session('level_id'), $pmenu->menu_id);
 									if(@$pmenu_level->read == 1){
 						?>
 							<li><a href="<?php echo base_url($pmenu->menu_url); ?>"><i class="<?= $pmenu->menu_class; ?>"></i> <?= $pmenu->menu_name; ?></a></li>
@@ -300,7 +307,7 @@
 										</a>
 										<ul class="sub-menu">
 										<?php foreach ($menu_level_3 as $mnlvl3){
-											$mnlvl3_level = $setting->getLevelByRole('L12000001', $mnlvl3->menu_id);
+											$mnlvl3_level = $setting->getLevelByRole(session('level_id'), $mnlvl3->menu_id);
 											if(@$mnlvl3_level->read == 1){
 												if($menu_uri == $mnlvl3->menu_url){
 													$menu_level_3_active = 'active';
@@ -316,7 +323,7 @@
 										</ul>
 									</li>
 									<?php } else {
-										$mnlvl2_level = $setting->getLevelByRole('L12000001', $mnlvl2->menu_id);
+										$mnlvl2_level = $setting->getLevelByRole(session('level_id'), $mnlvl2->menu_id);
 										if(@$mnlvl2_level->read == 1){
 											if($menu_uri == $mnlvl2->menu_url){
 												$menu_level_2_active = 'active';
@@ -333,7 +340,7 @@
 								</ul>
 							</li>
 							<?php } else {
-								$mnlvl1_level = $setting->getLevelByRole('L12000001', $mnlvl1->menu_id);
+								$mnlvl1_level = $setting->getLevelByRole(session('level_id'), $mnlvl1->menu_id);
 								if(@$mnlvl1_level->read == 1){
 									if($menu_uri == $mnlvl1->menu_url){
 										$menu_level_1_active = 'active';
@@ -350,7 +357,7 @@
 						</ul>
 					</li>
 					<?php } else {
-						$sbmenu_level = $setting->getLevelByRole('L12000001', $sbmenu->menu_id);
+						$sbmenu_level = $setting->getLevelByRole(session('level_id'), $sbmenu->menu_id);
 						if(@$sbmenu_level->read == 1){
 							if($menu_uri == $sbmenu->menu_url){
 								$sidebar_menu_active = 'active';

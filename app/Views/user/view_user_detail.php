@@ -8,7 +8,7 @@
 							}
 						?>
 							<tr>
-								<td class="text-center" colspan="2"><img src="<?php echo base_url('assets/img/user/'.$user_photo); ?>" height="100" alt=""></td>
+								<td class="text-center" colspan="2"><img src="<?php echo base_url('assets/img/user/'.$user_photo); ?>" height="150" alt=""></td>
 							</tr>
 							<tr>
 								<td><strong>Name</strong></td>
@@ -41,7 +41,7 @@
 							</tr>
 							<tr>
 								<td><strong>Address</strong></td>
-								<td><?= @$user->user_address.', '.@$user->sdistrict_name.', '.@$user->district_name.', '.@$user->city_name.', '.@$user->state_name.', '.@$user->country_name ?></td>
+								<td><?= @$user->user_address.', '.@$user->sdistrict_name.', '.@$user->district_name.', '.@$user->city_name.', '.@$user->state_name.', '.@$user->country_name.' '.@$user->zip_code ?></td>
 							</tr>
 							<tr>
 								<td><strong>Level</strong></td>
@@ -55,9 +55,9 @@
 								<td><strong>Request Reset Password</strong></td>
 								<?php
 									if(@$user->req_reset_pass == 1){
-										echo '<td class="text-success">Active</td>';
+										echo '<td class="text-primary">True</td>';
 									}elseif(@$user->req_reset_pass == 0){
-										echo '<td class="text-danger">Inactive</td>';
+										echo '<td class="text-danger">False</td>';
 									}else{
 										echo '<td></td>';
 									}

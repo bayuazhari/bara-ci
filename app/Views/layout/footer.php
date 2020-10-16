@@ -209,6 +209,7 @@
 						$("#city").html(response.city_list);
 						$("#district").html(response.district_list);
 						$("#sub_district").html(response.sub_district_list);
+						$("#zip_code").val(response.zip_code);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -236,6 +237,7 @@
 						$("#city").html(response.city_list);
 						$("#district").html(response.district_list);
 						$("#sub_district").html(response.sub_district_list);
+						$("#zip_code").val(response.zip_code);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -262,6 +264,7 @@
 						$("#district").next(".select2-container").show();
 						$("#district").html(response.district_list);
 						$("#sub_district").html(response.sub_district_list);
+						$("#zip_code").val(response.zip_code);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -287,6 +290,27 @@
 						$("#sub_district_loading").hide();
 						$("#sub_district").next(".select2-container").show();
 						$("#sub_district").html(response.sub_district_list);
+						$("#zip_code").val(response.zip_code);
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+					}
+				});
+			});
+
+			$("#sub_district").change(function() {
+				$.ajax({
+					type : 'POST',
+					url : '<?php echo base_url("user/get_zip_code"); ?>',
+					data :  { sub_district : $("#sub_district").val() },
+					dataType: "json",
+					beforeSend: function(e) {
+						if(e && e.overrideMimeType) {
+							e.overrideMimeType("application/json;charset=UTF-8");
+						}
+					},
+					success : function(response) {
+						$("#zip_code").val(response.zip_code);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
