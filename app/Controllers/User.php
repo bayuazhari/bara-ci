@@ -277,11 +277,32 @@ class User extends BaseController
 					'user_photo_name' => $user_photo_name,
 					'user_photo_ext' => $user_photo_ext,
 					'user_photo_size' => $user_photo_size,
-					'registration_date' => date('Y-m-d H:i:s'),
 					'req_reset_pass' => 0,
 					'user_status' => 1
 				);
 				$this->model->insertUser($userData);
+
+				$userHistoryData = array(
+					'uhistory_id' => $this->model->getUserHistoryId(),
+					'user_id' => $userData['user_id'],
+					'uhistory_action' => 'Register',
+					'uhistory_time' => date('Y-m-d H:i:s')
+				);
+				$this->model->insertUserHistory($userHistoryData);
+
+				$notifData = array(
+					'notif_id' => $this->setting->getNotifId(),
+					'sender_id' => session('user_id'),
+					'recipient_id' => 'U120091600001',
+					'notif_class' => 'fa fa-plus media-object bg-silver-darker',
+					'notif_title' => 'New User Registered',
+					'notif_desc' => 'User data with ID:'.$userData['user_id'].' has been added successfully.',
+					'notif_url' => 'user?id='.$userData['user_id'],
+					'notif_date' => date('Y-m-d H:i:s'),
+					'notif_data' => json_encode($userData),
+					'is_read' => 0
+				);
+				$this->setting->insertNotif($notifData);
 
 				$email_message = $this->send_email_verification($user_id);
 
@@ -367,11 +388,18 @@ class User extends BaseController
 						'user_password' => $row['user_password'],
 						'user_address' => $row['user_address'],
 						'sdistrict_id' => $row['sub_district'],
-						'registration_date' => date('Y-m-d H:i:s'),
 						'req_reset_pass' => 0,
 						'user_status' => 1
 					);
 					$this->model->insertUser($userData);
+
+					$userHistoryData = array(
+						'uhistory_id' => $this->model->getUserHistoryId(),
+						'user_id' => $userData['user_id'],
+						'uhistory_action' => 'Register',
+						'uhistory_time' => date('Y-m-d H:i:s')
+					);
+					$this->model->insertUserHistory($userHistoryData);
 
 					$email_message = $this->send_email_verification($userData['user_id']);
 				}
@@ -500,6 +528,14 @@ class User extends BaseController
 				);
 				$this->model->updateUser($id, $userData);
 
+				$userHistoryData = array(
+					'uhistory_id' => $this->model->getUserHistoryId(),
+					'user_id' => $id,
+					'uhistory_action' => 'Modified',
+					'uhistory_time' => date('Y-m-d H:i:s')
+				);
+				$this->model->insertUserHistory($userHistoryData);
+
 				$email_message = $this->send_email_verification($id);
 
 				session()->setFlashdata($email_message['session_item'], 'User has been updated successfully. (SysCode: <a href="'.base_url('user?id='.$id).'" class="alert-link">'.$id.'</a>)'.$email_message['email_msg']);
@@ -551,7 +587,6 @@ class User extends BaseController
 			'user_photo_name' => @$user->user_photo_name,
 			'user_photo_ext' => @$user->user_photo_ext,
 			'user_photo_size' => @$user->user_photo_size,
-			'registration_date' => @$user->registration_date,
 			'req_reset_pass' => @$user->req_reset_pass,
 			'user_status' => @$user->user_status
 		);
@@ -582,7 +617,7 @@ class User extends BaseController
 			$web_title = @$this->setting->getSettingById(1)->setting_value;
 
 			$this->email->setSubject('['.$web_title.'] Please verify your email address');
-			$this->email->setMessage('Hi '.@$user->first_name.' '.@$user->last_name.',<br><br>To complete your sign up, please verify your email:<br><br><a href="'.base_url('user/verify_email/'.$id).'">Click here</a><br><br>Thank you, '.$web_title.' Team');
+			$this->email->setMessage('Hi '.@$user->first_name.' '.@$user->last_name.',<br><br>To complete your sign up, please verify your email:<br><br><a href="'.base_url('user/verify_email/'.$id).'">Click here</a><br><br>Thank you,<br>'.$web_title.' Team');
 			if($this->email->send()){
 				$data = array(
 					'session_item' => 'success',

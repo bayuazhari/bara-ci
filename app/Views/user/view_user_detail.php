@@ -47,17 +47,17 @@
 								<td><strong>Level</strong></td>
 								<td><?= @$user->level_name ?></td>
 							</tr>
-							<tr>
+							<!--<tr>
 								<td><strong>Registration Date</strong></td>
 								<td><?= date('F d, Y H:i:s', strtotime(@$user->registration_date)) ?></td>
-							</tr>
+							</tr>-->
 							<tr>
 								<td><strong>Request Reset Password</strong></td>
 								<?php
 									if(@$user->req_reset_pass == 1){
-										echo '<td class="text-primary">True</td>';
+										echo '<td class="text-primary">Yes</td>';
 									}elseif(@$user->req_reset_pass == 0){
-										echo '<td class="text-danger">False</td>';
+										echo '<td class="text-danger">No</td>';
 									}else{
 										echo '<td></td>';
 									}
@@ -69,7 +69,7 @@
 									if(@$user->user_status == 1){
 										echo '<td class="text-success">Active</td>';
 									}elseif(@$user->user_status == 0){
-										echo '<td class="text-danger">Blocked</td>';
+										echo '<td class="text-danger">Inactive</td>';
 									}else{
 										echo '<td></td>';
 									}

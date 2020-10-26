@@ -15,8 +15,8 @@ class Notification extends BaseController
 			'setting' => $this->setting,
 			'segment' => $this->request->uri,
 			'title' =>  'Notification',
-			'total_notif' => $this->setting->getNotifCount('0'),
-			'notification' => $this->setting->getNotif('0')
+			'total_notif' => $this->setting->getNotifCount(session('user_id')),
+			'notification' => $this->setting->getNotif(session('user_id'))
 		);
 		echo view('layout/header', $data);
 		echo view('notification/view_notification');

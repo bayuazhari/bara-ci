@@ -236,10 +236,37 @@ class UserModel extends Model
 		return $char.$id;
 	}
 
+	public function getUserHistoryId()
+	{
+		$lastId = $this->db->table('user_history')
+		->select('MAX(RIGHT(uhistory_id, 11)) AS last_id')
+		->get();
+		$lastMidId = $this->db->table('user_history')
+		->select('MAX(MID(uhistory_id, 3, 6)) AS last_mid_id')
+		->get()
+		->getRow()
+		->last_mid_id;
+		$midId = date('ymd');
+		$char = "UH".$midId;
+		if($lastMidId == $midId){
+			$tmp = ($lastId->getRow()->last_id)+1;
+			$id = substr($tmp, -5);
+		}else{
+			$id = "00001";
+		}
+		return $char.$id;
+	}
+
 	public function insertUser($data)
 	{
 		$this->db->table($this->table)
 		->insert($data);
+	}
+
+	public function insertUserHistory($history_data)
+	{
+		$this->db->table('user_history')
+		->insert($history_data);
 	}
 
 	public function updateUser($id, $data)
@@ -252,6 +279,13 @@ class UserModel extends Model
 	public function deleteUser($id)
 	{
 		$this->db->table($this->table)
+		->where($this->primaryKey, $id)
+		->delete();
+	}
+
+	public function deleteUserHistory($id)
+	{
+		$this->db->table('user_history')
 		->where($this->primaryKey, $id)
 		->delete();
 	}

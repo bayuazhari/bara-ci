@@ -38,6 +38,7 @@ class SubDistrictModel extends Model
 		->orLike('district_name', $search)
 		->orLike('city_name', $search)
 		->orLike('state_name', $search)
+		->orLike('zip_code', $search)
 		->limit($limit, $start)
 		->orderBy($col, $dir)
 		->get();
@@ -56,6 +57,7 @@ class SubDistrictModel extends Model
 		->orLike('district_name', $search)
 		->orLike('city_name', $search)
 		->orLike('state_name', $search)
+		->orLike('zip_code', $search)
 		->get();
 		return $query->getRow()->total;
 	}

@@ -9,14 +9,18 @@ var handleDataTableServerSide = function() {
 	"use strict";
     
 	if ($('#data-table-server-side').length !== 0) {
-		$.getJSON($(location).attr('href')+'/getColumns',function(column){
+		var protocol = $(location).attr('protocol');
+		var host = $(location).attr('host');
+		var url = $(location).attr('href').split('/');
+		var value = url[3].split('?');
+
+		$.getJSON(protocol + '//' + host + '/' + value[0] + '/getColumns',function(column){
 			$('#data-table-server-side').DataTable({
 				processing: true,
 				serverSide: true,
 				ajax: {
 					type: "POST",
-					url: $(location).attr('href')+'/getData',
-					data: { '<?php echo csrf_token(); ?>': '<?php echo csrf_hash(); ?>' },
+					url: protocol + '//' + host + '/' + value[0] + '/getData',
 					dataType: "json"
 				},
 				columns: column

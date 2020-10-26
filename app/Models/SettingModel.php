@@ -143,10 +143,10 @@ class SettingModel extends Model
 
 	public function getNotifId()
 	{
-		$lastId = $this->db->table($this->table)
+		$lastId = $this->db->table('notification')
 		->select('MAX(RIGHT(notif_id, 11)) AS last_id')
 		->get();
-		$lastMidId = $this->db->table($this->table)
+		$lastMidId = $this->db->table('notification')
 		->select('MAX(MID(notif_id, 3, 6)) AS last_mid_id')
 		->get()
 		->getRow()

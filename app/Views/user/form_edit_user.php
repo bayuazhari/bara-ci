@@ -244,7 +244,7 @@
 								</div>
 								<div class="custom-control custom-radio">
 									<input type="radio" id="customRadio2" name="status" class="custom-control-input" value="0" <?php if($status == 0){echo 'checked';}?>>
-									<label class="custom-control-label" for="customRadio2"><span class="text-danger">Blocked</span></label>
+									<label class="custom-control-label" for="customRadio2"><span class="text-danger">Inactive</span></label>
 								</div>
 							</div>
 						</div>

@@ -16,7 +16,7 @@ class Login extends BaseController
 	public function index()
 	{
 		$validation = $this->validate([
-			'user_email' => ['label' => 'Email', 'rules' => 'required|valid_email'],
+			'user_email' => ['label' => 'Email Address', 'rules' => 'required|valid_email'],
 			'user_password' => ['label' => 'Password', 'rules' => 'required|min_length[6]']
 		]);
 		$data = array(
