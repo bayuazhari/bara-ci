@@ -18,8 +18,8 @@ class Setting extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
-				'total_notif' => $this->setting->getNotifCount('0'),
-				'notification' => $this->setting->getNotif('0'),
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name
 			);
 			echo view('layout/header', $data);

@@ -22,6 +22,8 @@ class User extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'checkLevel' => $checkLevel
 			);
@@ -100,9 +102,9 @@ class User extends BaseController
 					if(@$checkLevel->update == 1){
 						$action_edit = '<a href="'.base_url('user/edit/'.$row->user_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 					}
-					if(@$this->model->getUserRelatedTable2('notification', 'sender_id', 'recipient_id', $row->user_id)){
+					/*if(@$this->model->getUserRelatedTable('notification', $row->user_id)){
 						$delete_disabled = 'disabled';
-					}
+					}*/
 					if(@$checkLevel->delete == 1){
 						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'" data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('user/delete/'.$row->user_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 					}
@@ -213,6 +215,8 @@ class User extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
 				'level' => $this->model->getLevel(),
@@ -295,7 +299,7 @@ class User extends BaseController
 					'sender_id' => session('user_id'),
 					'recipient_id' => 'U120091600001',
 					'notif_class' => 'fa fa-plus media-object bg-silver-darker',
-					'notif_title' => 'New User Registered',
+					'notif_title' => 'New user registered',
 					'notif_desc' => 'User data with ID:'.$userData['user_id'].' has been added successfully.',
 					'notif_url' => 'user?id='.$userData['user_id'],
 					'notif_date' => date('Y-m-d H:i:s'),
@@ -327,6 +331,8 @@ class User extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'validation' => $this->validator
 			);
@@ -403,6 +409,21 @@ class User extends BaseController
 
 					$email_message = $this->send_email_verification($userData['user_id']);
 				}
+
+				$notifData = array(
+					'notif_id' => $this->setting->getNotifId(),
+					'sender_id' => session('user_id'),
+					'recipient_id' => 'U120091600001',
+					'notif_class' => 'fas fa-file-csv media-object bg-silver-darker',
+					'notif_title' => 'User data import completed',
+					'notif_desc' => 'Users has been added successfully.',
+					'notif_url' => 'user',
+					'notif_date' => date('Y-m-d H:i:s'),
+					'notif_data' => json_encode($this->request->getPost('user')),
+					'is_read' => 0
+				);
+				$this->setting->insertNotif($notifData);
+
 				session()->setFlashdata('success', 'Users has been added successfully.');
 				return redirect()->to(base_url('user'));
 			}
@@ -450,6 +471,8 @@ class User extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
 				'level' => $this->model->getLevel(),
@@ -531,10 +554,24 @@ class User extends BaseController
 				$userHistoryData = array(
 					'uhistory_id' => $this->model->getUserHistoryId(),
 					'user_id' => $id,
-					'uhistory_action' => 'Modified',
+					'uhistory_action' => 'Update',
 					'uhistory_time' => date('Y-m-d H:i:s')
 				);
 				$this->model->insertUserHistory($userHistoryData);
+
+				$notifData = array(
+					'notif_id' => $this->setting->getNotifId(),
+					'sender_id' => session('user_id'),
+					'recipient_id' => 'U120091600001',
+					'notif_class' => 'fa fa-edit media-object bg-silver-darker',
+					'notif_title' => 'Update user data',
+					'notif_desc' => 'User data with ID:'.$id.' has been updated successfully.',
+					'notif_url' => 'user?id='.$id,
+					'notif_date' => date('Y-m-d H:i:s'),
+					'notif_data' => json_encode($userData),
+					'is_read' => 0
+				);
+				$this->setting->insertNotif($notifData);
 
 				$email_message = $this->send_email_verification($id);
 
@@ -554,6 +591,29 @@ class User extends BaseController
 		if(@$checkLevel->delete == 1){
 			$userData = $this->model->getUserById($id);
 			$this->model->deleteUser($id);
+
+			$userHistoryData = array(
+				'uhistory_id' => $this->model->getUserHistoryId(),
+				'user_id' => $id,
+				'uhistory_action' => 'Delete',
+				'uhistory_time' => date('Y-m-d H:i:s')
+			);
+			$this->model->insertUserHistory($userHistoryData);
+
+			$notifData = array(
+				'notif_id' => $this->setting->getNotifId(),
+				'sender_id' => session('user_id'),
+				'recipient_id' => 'U120091600001',
+				'notif_class' => 'fa fa-trash-alt media-object bg-silver-darker',
+				'notif_title' => 'User has been deleted',
+				'notif_desc' => 'User data with ID:'.$id.' has been removed successfully.',
+				'notif_url' => 'user',
+				'notif_date' => date('Y-m-d H:i:s'),
+				'notif_data' => json_encode($userData),
+				'is_read' => 0
+			);
+			$this->setting->insertNotif($notifData);
+
 			session()->setFlashdata('warning', 'User has been removed successfully. <a href="'.base_url('user/undo?data='.json_encode($userData)).'" class="alert-link">Undo</a>');
 			return redirect()->to(base_url('user'));
 		}else{
@@ -568,6 +628,11 @@ class User extends BaseController
 		$checkUser = $this->model->getUserById(@$user->user_id);
 		if(@$checkUser){
 			$user_id = $this->model->getUserId();
+
+			$userHistoryUpdate = array(
+				'user_id' => $user_id
+			);
+			$this->model->updateUserHistory($checkUser->user_id, $userHistoryUpdate);
 		}else{
 			$user_id = @$user->user_id;
 		}
@@ -591,6 +656,29 @@ class User extends BaseController
 			'user_status' => @$user->user_status
 		);
 		$this->model->insertUser($userData);
+
+		$userHistoryData = array(
+			'uhistory_id' => $this->model->getUserHistoryId(),
+			'user_id' => $user_id,
+			'uhistory_action' => 'Restore',
+			'uhistory_time' => date('Y-m-d H:i:s')
+		);
+		$this->model->insertUserHistory($userHistoryData);
+
+		$notifData = array(
+			'notif_id' => $this->setting->getNotifId(),
+			'sender_id' => session('user_id'),
+			'recipient_id' => 'U120091600001',
+			'notif_class' => 'fas fa-trash-restore media-object bg-silver-darker',
+			'notif_title' => 'Restore a deleted user',
+			'notif_desc' => 'User data with ID:'.$user_id.' has been restored successfully.',
+			'notif_url' => 'user?id='.$user_id,
+			'notif_date' => date('Y-m-d H:i:s'),
+			'notif_data' => json_encode($userData),
+			'is_read' => 0
+		);
+		$this->setting->insertNotif($notifData);
+
 		session()->setFlashdata('success', 'Action undone. (SysCode: <a href="'.base_url('user?id='.$user_id).'" class="alert-link">'.$user_id.'</a>)');
 		return redirect()->to(base_url('user'));
 	}
@@ -617,7 +705,7 @@ class User extends BaseController
 			$web_title = @$this->setting->getSettingById(1)->setting_value;
 
 			$this->email->setSubject('['.$web_title.'] Please verify your email address');
-			$this->email->setMessage('Hi '.@$user->first_name.' '.@$user->last_name.',<br><br>To complete your sign up, please verify your email:<br><br><a href="'.base_url('user/verify_email/'.$id).'">Click here</a><br><br>Thank you,<br>'.$web_title.' Team');
+			$this->email->setMessage('Hi '.@$user->first_name.' '.@$user->last_name.',<br><br>To complete your sign up, please verify your email:<br><br><a href="'.base_url('login/verify_email/'.$id).'">Click here</a><br><br>Thank you,<br>'.$web_title.' Team');
 			if($this->email->send()){
 				$data = array(
 					'session_item' => 'success',
@@ -650,18 +738,5 @@ class User extends BaseController
 
 		session()->setFlashdata($email_message['session_item'], $email_msg);
 		return redirect()->to(base_url('user'));
-	}
-
-	public function verify_email($id)
-	{
-		$user = $this->model->getUserById($id);
-		if(@$user->email_verification == 0 AND @$user->user_status == 1){
-			$userData = array(
-				'email_verification' => 1
-			);
-			$this->model->updateUser($id, $userData);
-			session()->setFlashdata('success', 'Your Email Address is successfully verified! Please login to access your account.');
-		}
-		return redirect()->to(base_url('login'));
 	}
 }

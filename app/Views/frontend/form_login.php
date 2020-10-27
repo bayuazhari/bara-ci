@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title><?= @$setting->getSettingById(1)->setting_value.' - '.@$title; ?></title>
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<?php
+		$web_title = @$setting->getSettingById(1)->setting_value;
 		$meta_desc = @$setting->getSettingById(2)->setting_value;
 		$nav_brand = @$setting->getSettingById(5)->setting_value;
 	?>
+	<meta charset="utf-8" />
+	<title><?= $web_title.' - '.@$title; ?></title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="<?= $meta_desc; ?>" name="description" />
 	<meta content="<?= @$setting->getSettingById(3)->setting_value; ?>" name="keywords" />
 	<meta content="<?= @$setting->getSettingById(4)->setting_value; ?>" name="author" />
@@ -16,6 +17,8 @@
 	<link type="image/png" sizes="16x16" href="<?php echo base_url('assets/img/logo/'.@$setting->getSettingById(7)->setting_value); ?>" rel="icon">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 	<link href="<?php echo base_url('assets/css/default/app.min.css'); ?>" rel="stylesheet" />
+
+	<link href="<?php echo base_url('assets/plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" />
 	<!-- ================== END BASE CSS STYLE ================== -->
 </head>
 <body class="pace-top">
@@ -34,9 +37,7 @@
 				<div class="news-image" style="background-image: url(<?php echo base_url('assets/img/login-bg/login-bg-11.jpg'); ?>)"></div>
 				<div class="news-caption">
 					<h4 class="caption-title"><?= $nav_brand ?></h4>
-					<p>
-						Download the Color Admin app for iPhone®, iPad®, and Android™. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					</p>
+					<p>Download the <?= $web_title; ?> for iPhone®, iPad®, and Android™.</p>
 				</div>
 			</div>
 			<!-- end news-feed -->
@@ -98,17 +99,28 @@
 							<input type="password" class="form-control form-control-lg <?php if($error){ echo 'is-invalid'; } ?>" name="user_password" placeholder="Password" />
 							<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 						</div>
-						<div class="checkbox checkbox-css m-b-30">
+						<!--<div class="checkbox checkbox-css m-b-30">
 							<input type="checkbox" id="remember_me_checkbox" value="" />
 							<label for="remember_me_checkbox">
 							Remember Me
 							</label>
-						</div>
+						</div>-->
 						<div class="login-buttons">
-							<button type="submit" class="btn btn-success btn-block btn-lg">Sign me in</button>
+							<button type="submit" class="btn btn-success btn-block btn-lg">Sign in</button>
+							<div class="m-t-10 m-b-10 text-center">or</div>
+							<a href="javascript:;" class="btn btn-social btn-block btn-google">
+								<span class="fab fa-google"></span> <div class="text-center">Sign in with Google</div>
+							</a>
+							<a href="javascript:;" class="btn btn-social btn-block btn-linkedin">
+								<span class="fab fa-linkedin"></span> <div class="text-center">Sign in with LinkedIn</div>
+							</a>
 						</div>
 						<div class="m-t-20 m-b-40 p-b-40 text-inverse">
-							Not a member yet? Click <a href="<?php echo base_url('register'); ?>">here</a> to register.
+						<?php if(@$setting->getSettingById(10)->setting_value == 1){ ?>
+							New user? Click <a href="<?php echo base_url('register'); ?>">here</a> to register.<br>
+						<?php } if(@$setting->getSettingById(11)->setting_value == 1){ ?>
+							Forgot password? Click <a href="<?php echo base_url('forgot_password'); ?>">here</a> to reset password.
+						<?php } ?>
 						</div>
 						<hr />
 						<p class="text-center text-grey-darker mb-0">

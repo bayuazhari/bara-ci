@@ -20,6 +20,8 @@ class Country extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' =>  @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'checkLevel' => $checkLevel
 			);
@@ -140,6 +142,8 @@ class Country extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
 				'currency' => $this->model->getCurrency(),
@@ -216,6 +220,8 @@ class Country extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'validation' => $this->validator
 			);
@@ -316,6 +322,8 @@ class Country extends BaseController
 				'setting' => $this->setting,
 				'segment' => $this->request->uri,
 				'title' => @$checkMenu->menu_name,
+				'total_notif' => $this->setting->getNotifCount(session('user_id')),
+				'notification' => $this->setting->getNotif(session('user_id')),
 				'breadcrumb' => @$checkMenu->mgroup_name,
 				'request' => $this->request,
 				'currency' => $this->model->getCurrency(),

@@ -205,16 +205,6 @@ class UserModel extends Model
 		return $query->getRow();
 	}
 
-	public function getUserRelatedTable2($table, $field1, $field2, $record)
-	{
-		$query = $this->db->table($table)
-		->where($field1, $record)
-		->orWhere($field2, $record)
-		->limit(1)
-		->get();
-		return $query->getRow();
-	}
-
 	public function getUserId()
 	{
 		$lastId = $this->db->table($this->table)
@@ -274,6 +264,13 @@ class UserModel extends Model
 		$this->db->table($this->table)
 		->where($this->primaryKey, $id)
 		->update($data);
+	}
+
+	public function updateUserHistory($id, $history_data)
+	{
+		$this->db->table('user_history')
+		->where($this->primaryKey, $id)
+		->update($history_data);
 	}
 
 	public function deleteUser($id)

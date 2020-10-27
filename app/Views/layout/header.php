@@ -103,7 +103,7 @@
 									$notif_date = 'Just now';
 								} else if ($minute < 60) {
 									if($minute == 1){
-										$notif_date = 'One minutes ago';
+										$notif_date = 'One minute ago';
 									}else{
 										$notif_date = $minute.' minutes ago';
 									}

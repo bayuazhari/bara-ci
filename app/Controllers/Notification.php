@@ -27,10 +27,10 @@ class Notification extends BaseController
 	{
 		$columns = array(
 			0 => 'notif_id',
-			1 => 'first_name',
-			2 => 'notif_title',
-			3 => 'notif_desc',
-			4 => 'notif_date',
+			1 => 'notif_title',
+			2 => 'notif_desc',
+			3 => 'notif_date',
+			4 => 'first_name',
 			5 => 'is_read'
 		);
 		$limit = $this->request->getPost('length');
@@ -64,7 +64,7 @@ class Notification extends BaseController
 					$notif_date = 'Just now';
 				} else if ($minute < 60) {
 					if($minute == 1){
-						$notif_date = 'One minutes ago';
+						$notif_date = 'One minute ago';
 					}else{
 						$notif_date = $minute.' minutes ago';
 					}
@@ -104,10 +104,10 @@ class Notification extends BaseController
 					$is_read = '';
 				}
 				$nestedData['number'] = $start;
-				$nestedData['sender_name'] = $row->first_name.' '.$row->last_name;
 				$nestedData['notif_title'] = $row->notif_title;
 				$nestedData['notif_desc'] = $row->notif_desc;
 				$nestedData['notif_date'] = $notif_date;
+				$nestedData['sender_name'] = $row->first_name.' '.$row->last_name;
 				$nestedData['is_read'] = $is_read;
 				$data[] = $nestedData;
 			}
@@ -124,7 +124,7 @@ class Notification extends BaseController
 
 	public function getColumns()
 	{
-		$fields = array('sender_name', 'notif_title', 'notif_desc', 'notif_date', 'is_read');
+		$fields = array('notif_title', 'notif_desc', 'notif_date', 'sender_name', 'is_read');
 		$columns[]['data'] = 'number';
 		foreach ($fields as $field) {
 			$columns[] = array(

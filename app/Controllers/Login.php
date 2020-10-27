@@ -63,6 +63,14 @@ class Login extends BaseController
 					);
 					session()->set($session_data);
 
+					$userHistoryData = array(
+						'uhistory_id' => $this->model->getUserHistoryId(),
+						'user_id' => $session_data['user_id'],
+						'uhistory_action' => 'Sign In',
+						'uhistory_time' => date('Y-m-d H:i:s')
+					);
+					$this->model->insertUserHistory($userHistoryData);
+
 					return redirect()->to(base_url($first_page));
 				}
 			}
@@ -71,7 +79,53 @@ class Login extends BaseController
 
 	public function logout()
 	{
+		if(session()->has('user_id')){
+			$userHistoryData = array(
+				'uhistory_id' => $this->model->getUserHistoryId(),
+				'user_id' => session('user_id'),
+				'uhistory_action' => 'Sign Out',
+				'uhistory_time' => date('Y-m-d H:i:s')
+			);
+			$this->model->insertUserHistory($userHistoryData);
+		}
+
 		session()->destroy();
+		return redirect()->to(base_url('login'));
+	}
+
+	public function verify_email($id)
+	{
+		$user = $this->model->getUserById($id);
+		if(@$user->email_verification == 0 AND @$user->user_status == 1){
+			$userData = array(
+				'email_verification' => 1
+			);
+			$this->model->updateUser($id, $userData);
+
+			$userHistoryData = array(
+				'uhistory_id' => $this->model->getUserHistoryId(),
+				'user_id' => $id,
+				'uhistory_action' => 'Verify Email Address',
+				'uhistory_time' => date('Y-m-d H:i:s')
+			);
+			$this->model->insertUserHistory($userHistoryData);
+
+			$notifData = array(
+				'notif_id' => $this->setting->getNotifId(),
+				'sender_id' => $id,
+				'recipient_id' => 'U120091600001',
+				'notif_class' => 'fa fa-envelope media-object bg-silver-darker',
+				'notif_title' => 'Verify Email Address',
+				'notif_desc' => 'Email: '.@$user->user_email.' has been verified.',
+				'notif_url' => 'user?id='.@$user->user_id,
+				'notif_date' => date('Y-m-d H:i:s'),
+				'notif_data' => @$user->user_email,
+				'is_read' => 0
+			);
+			$this->setting->insertNotif($notifData);
+
+			session()->setFlashdata('success', 'Your Email Address is successfully verified! Please login to access your account.');
+		}
 		return redirect()->to(base_url('login'));
 	}
 }

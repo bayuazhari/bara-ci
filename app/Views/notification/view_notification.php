@@ -52,10 +52,10 @@
 							<thead class="text-center">
 								<tr>
 									<th width="1%">#</th>
-									<th class="text-nowrap">User</th>
 									<th class="text-nowrap">Title</th>
 									<th class="text-nowrap">Description</th>
 									<th class="text-nowrap">Date</th>
+									<th class="text-nowrap">Sender</th>
 									<th class="text-nowrap">Status</th>
 								</tr>
 							</thead>
