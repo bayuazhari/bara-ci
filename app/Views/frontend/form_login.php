@@ -105,6 +105,11 @@
 							Remember Me
 							</label>
 						</div>-->
+						<?php $error = $validation->getError('g-recaptcha-response'); ?>
+						<div class="m-b-15">
+							<div class="g-recaptcha <?php if($error){ echo 'is-invalid'; } ?>" data-sitekey="#The user response token provided by the reCAPTCHA client-side integration on your site"></div>
+							<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
+						</div>
 						<div class="login-buttons">
 							<button type="submit" class="btn btn-success btn-block btn-lg">Sign in</button>
 							<div class="m-t-10 m-b-10 text-center">or</div>
@@ -143,6 +148,8 @@
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="<?php echo base_url('assets/js/app.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/theme/default.min.js'); ?>"></script>
+	
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 	<!-- ================== END BASE JS ================== -->
 </body>
 </html>

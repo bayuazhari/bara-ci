@@ -17,7 +17,8 @@ class Login extends BaseController
 	{
 		$validation = $this->validate([
 			'user_email' => ['label' => 'Email Address', 'rules' => 'required|valid_email'],
-			'user_password' => ['label' => 'Password', 'rules' => 'required|min_length[6]']
+			'user_password' => ['label' => 'Password', 'rules' => 'required|min_length[6]'],
+			'g-recaptcha-response' => ['label' => 'Google reCAPTCHA', 'rules' => 'required']
 		]);
 		$data = array(
 			'setting' => $this->setting,
@@ -28,53 +29,89 @@ class Login extends BaseController
 		if(!$validation){
 			echo view('frontend/form_login', $data);
 		}else{
-			$user_email = $this->request->getPost('user_email');
-			$user_password = hash('sha256', $this->request->getPost('user_password'));
-			$valid_user = $this->model->login($user_email, $user_password);
+			$userIp = $this->request->getIPAddress();
+			$credential = array(
+				'secret' => '#The shared key between your site and reCAPTCHA',
+				'response' => $this->request->getPost('g-recaptcha-response'),
+				'remoteip' => $userIp
+			);
+			$verify = curl_init();
+			curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+			curl_setopt($verify, CURLOPT_POST, true);
+			curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($credential));
+			curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+			$response = curl_exec($verify);
 
-			if(@$this->request->getGet('redirect')){
-				$login_redirect = '?redirect='.$this->request->getGet('redirect');
-				$first_page = $this->request->getGet('redirect');
-			}elseif(@$valid_user->menu_url){
-				$first_page = $valid_user->menu_url;
+			$status= json_decode($response, true);
+			if($status['success'] == false){
+				session()->setFlashdata('warning', 'Sorry Google reCAPTCHA unsuccessful!');
+				return redirect()->to(base_url('login?redirect='.$this->request->getGet('redirect')));
 			}else{
-				$first_page = '';
-			}
+				$user_email = $this->request->getPost('user_email');
+				$user_password = hash('sha256', $this->request->getPost('user_password'));			
+				$valid_user = $this->model->login($user_email, $user_password);
 
-			if(!$valid_user){
-				session()->setFlashdata('warning', 'Invalid username or password.');
-				return redirect()->to(base_url('login'.@$login_redirect));
-			}else{
-				if($valid_user->user_status == 0){
-					session()->setFlashdata('warning', 'Your account has been blocked.');
-					return redirect()->to(base_url('login'.@$login_redirect));
-				}elseif($valid_user->email_verification == 0){
-					session()->setFlashdata('warning', 'Email address is not verified.');
+				if(@$this->request->getGet('redirect')){
+					$login_redirect = '?redirect='.$this->request->getGet('redirect');
+					$first_page = $this->request->getGet('redirect');
+				}elseif(@$valid_user->menu_url){
+					$first_page = $valid_user->menu_url;
+				}else{
+					$first_page = '';
+				}
+
+				if(!$valid_user){
+					session()->setFlashdata('warning', 'Invalid username or password.');
 					return redirect()->to(base_url('login'.@$login_redirect));
 				}else{
-					$session_data = array(
-						'appid' => @$this->setting->getSettingById(0)->setting_value,
-						'user_id' => $valid_user->user_id,
-						'level_id' => $valid_user->level_id,
-						'full_name' => $valid_user->first_name.' '.$valid_user->last_name,
-						'level_name' => $valid_user->level_name,
-						'user_photo' => $valid_user->user_photo_name,
-						'tz_name' => $valid_user->tz_name
-					);
-					session()->set($session_data);
+					if($valid_user->user_status == 0){
+						session()->setFlashdata('warning', 'Your account has been blocked.');
+						return redirect()->to(base_url('login'.@$login_redirect));
+					}elseif($valid_user->email_verification == 0){
+						session()->setFlashdata('warning', 'Email address is not verified.');
+						return redirect()->to(base_url('login'.@$login_redirect));
+					}else{
+						$session_data = array(
+							'appid' => @$this->setting->getSettingById(0)->setting_value,
+							'user_id' => $valid_user->user_id,
+							'level_id' => $valid_user->level_id,
+							'full_name' => $valid_user->first_name.' '.$valid_user->last_name,
+							'level_name' => $valid_user->level_name,
+							'user_photo' => $valid_user->user_photo_name,
+							'tz_name' => $valid_user->tz_name
+						);
+						session()->set($session_data);
 
-					$userHistoryData = array(
-						'uhistory_id' => $this->model->getUserHistoryId(),
-						'user_id' => $session_data['user_id'],
-						'uhistory_action' => 'Sign In',
-						'uhistory_time' => date('Y-m-d H:i:s')
-					);
-					$this->model->insertUserHistory($userHistoryData);
+						$userHistoryData = array(
+							'uhistory_id' => $this->model->getUserHistoryId(),
+							'user_id' => $session_data['user_id'],
+							'uhistory_action' => 'Sign In ('.$userIp.')',
+							'uhistory_time' => date('Y-m-d H:i:s')
+						);
+						$this->model->insertUserHistory($userHistoryData);
 
-					return redirect()->to(base_url($first_page));
+						return redirect()->to(base_url($first_page));
+					}
 				}
 			}
 		}
+	}
+
+	public function login_google()
+	{
+		require_once APPPATH.'Libraries/google-api-php-client/vendor/autoload.php';
+
+		$redirect_uri = base_url('login/login_google');
+
+		$client = new Google\Client();
+		$client->setApplicationName('Bara Framework');
+		$client->setClientId('191289730969-ignh2dlje7ncf6rs1pu4h1f93hbchat2.apps.googleusercontent.com');
+		$client->setClientSecret('MANPfqF-5xWRSwPgHwZg4OX9');
+		$client->setRedirectUri($redirect_uri);
+		$client->addScope('https://www.googleapis.com/auth/userinfo.email');
+
+		echo json_encode($client);
 	}
 
 	public function logout()

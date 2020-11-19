@@ -102,11 +102,8 @@ class User extends BaseController
 					if(@$checkLevel->update == 1){
 						$action_edit = '<a href="'.base_url('user/edit/'.$row->user_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 					}
-					/*if(@$this->model->getUserRelatedTable('notification', $row->user_id)){
-						$delete_disabled = 'disabled';
-					}*/
 					if(@$checkLevel->delete == 1){
-						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'" data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('user/delete/'.$row->user_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+						$action_delete = '<a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('user/delete/'.$row->user_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 					}
 					$nestedData['number'] = $start;
 					$nestedData['user_photo'] = '<img src="'.base_url('assets/img/user/'.$user_photo).'" class="img-rounded height-30" />';
@@ -629,10 +626,12 @@ class User extends BaseController
 		if(@$checkUser){
 			$user_id = $this->model->getUserId();
 
-			$userHistoryUpdate = array(
-				'user_id' => $user_id
-			);
-			$this->model->updateUserHistory($checkUser->user_id, $userHistoryUpdate);
+			if(@$user->user_email == $checkUser->user_email){
+				$userHistoryUpdate = array(
+					'user_id' => $user_id
+				);
+				$this->model->updateUserHistory($checkUser->user_id, $userHistoryUpdate);
+			}
 		}else{
 			$user_id = @$user->user_id;
 		}

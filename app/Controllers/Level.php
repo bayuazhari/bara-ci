@@ -75,10 +75,12 @@ class Level extends BaseController
 						$action_edit = '<a href="'.base_url('level/edit/'.$row->level_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 					}
 					if(@$this->model->getLevelRelatedTable('user', $row->level_id)){
-						$delete_disabled = 'disabled';
+						$delete_disabled = ' disabled';
+					}else{
+						$delete_disabled = '';
 					}
 					if(@$checkLevel->delete == 1){
-						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('level/delete/'.$row->level_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+						$action_delete = '<a href="javascript:;" class="dropdown-item'.$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('level/delete/'.$row->level_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 					}
 					$nestedData['number'] = $start;
 					$nestedData['level_name'] = $row->level_name;

@@ -23,7 +23,7 @@ class Setting extends BaseController
 				'breadcrumb' => @$checkMenu->mgroup_name
 			);
 			echo view('layout/header', $data);
-			echo view('view_setting');
+			echo view('setting/view_setting');
 			echo view('layout/footer');
 		}else{
 			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');

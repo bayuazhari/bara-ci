@@ -75,10 +75,12 @@ class Menu_group extends BaseController
 							$action_edit = '<a href="'.base_url('menu_group/edit/'.$row->mgroup_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 						}
 						if(@$this->model->getMenuGroupRelatedTable('menu', $row->mgroup_id)){
-							$delete_disabled = 'disabled';
+							$delete_disabled = ' disabled';
+						}else{
+							$delete_disabled = '';
 						}
 						if(@$checkLevel->delete == 1){
-							$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('menu_group/delete/'.$row->mgroup_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+							$action_delete = '<a href="javascript:;" class="dropdown-item'.$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('menu_group/delete/'.$row->mgroup_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 						}
 						$actions = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
 					}else{
@@ -150,76 +152,6 @@ class Menu_group extends BaseController
 				);
 				$this->model->insertMenuGroup($menuGroupData);
 				session()->setFlashdata('success', 'Menu group has been added successfully. (SysCode: <a href="'.base_url('menu_group?id='.$menuGroupData['mgroup_id']).'" class="alert-link">'.$menuGroupData['mgroup_id'].'</a>)');
-				return redirect()->to(base_url('menu_group'));
-			}
-		}else{
-			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
-			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
-		}
-	}
-
-	public function bulk_upload()
-	{
-		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
-		if(@$checkLevel->create == 1){
-			$validation = $this->validate([
-				'menu_group_csv' => ['label' => 'Upload CSV File', 'rules' => 'uploaded[menu_group_csv]|ext_in[menu_group_csv,csv]|max_size[menu_group_csv,2048]']
-			]);
-			$data = array(
-				'setting' => $this->setting,
-				'segment' => $this->request->uri,
-				'title' => @$checkMenu->menu_name,
-				'total_notif' => $this->setting->getNotifCount(session('user_id')),
-				'notification' => $this->setting->getNotif(session('user_id')),
-				'breadcrumb' => @$checkMenu->mgroup_name,
-				'validation' => $this->validator
-			);
-			if(!$validation){
-				echo view('layout/header', $data);
-				echo view('menu_group/form_bulk_upload_menu_group');
-				echo view('layout/footer');
-			}else{
-				$menu_group_csv = $this->request->getFile('menu_group_csv')->getTempName();
-				$file = file_get_contents($menu_group_csv);
-				$lines = explode("\n", $file);
-				$head = str_getcsv(array_shift($lines));
-				$data['menu_group'] = array();
-				foreach ($lines as $line) {
-					$data['menu_group'][] = array_combine($head, str_getcsv($line));
-				}
-				$data['model'] = $this->model;
-				echo view('layout/header', $data);
-				echo view('menu_group/form_bulk_upload_menu_group', $data);
-				echo view('layout/footer');
-			}
-		}else{
-			session()->setFlashdata('warning', 'Sorry, You are not allowed to access this page.');
-			return redirect()->to(base_url('login?redirect='.@$checkMenu->menu_url));
-		}
-	}
-
-	public function bulk_save()
-	{
-		$checkMenu = $this->setting->getMenuByUrl($this->request->uri->getSegment(1));
-		$checkLevel = $this->setting->getLevelByRole(session('level_id'), @$checkMenu->menu_id);
-		if(@$checkLevel->create == 1){
-			$validation = $this->validate([
-				'menu_group.*.mgroup_name' => ['label' => 'Name', 'rules' => 'required']
-			]);
-			if(!$validation){
-				session()->setFlashdata('warning', 'The CSV file you uploaded contains some errors.'.$this->validator->listErrors());
-				return redirect()->to(base_url('menu_group/bulk_upload'));
-			}else{
-				foreach ($this->request->getPost('menu_group') as $row) {
-					$menuGroupData = array(
-						'mgroup_id' => $this->model->getMenuGroupId(),
-						'mgroup_name' => $row['mgroup_name'],
-						'mgroup_status' => 1
-					);
-					$this->model->insertMenuGroup($menuGroupData);
-				}
-				session()->setFlashdata('success', 'Menu groups has been added successfully.');
 				return redirect()->to(base_url('menu_group'));
 			}
 		}else{

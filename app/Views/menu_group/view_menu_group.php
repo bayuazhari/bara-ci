@@ -17,7 +17,6 @@
 					<div class="panel-heading-btn">
 					<?php if(@$checkLevel->create == 1){ ?>
 						<a href="<?php echo base_url('menu_group/add/'); ?>" class="btn btn-xs btn-circle btn-primary"><i class="fa fa-plus"></i> Add New</a>
-						<a href="<?php echo base_url('menu_group/bulk_upload/'); ?>" class="btn btn-xs btn-circle btn-success"><i class="fa fa-upload"></i> Bulk Upload</a>
 					<?php } ?>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-collapse"><i class="fa fa-minus"></i></a>

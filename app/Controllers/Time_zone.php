@@ -77,10 +77,12 @@ class Time_zone extends BaseController
 							$action_edit = '<a href="'.base_url('time_zone/edit/'.$row->tz_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 						}
 						if(@$this->model->getTimeZoneRelatedTable('state', $row->tz_id)){
-							$delete_disabled = 'disabled';
+							$delete_disabled = ' disabled';
+						}else{
+							$delete_disabled = '';
 						}
 						if(@$checkLevel->delete == 1){
-							$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('time_zone/delete/'.$row->tz_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+							$action_delete = '<a href="javascript:;" class="dropdown-item'.$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('time_zone/delete/'.$row->tz_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 						}
 						$actions = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
 					}else{

@@ -7,13 +7,49 @@ class MenuModel extends Model
 	protected $table = 'menu';
 	protected $primaryKey = 'menu_id';
 
-	public function getMenu($mgroup_id)
+	public function getMenu($limit, $start, $col, $dir)
 	{
 		$query = $this->db->table($this->table)
-		->where('mgroup_id', $mgroup_id)
-		->orderBy('mparent_id, menu_position', 'ASC')
+		->select('menu_id, menu_class, menu_name, menu_label, menu_url, mparent_id, mgroup_name, menu_status')
+		->join('menu_group', 'menu.mgroup_id=menu_group.mgroup_id')
+		->limit($limit, $start)
+		->orderBy($col, $dir)
 		->get();
 		return $query->getResult();
+	}
+
+	public function getMenuCount()
+	{
+		$query = $this->db->table($this->table);
+		return $query->countAll();
+	}
+
+	public function searchMenu($limit, $start, $search, $col, $dir)
+	{
+		$query = $this->db->table($this->table)
+		->select('menu_id, menu_class, menu_name, menu_label, menu_url, mparent_id, mgroup_name, menu_status')
+		->join('menu_group', 'menu.mgroup_id=menu_group.mgroup_id')
+		->like('menu_class', $search)
+		->orLike('menu_name', $search)
+		->orLike('menu_url', $search)
+		->orLike('mgroup_name', $search)
+		->limit($limit, $start)
+		->orderBy($col, $dir)
+		->get();
+		return $query->getResult();
+	}
+
+	public function searchMenuCount($search)
+	{
+		$query = $this->db->table($this->table)
+		->selectCount($this->primaryKey, 'total')
+		->join('menu_group', 'menu.mgroup_id=menu_group.mgroup_id')
+		->like('menu_class', $search)
+		->orLike('menu_name', $search)
+		->orLike('menu_url', $search)
+		->orLike('mgroup_name', $search)
+		->get();
+		return $query->getRow()->total;
 	}
 
 	public function getMenuById($id)
@@ -23,6 +59,39 @@ class MenuModel extends Model
 		->limit(1)
 		->get();
 		return $query->getRow();
+	}
+
+	public function getMenuByGroup($mgroup_id)
+	{
+		$query = $this->db->table($this->table)
+		->where('mgroup_id', $mgroup_id)
+		->orderBy('mparent_id, menu_position', 'ASC')
+		->get();
+		return $query->getResult();
+	}
+
+	public function getMenuPosition($mgroup_id, $mparent_id, $min_position, $max_position)
+	{
+		$query = $this->db->table($this->table)
+		->select('menu_id, menu_position')
+		->where('mgroup_id', $mgroup_id)
+		->where('mparent_id', $mparent_id)
+		->where('menu_position >=', $min_position)
+		->where('menu_position <=', $max_position)
+		->orderBy('mparent_id, menu_position', 'ASC')
+		->get();
+		return $query->getResult();
+	}
+
+	public function getMenuPosition2($mgroup_id, $mparent_id)
+	{
+		$query = $this->db->table($this->table)
+		->select('menu_id, menu_position')
+		->where('mgroup_id', $mgroup_id)
+		->where('mparent_id', $mparent_id)
+		->orderBy('mparent_id, menu_position', 'ASC')
+		->get();
+		return $query->getResult();
 	}
 
 	public function getMenuGroup()
@@ -36,15 +105,6 @@ class MenuModel extends Model
 	public function getMenuByField($field, $record)
 	{
 		$query = $this->db->table($this->table)
-		->where($field, $record)
-		->limit(1)
-		->get();
-		return $query->getRow();
-	}
-
-	public function getMenuGroupByField($field, $record)
-	{
-		$query = $this->db->table('country')
 		->where($field, $record)
 		->limit(1)
 		->get();

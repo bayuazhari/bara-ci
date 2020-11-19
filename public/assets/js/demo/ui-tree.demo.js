@@ -183,6 +183,11 @@ var handleJstreeAjax = function() {
 
 
 var handleJstreeMenu = function() {
+	var protocol = $(location).attr('protocol');
+	var host = $(location).attr('host');
+	var url = $(location).attr('href').split('/');
+	var value = url[4].split('?');
+
 	$("#jstree-menu").jstree({
 		"core": {
 			"themes": {
@@ -191,7 +196,7 @@ var handleJstreeMenu = function() {
 			"check_callback": true,
 			'data': {
 				'url': function (node) {
-					return node.id === '#' ? 'menu/getTree?group=': '#';
+					return node.id === '#' ? protocol + '//' + host + '/' + url[3] + '/getTree?' + value[1]: '#';
 				},
 				'data': function (node) {
 					return { 'id': node.id };
@@ -209,13 +214,14 @@ var handleJstreeMenu = function() {
 		},
 		"plugins": [ "dnd", "state", "types" ]
 	}).on('move_node.jstree', function (e, data) {
-		jQuery.post('/menu/updatePosition',{
+		jQuery.post(protocol + '//' + host + '/' + url[3] + '/updatePosition?' + value[1],{
 			id: data.node.id,
+			old_parent: data.old_parent,
 			parent: data.parent,
+			old_position: data.old_position,
 			position: data.position
-		}, function (data, status) {
-			alert("Data: " + data + "\nStatus: " + status);
 		}, 'Json');
+		alert("Menu: " + data.node.id + "\nPrevious Parent: " + data.old_parent + "\nPrevious Position: " + data.old_position + "\nCurrent Parent: " + data.parent + "\nCurrent Position: " + data.position);
 	});
 };
 

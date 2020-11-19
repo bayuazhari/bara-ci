@@ -77,11 +77,13 @@ class Country extends BaseController
 					if(@$checkLevel->update == 1){
 						$action_edit = '<a href="'.base_url('country/edit/'.$row->country_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 					}
-					if(@$this->model->getCountryRelatedTable('population', $row->country_id) AND @$this->model->getCountryRelatedTable('time_zone', $row->country_id)){
-						$delete_disabled = 'disabled';
+					if(@$this->model->getCountryRelatedTable('population', $row->country_id) OR @$this->model->getCountryRelatedTable('time_zone', $row->country_id)){
+						$delete_disabled = ' disabled';
+					}else{
+						$delete_disabled = '';
 					}
 					if(@$checkLevel->delete == 1){
-						$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('country/delete/'.$row->country_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+						$action_delete = '<a href="javascript:;" class="dropdown-item'.$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('country/delete/'.$row->country_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 					}
 					$nestedData['number'] = $start;
 					$nestedData['country_icon'] = '<h4 class="flag-icon flag-icon-'.strtolower($row->country_alpha2_code).'"></h4>';

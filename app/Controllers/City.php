@@ -80,10 +80,12 @@ class City extends BaseController
 							$action_edit = '<a href="'.base_url('city/edit/'.$row->city_id).'" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>';
 						}
 						if(@$this->model->getCityRelatedTable('district', $row->city_id)){
-							$delete_disabled = 'disabled';
+							$delete_disabled = ' disabled';
+						}else{
+							$delete_disabled = '';
 						}
 						if(@$checkLevel->delete == 1){
-							$action_delete = '<a href="javascript:;" class="dropdown-item '.@$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('city/delete/'.$row->city_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
+							$action_delete = '<a href="javascript:;" class="dropdown-item'.$delete_disabled.'"  data-toggle="modal" data-target="#modal-delete" data-href="'.base_url('city/delete/'.$row->city_id).'"><i class="fa fa-trash-alt"></i> Delete</a>';
 						}
 						$actions = '<div class="btn-group"><a href="#" data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle">Actions <b class="caret"></b></a><div class="dropdown-menu dropdown-menu-right">'.@$action_edit.@$action_delete.'</div></div>';
 					}else{

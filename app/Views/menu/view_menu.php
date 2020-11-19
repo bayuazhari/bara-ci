@@ -15,6 +15,15 @@
 				<div class="panel-heading">
 					<h4 class="panel-title"><?= $title ?> Data</h4>
 					<div class="panel-heading-btn">
+					<?php 
+						if(@$menu_group) :
+							foreach ($menu_group as $mgroup) :
+					?>
+						<a href="<?php echo base_url('menu/view_tree?group='.$mgroup->mgroup_id); ?>" class="btn btn-xs btn-circle btn-success"><?= $mgroup->mgroup_name ?></a>
+					<?php
+							endforeach;
+						endif;
+					?>
 					<?php if(@$checkLevel->create == 1){ ?>
 						<a href="<?php echo base_url('menu/add/'); ?>" class="btn btn-xs btn-circle btn-primary"><i class="fa fa-plus"></i> Add New</a>
 					<?php } ?>
@@ -51,7 +60,20 @@
 				<!-- begin panel-body -->
 				<div class="panel-body">
 					<div class="table-responsive">
-						<div id="jstree-menu"></div>
+						<table id="data-table-server-side" class="table table-striped table-bordered table-td-valign-middle">
+							<thead class="text-center">
+								<tr>
+									<th width="1%">#</th>
+									<th class="text-nowrap">Icon</th>
+									<th class="text-nowrap">Name</th>
+									<th class="text-nowrap">URL</th>
+									<th class="text-nowrap">Parent</th>
+									<th class="text-nowrap">Group</th>
+									<th class="text-nowrap">Status</th>
+									<th class="text-nowrap" data-orderable="false">Action</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
 				</div>
 				<!-- end panel-body -->
