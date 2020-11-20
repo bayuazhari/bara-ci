@@ -133,4 +133,16 @@ class Notification extends BaseController
 		}
 		echo json_encode($columns); 
 	}
+
+	public function detail($id)
+	{
+		$notification = $this->setting->getNotifById($id);
+		if(@$notification->is_read == 0){
+			$notifData = array(
+				'is_read' => 1
+			);
+			$this->setting->updateNotif($id, $notifData);
+		}
+		return redirect()->to(base_url(@$notification->notif_url));
+	}
 }

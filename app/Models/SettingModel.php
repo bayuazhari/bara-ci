@@ -141,6 +141,15 @@ class SettingModel extends Model
 		return $query->getRow()->total;
 	}
 
+	public function getNotifById($notif_id)
+	{
+		$query = $this->db->table('notification')
+		->where('notif_id', $notif_id)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
 	public function getNotifId()
 	{
 		$lastId = $this->db->table('notification')

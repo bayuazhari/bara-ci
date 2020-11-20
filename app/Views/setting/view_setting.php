@@ -22,6 +22,7 @@
 							<li class="nav-item"><a href="#nav-tab-2" data-toggle="tab" class="nav-link"><i class="fa fa-image"></i>&nbsp;&nbsp;Image</a></li>
 							<li class="nav-item"><a href="#nav-tab-3" data-toggle="tab" class="nav-link"><i class="fa fa-cog"></i>&nbsp;&nbsp;Config</a></li>
 							<li class="nav-item"><a href="#nav-tab-4" data-toggle="tab" class="nav-link"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Mail</a></li>
+							<li class="nav-item"><a href="#nav-tab-5" data-toggle="tab" class="nav-link"><i class="fa fa-share"></i>&nbsp;&nbsp;OAuth</a></li>
 							<li class="nav-item next-button"><a href="javascript:;" data-click="next-tab" class="nav-link text-primary"><i class="fa fa-arrow-right"></i></a></li>
 						</ul>
 					</div>
@@ -132,6 +133,21 @@
 							<tr>
 								<td class="bg-light" width="25%"><?= $mail->setting_name ?></td>
 								<td><a href="javascript:;" <?= $setting_option ?> data-type="<?= $mail->setting_type ?>" data-pk="<?= $mail->setting_id ?>" data-url="<?php echo base_url('setting/edit'); ?>" data-value="<?= $mail->setting_value ?>" data-placement="right" data-placeholder="Required" data-title="Enter <?= $mail->setting_name ?>"><?= $mail->setting_value ?></a></td>
+							</tr>
+						<?php endforeach;
+						endif; ?>
+						</table>
+					</div>
+					<!-- end tab-pane -->
+					<!-- begin tab-pane -->
+					<div class="tab-pane fade" id="nav-tab-5">
+						<table class="table table-condensed table-bordered">
+						<?php if(@$setting->getSettingByGroup('oauth')):
+							foreach ($setting->getSettingByGroup('oauth') as $oauth):
+						?>
+							<tr>
+								<td class="bg-light" width="25%"><?= $oauth->setting_name ?></td>
+								<td><a href="javascript:;" class="required-editable" data-type="<?= $oauth->setting_type ?>" data-pk="<?= $oauth->setting_id ?>" data-url="<?php echo base_url('setting/edit'); ?>" data-placement="right" data-placeholder="Required" data-title="Enter <?= $oauth->setting_name ?>"><?= $oauth->setting_value ?></a></td>
 							</tr>
 						<?php endforeach;
 						endif; ?>

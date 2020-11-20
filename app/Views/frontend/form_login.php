@@ -107,7 +107,7 @@
 						</div>-->
 						<?php $error = $validation->getError('g-recaptcha-response'); ?>
 						<div class="m-b-15">
-							<div class="g-recaptcha <?php if($error){ echo 'is-invalid'; } ?>" data-sitekey="#The user response token provided by the reCAPTCHA client-side integration on your site"></div>
+							<div class="g-recaptcha <?php if($error){ echo 'is-invalid'; } ?>" data-sitekey="<?= @$setting->getSettingById(18)->setting_value; ?>"></div>
 							<?php if($error){ echo '<div class="invalid-feedback">'.$error.'</div>'; } ?>
 						</div>
 						<div class="login-buttons">
@@ -116,8 +116,8 @@
 							<a href="javascript:;" class="btn btn-social btn-block btn-google">
 								<span class="fab fa-google"></span> <div class="text-center">Sign in with Google</div>
 							</a>
-							<a href="javascript:;" class="btn btn-social btn-block btn-linkedin">
-								<span class="fab fa-linkedin"></span> <div class="text-center">Sign in with LinkedIn</div>
+							<a href="javascript:;" class="btn btn-social btn-block btn-microsoft">
+								<span class="fab fa-microsoft"></span> <div class="text-center">Sign in with Microsoft</div>
 							</a>
 						</div>
 						<div class="m-t-20 m-b-40 p-b-40 text-inverse">

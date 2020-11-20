@@ -477,7 +477,7 @@ class CodeIgniter
 			}
 			else
 			{
-				define('ENVIRONMENT', $_SERVER['CI_ENVIRONMENT'] ?? 'development');
+				define('ENVIRONMENT', $_SERVER['CI_ENVIRONMENT'] ?? 'production');
 			}
 		}
 	}

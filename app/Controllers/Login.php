@@ -31,7 +31,7 @@ class Login extends BaseController
 		}else{
 			$userIp = $this->request->getIPAddress();
 			$credential = array(
-				'secret' => '#The shared key between your site and reCAPTCHA',
+				'secret' => @$this->setting->getSettingById(19)->setting_value,
 				'response' => $this->request->getPost('g-recaptcha-response'),
 				'remoteip' => $userIp
 			);
@@ -100,18 +100,18 @@ class Login extends BaseController
 
 	public function login_google()
 	{
-		require_once APPPATH.'Libraries/google-api-php-client/vendor/autoload.php';
+		/*require_once APPPATH.'Libraries/google-api-php-client/vendor/autoload.php';
 
 		$redirect_uri = base_url('login/login_google');
 
 		$client = new Google\Client();
-		$client->setApplicationName('Bara Framework');
-		$client->setClientId('191289730969-ignh2dlje7ncf6rs1pu4h1f93hbchat2.apps.googleusercontent.com');
-		$client->setClientSecret('MANPfqF-5xWRSwPgHwZg4OX9');
+		$client->setApplicationName('');
+		$client->setClientId('');
+		$client->setClientSecret('');
 		$client->setRedirectUri($redirect_uri);
 		$client->addScope('https://www.googleapis.com/auth/userinfo.email');
 
-		echo json_encode($client);
+		echo json_encode($client);*/
 	}
 
 	public function logout()
