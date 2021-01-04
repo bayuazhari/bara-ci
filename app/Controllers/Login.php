@@ -9,8 +9,6 @@ class Login extends BaseController
 	{
 		$this->setting = new SettingModel();
 		$this->model = new UserModel();
-		
-		$this->email = \Config\Services::email();
 	}
 
 	public function index()
@@ -22,12 +20,17 @@ class Login extends BaseController
 		]);
 		$data = array(
 			'setting' => $this->setting,
+			'web_title' => @$this->setting->getSettingById(1)->setting_value,
 			'title' =>  'Login',
+			'meta_desc' => @$this->setting->getSettingById(2)->setting_value,
+			'nav_brand' => @$this->setting->getSettingById(5)->setting_value,
 			'request' => $this->request,
 			'validation' => $this->validator
 		);
 		if(!$validation){
+			echo view('frontend/header', $data);
 			echo view('frontend/form_login', $data);
+			echo view('frontend/footer');
 		}else{
 			$userIp = $this->request->getIPAddress();
 			$credential = array(

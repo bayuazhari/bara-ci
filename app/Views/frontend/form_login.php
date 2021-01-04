@@ -1,33 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<?php
-		$web_title = @$setting->getSettingById(1)->setting_value;
-		$meta_desc = @$setting->getSettingById(2)->setting_value;
-		$nav_brand = @$setting->getSettingById(5)->setting_value;
-	?>
-	<meta charset="utf-8" />
-	<title><?= $web_title.' - '.@$title; ?></title>
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-	<meta content="<?= $meta_desc; ?>" name="description" />
-	<meta content="<?= @$setting->getSettingById(3)->setting_value; ?>" name="keywords" />
-	<meta content="<?= @$setting->getSettingById(4)->setting_value; ?>" name="author" />
-	
-	<!-- ================== BEGIN BASE CSS STYLE ================== -->
-	<link type="image/png" sizes="16x16" href="<?php echo base_url('assets/img/logo/'.@$setting->getSettingById(7)->setting_value); ?>" rel="icon">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-	<link href="<?php echo base_url('assets/css/default/app.min.css'); ?>" rel="stylesheet" />
-
-	<link href="<?php echo base_url('assets/plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" />
-	<!-- ================== END BASE CSS STYLE ================== -->
-</head>
-<body class="pace-top">
-	<!-- begin #page-loader -->
-	<div id="page-loader" class="fade show">
-		<span class="spinner"></span>
-	</div>
-	<!-- end #page-loader -->
-	
 	<!-- begin #page-container -->
 	<div id="page-container" class="fade">
 		<!-- begin login -->
@@ -37,7 +7,7 @@
 				<div class="news-image" style="background-image: url(<?php echo base_url('assets/img/login-bg/login-bg-11.jpg'); ?>)"></div>
 				<div class="news-caption">
 					<h4 class="caption-title"><?= $nav_brand ?></h4>
-					<p>Download the <?= $web_title; ?> for iPhone®, iPad®, and Android™.</p>
+					<p>Download the <?= $web_title; ?> for iOS and Android™.</p>
 				</div>
 			</div>
 			<!-- end news-feed -->
@@ -144,12 +114,3 @@
 		<!-- end scroll to top btn -->
 	</div>
 	<!-- end page container -->
-	
-	<!-- ================== BEGIN BASE JS ================== -->
-	<script src="<?php echo base_url('assets/js/app.min.js'); ?>"></script>
-	<script src="<?php echo base_url('assets/js/theme/default.min.js'); ?>"></script>
-	
-	<script src='https://www.google.com/recaptcha/api.js'></script>
-	<!-- ================== END BASE JS ================== -->
-</body>
-</html>

@@ -80,7 +80,7 @@
 											<td>(input user password)</td>
 											<td>Jl. Lapangan Banteng Utara No. 1</td>
 											<td>3173071001</td>
-											<td>L12000001</td>
+											<td>L12100001</td>
 										</tr>
 									</tbody>
 								</table>
@@ -95,7 +95,7 @@
 								<strong>password</strong> - User password.<br>
 								<strong>address</strong> - User address (e.g., Jl. Lapangan Banteng Utara No. 1).<br>
 								<strong>sub_district</strong> - Sub district (e.g., 3173071001)<br>
-								<strong>level</strong> - Level of the user (e.g., L12000001)
+								<strong>level</strong> - Level of the user (e.g., L12100001)
 							</p>
 						</div>
 					</div>
