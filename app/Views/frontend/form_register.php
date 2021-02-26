@@ -4,7 +4,7 @@
 		<div class="register register-with-news-feed">
 			<!-- begin news-feed -->
 			<div class="news-feed">
-				<div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-15.jpg)"></div>
+				<div class="news-image" style="background-image: url(<?php echo base_url('assets/img/login-bg/login-bg-15.jpg'); ?>)"></div>
 				<div class="news-caption">
 					<h4 class="caption-title"><?= $nav_brand ?></h4>
 					<p>Download the <?= $web_title; ?> for iOS and Android™.</p>

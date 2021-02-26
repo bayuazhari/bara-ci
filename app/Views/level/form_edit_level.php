@@ -52,21 +52,20 @@
 											<tr>
 												<th width="1%">#</th>
 												<th class="text-nowrap">Menu</th>
-												<th class="text-nowrap">Read</th>
-												<th class="text-nowrap">Create</th>
-												<th class="text-nowrap">Update</th>
-												<th class="text-nowrap">Delete</th>
-												<th class="text-nowrap">Data</th>
+												<th class="text-center text-nowrap">Read</th>
+												<th class="text-center text-nowrap">Create</th>
+												<th class="text-center text-nowrap">Update</th>
+												<th class="text-center text-nowrap">Delete</th>
+												<th class="text-center text-nowrap">Data</th>
 											</tr>
 										</thead>
 										<tbody>
 										<?php
 											if(@$menu) :
+												$group_no=0;
 												$no=0;
 												$index=0;
-												foreach ($menu as $mn) :
-													$no++;
-
+												foreach ($menu as $key => $mn) :
 													if(@$request->getPost('level_role')){
 														$level_read = $request->getPost('level_role['.$index.'][read]');
 														$level_create = $request->getPost('level_role['.$index.'][create]');
@@ -81,36 +80,44 @@
 														$level_delete = @$level_role->delete;
 														$level_data = @$level_role->data;
 													}
+
+													if(@$menu[$key-1]->mgroup_id != $mn->mgroup_id){
+														$group_no++;
 										?>
 											<tr>
-												<td><?= $no; ?></td>
+												<td><strong><?= $group_no; ?></strong></td>
+												<td colspan="6"><strong><?= $mn->mgroup_name; ?></strong></td>
+											</tr>
+										<?php $no=0; } $no++; ?>
+											<tr>
+												<td><?= $group_no.'.'.$no; ?></td>
 												<td><input type="hidden" name="level_role[<?= $index; ?>][menu]" value="<?= $mn->menu_id; ?>" /><?= $mn->menu_name; ?></td>
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][read]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="readCheck<?= $no; ?>" name="level_role[<?= $index; ?>][read]" value="1" <?php if($level_read == '1'){echo 'checked';} ?> />
-														<label class="custom-control-label" for="readCheck<?= $no; ?>"></label>
+														<input type="checkbox" class="custom-control-input" id="readCheck<?= $index; ?>" name="level_role[<?= $index; ?>][read]" value="1" <?php if($level_read == '1'){echo 'checked';} ?> />
+														<label class="custom-control-label" for="readCheck<?= $index; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][create]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="createCheck<?= $no; ?>" name="level_role[<?= $index; ?>][create]" value="1" <?php if($level_create == '1'){echo 'checked';} ?> />
-														<label class="custom-control-label" for="createCheck<?= $no; ?>"></label>
+														<input type="checkbox" class="custom-control-input" id="createCheck<?= $index; ?>" name="level_role[<?= $index; ?>][create]" value="1" <?php if($level_create == '1'){echo 'checked';} ?> />
+														<label class="custom-control-label" for="createCheck<?= $index; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][update]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="updateCheck<?= $no; ?>" name="level_role[<?= $index; ?>][update]" value="1" <?php if($level_update == '1'){echo 'checked';} ?> />
-														<label class="custom-control-label" for="updateCheck<?= $no; ?>"></label>
+														<input type="checkbox" class="custom-control-input" id="updateCheck<?= $index; ?>" name="level_role[<?= $index; ?>][update]" value="1" <?php if($level_update == '1'){echo 'checked';} ?> />
+														<label class="custom-control-label" for="updateCheck<?= $index; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
 													<div class="custom-control custom-checkbox mb-1">
 														<input type="hidden" name="level_role[<?= $index; ?>][delete]" value="0" />
-														<input type="checkbox" class="custom-control-input" id="deleteCheck<?= $no; ?>" name="level_role[<?= $index; ?>][delete]" value="1" <?php if($level_delete == '1'){echo 'checked';} ?> />
-														<label class="custom-control-label" for="deleteCheck<?= $no; ?>"></label>
+														<input type="checkbox" class="custom-control-input" id="deleteCheck<?= $index; ?>" name="level_role[<?= $index; ?>][delete]" value="1" <?php if($level_delete == '1'){echo 'checked';} ?> />
+														<label class="custom-control-label" for="deleteCheck<?= $index; ?>"></label>
 													</div>
 												</td>
 												<td class="text-center">
@@ -137,9 +144,17 @@
 								<select class="default-select2 form-control <?php if($error){ echo 'is-invalid'; } ?>" name="menu" data-placeholder="Select a menu">
 								<?php if(@$menu) : ?>
 									<option></option>
-								<?php foreach ($menu as $mn) : ?>
-									<option value="<?= $mn->menu_id; ?>" <?php if($menu_id == $mn->menu_id){echo 'selected';} ?>><?= $mn->menu_name ?></option>
+								<?php 
+									foreach ($menu as $key => $mn) :
+										if(@$menu[$key-1]->mgroup_id != $mn->mgroup_id){
+								?>
+									<optgroup label="<?= $mn->mgroup_name; ?>">
+								<?php } ?>
+										<option value="<?= $mn->menu_id; ?>" <?php if($menu_id == $mn->menu_id){echo 'selected';} ?>><?= $mn->menu_name ?></option>
+								<?php if(@$menu[$key+1]->mgroup_id != $mn->mgroup_id){ ?>
+									</optgroup>
 								<?php
+										}
 									endforeach;
 								endif;
 								?>

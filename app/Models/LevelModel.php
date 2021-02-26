@@ -68,8 +68,10 @@ class LevelModel extends Model
 	public function getMenu()
 	{
 		$query = $this->db->table('menu')
+		->select('menu_id, menu_name, menu.mgroup_id, mgroup_name')
+		->join('menu_group', 'menu.mgroup_id=menu_group.mgroup_id')
 		->where('menu_status', '1')
-		->orderBy('mgroup_id, mparent_id, menu_position', 'ASC')
+		->orderBy('menu.mgroup_id, mparent_id, menu_position', 'ASC')
 		->get();
 		return $query->getResult();
 	}

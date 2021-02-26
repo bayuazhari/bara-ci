@@ -15,8 +15,16 @@
 							<tbody>
 							<?php
 								if(@$menu) :
+									$group_no=0;
 									$no=0;
-									foreach ($menu as $mn) :
+									foreach ($menu as $key => $mn) :
+										if(@$menu[$key-1]->mgroup_id != $mn->mgroup_id){
+											$group_no++;
+											$no=0;
+
+											echo "<tr><td><strong>".$group_no."</strong></td><td colspan='6'><strong>".$mn->mgroup_name."</strong></td></tr>";
+										}
+
 										$level_role = $setting->getLevelByRole(@$level->level_id, $mn->menu_id);
 										$level_read = @$level_role->read;
 										$level_create = @$level_role->create;
@@ -55,9 +63,10 @@
 										}else{
 											$data = "-";
 										}
+										
 										$no++;
 
-										echo "<tr><td>".$no."</td>
+										echo "<tr><td>".$group_no.".".$no."</td>
 										<td>".$mn->menu_name."</td>
 										<td>".$read."</td>
 										<td>".$create."</td>

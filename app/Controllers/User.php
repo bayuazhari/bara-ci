@@ -698,13 +698,12 @@ class User extends BaseController
 
 			$this->email->initialize($config);
 
-			$this->email->setFrom($config['SMTPUser'], @$this->setting->getSettingById(4)->setting_value);
-			$this->email->setTo(@$user->user_email);
-
 			$web_title = @$this->setting->getSettingById(1)->setting_value;
 
+			$this->email->setFrom($config['SMTPUser'], $web_title);
+			$this->email->setTo(@$user->user_email);
 			$this->email->setSubject('['.$web_title.'] Please verify your email address');
-			$this->email->setMessage('Hi '.@$user->first_name.' '.@$user->last_name.',<br><br>To complete your sign up, please verify your email:<br><br><a href="'.base_url('login/verify_email/'.$id).'">Click here</a><br><br>Thank you,<br>'.$web_title.' Team');
+			$this->email->setMessage('Hi '.@$user->first_name.' '.@$user->last_name.',<br><br>To confirm that this is your email, please verify your email:<br><br><a href="'.base_url('login/verify_email/'.$id).'">Click here</a><br><br>Thank you,<br>'.$web_title.' Team');
 			if($this->email->send()){
 				$data = array(
 					'session_item' => 'success',

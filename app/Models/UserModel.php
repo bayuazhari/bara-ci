@@ -247,6 +247,25 @@ class UserModel extends Model
 		return $char.$id;
 	}
 
+	public function checkEmail($user_email)
+	{
+		$query = $this->db->table($this->table)
+		->where('user_email', $user_email)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
+	public function checkPassword($user_id, $user_password)
+	{
+		$query = $this->db->table($this->table)
+		->where('user_id', $user_id)
+		->where('user_password', $user_password)
+		->limit(1)
+		->get();
+		return $query->getRow();
+	}
+
 	public function insertUser($data)
 	{
 		$this->db->table($this->table)

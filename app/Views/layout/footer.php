@@ -319,5 +319,48 @@
 			});
 		});
 	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#mainCheckbox").click(function () {
+				if ($(this).is(":checked")) {
+					$(".custom-control-input").prop("checked", true);
+				} else {
+					$(".custom-control-input").removeAttr("checked");
+				}
+			});
+
+			$("#readCheckbox").click(function () {
+				if ($(this).is(":checked")) {
+					$(".level-read-checkbox").prop("checked", true);
+				} else {
+					$(".level-read-checkbox").removeAttr("checked");
+				}
+			});
+
+			$("#createCheckbox").click(function () {
+				if ($(this).is(":checked")) {
+					$(".level-create-checkbox").prop("checked", true);
+				} else {
+					$(".level-create-checkbox").removeAttr("checked");
+				}
+			});
+
+			$("#updateCheckbox").click(function () {
+				if ($(this).is(":checked")) {
+					$(".level-update-checkbox").prop("checked", true);
+				} else {
+					$(".level-update-checkbox").removeAttr("checked");
+				}
+			});
+
+			$("#deleteCheckbox").click(function () {
+				if ($(this).is(":checked")) {
+					$(".level-delete-checkbox").prop("checked", true);
+				} else {
+					$(".level-delete-checkbox").removeAttr("checked");
+				}
+			});
+		});
+	</script>
 </body>
 </html>

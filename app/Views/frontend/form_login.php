@@ -86,9 +86,6 @@
 							<a href="javascript:;" class="btn btn-social btn-block btn-google">
 								<span class="fab fa-google"></span> <div class="text-center">Sign in with Google</div>
 							</a>
-							<a href="javascript:;" class="btn btn-social btn-block btn-microsoft">
-								<span class="fab fa-microsoft"></span> <div class="text-center">Sign in with Microsoft</div>
-							</a>
 						</div>
 						<div class="m-t-20 m-b-40 p-b-40 text-inverse">
 						<?php if(@$setting->getSettingById(10)->setting_value == 1){ ?>
